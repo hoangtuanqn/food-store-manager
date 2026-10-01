@@ -4,10 +4,17 @@
  */
 package foodstore.repository;
 
+import java.util.List;
+
 /**
  *
  * @author MSI
  */
-public class Repository {
-    
+public interface Repository<T>{
+    boolean add(T item);
+    T findById(String id);
+    List<T> findAll();
+    boolean update(T item);
+    boolean delete(String id);
+    boolean existsById(String id);
 }
