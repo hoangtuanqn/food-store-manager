@@ -23,7 +23,7 @@ public class MenuView {
             "Inventory Management",
             "Reports"};
         int optionLength = options.length;
-        
+
         for (int i = 0; i < optionLength; ++i) {
             System.out.println((i + 1) + ". " + options[i]);
         }
@@ -55,9 +55,13 @@ public class MenuView {
     public static void showError(String message) {
         System.out.println("[ERROR] " + message);
     }
-    
+
     public static void showInfo(String message) {
         System.out.println(message);
+    }
+    
+    public static void showPressEnter() { 
+        System.out.println("Press ENTER to return...");
     }
 
     private static void printLine(char c) {
