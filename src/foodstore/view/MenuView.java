@@ -21,13 +21,15 @@ public class MenuView {
             "Manage Customers",
             "Sales Management",
             "Inventory Management",
-            "Reports",};
-        for (int i = 0; i < options.length; ++i) {
+            "Reports"};
+        int optionLength = options.length;
+        
+        for (int i = 0; i < optionLength; ++i) {
             System.out.println((i + 1) + ". " + options[i]);
         }
-        System.out.println("0. Exit");
+        System.out.println((optionLength + 1) + ". Exit");
         printLine('-');
-        System.out.println("Choose an option: ");
+        System.out.print("Choose an option: ");
     }
 
     public static void showSubMenu(String title, String[] options) {
