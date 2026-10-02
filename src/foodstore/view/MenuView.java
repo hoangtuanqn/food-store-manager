@@ -55,6 +55,10 @@ public class MenuView {
     public static void showError(String message) {
         System.out.println("[ERROR] " + message);
     }
+    
+    public static void showInfo(String message) {
+        System.out.println(message);
+    }
 
     private static void printLine(char c) {
         StringBuilder sb = new StringBuilder();
@@ -70,6 +74,6 @@ public class MenuView {
         for (int i = 0; i < padding; ++i) {
             sb.append(' ');
         }
-        System.out.println(sb.toString() + title + sb.toString());
+        System.out.println(sb.toString() + title);
     }
 }
