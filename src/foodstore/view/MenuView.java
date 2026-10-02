@@ -21,13 +21,15 @@ public class MenuView {
             "Manage Customers",
             "Sales Management",
             "Inventory Management",
-            "Reports",};
-        for (int i = 0; i < options.length; ++i) {
+            "Reports"};
+        int optionLength = options.length;
+
+        for (int i = 0; i < optionLength; ++i) {
             System.out.println((i + 1) + ". " + options[i]);
         }
-        System.out.println("0. Exit");
+        System.out.println((optionLength + 1) + ". Exit");
         printLine('-');
-        System.out.println("Choose an option: ");
+        System.out.print("Choose an option: ");
     }
 
     public static void showSubMenu(String title, String[] options) {
@@ -54,6 +56,14 @@ public class MenuView {
         System.out.println("[ERROR] " + message);
     }
 
+    public static void showInfo(String message) {
+        System.out.println(message);
+    }
+    
+    public static void showPressEnter() { 
+        System.out.println("Press ENTER to return...");
+    }
+
     private static void printLine(char c) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < WIDTH; ++i) {
@@ -68,6 +78,6 @@ public class MenuView {
         for (int i = 0; i < padding; ++i) {
             sb.append(' ');
         }
-        System.out.println(sb.toString() + title + sb.toString());
+        System.out.println(sb.toString() + title);
     }
 }

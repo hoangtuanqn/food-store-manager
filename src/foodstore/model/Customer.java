@@ -8,6 +8,6 @@ package foodstore.model;
  *
  * @author MSI
  */
-public class Customer {
+public class Customer { 
     
 }
