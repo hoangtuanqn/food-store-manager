@@ -9,6 +9,7 @@ import foodstore.model.FoodProduct;
 import foodstore.service.ProductService;
 import foodstore.util.InputHelper;
 import foodstore.view.ConsoleView;
+import foodstore.view.MenuView;
 import foodstore.view.ProductView;
 import java.time.LocalDate;
 
@@ -25,22 +26,31 @@ public class ProductController {
     }
 
     public void run() {
-        ProductView.showMenu();
-        int choice = InputHelper.readIntRange("Choose an option: ", 0, 9);
-        switch (choice) {
-            case 1:
-                addProduct();
-                break;
+        while (true) {
+            ProductView.showMenu();
+            int choice = InputHelper.readIntRange("Choose an option: ", 0, 9);
+            switch (choice) {
+                case 1:
+                    addProduct();
+                    break;
 
-            case 0:
-                return;
+                case 0:
+                    return;
+            }
         }
     }
 
     private void addProduct() {
 
         ProductView.showAddHeader();
-        String id = InputHelper.readString("Product ID: ");
+        String id;
+        while (true) {
+            id = InputHelper.readString("Product ID: ");
+            if(productService.checkIdExist(id)) {
+                ConsoleView.showError("Product ID already exists!");
+            } else break;
+            
+        }
         String name = InputHelper.readString("Product Name: ");
         String category = InputHelper.readString("Category: ");
         String unit = InputHelper.readString("Unit: ");
