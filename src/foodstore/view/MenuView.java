@@ -27,9 +27,8 @@ public class MenuView {
         for (int i = 0; i < optionLength; ++i) {
             System.out.println((i + 1) + ". " + options[i]);
         }
-        System.out.println((optionLength + 1) + ". Exit");
+        System.out.println("0. Exit");
         printLine('-');
-        System.out.print("Choose an option: ");
     }
 
     public static void showSubMenu(String title, String[] options) {
@@ -41,27 +40,10 @@ public class MenuView {
         }
         System.out.println("0. Back");
         printLine('-');
-        System.out.println("Choose an option: ");
     }
 
     public static void showTitle(String title) {
         System.out.println("----------- " + title + " -----------");
-    }
-
-    public static void showSuccess(String message) {
-        System.out.println("[SUCCESS] " + message);
-    }
-
-    public static void showError(String message) {
-        System.out.println("[ERROR] " + message);
-    }
-
-    public static void showInfo(String message) {
-        System.out.println(message);
-    }
-    
-    public static void showPressEnter() { 
-        System.out.println("Press ENTER to return...");
     }
 
     private static void printLine(char c) {
