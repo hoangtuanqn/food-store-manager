@@ -5,16 +5,17 @@
 package foodstore.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author MSI
  */
-public interface Repository<T>{
-    boolean add(T item);
-    T findById(String id);
+public interface Repository<T, ID>{
+    void add(T item);
+    Optional<T> findById(ID id);
+    boolean existsById(ID id);
     List<T> findAll();
-    boolean update(T item);
-    boolean delete(String id);
-    boolean existsById(String id);
+    void update(T item);
+    boolean deleteById(ID id);
 }
