@@ -144,7 +144,7 @@ public class FoodProduct {
         return quantity;
     }
 
-    private static void requireDates(LocalDate production, LocalDate expiration) {
+    public static void requireDates(LocalDate production, LocalDate expiration) {
         if (production == null || expiration == null) {
             throw new IllegalArgumentException("Production date and expiration date are required.");
         }
