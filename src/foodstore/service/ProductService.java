@@ -25,4 +25,9 @@ public class ProductService {
         }
         repository.add(product);
     }
+    
+    public boolean checkIdExist(String id) {
+        return repository.existsById(id);
+    }
+    
 }
