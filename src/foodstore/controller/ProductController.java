@@ -8,7 +8,7 @@ import foodstore.execption.BusinessException;
 import foodstore.model.FoodProduct;
 import foodstore.service.ProductService;
 import foodstore.util.InputHelper;
-import foodstore.view.MenuView;
+import foodstore.view.ConsoleView;
 import foodstore.view.ProductView;
 import java.time.LocalDate;
 
@@ -40,7 +40,6 @@ public class ProductController {
     private void addProduct() {
 
         ProductView.showAddHeader();
-
         String id = InputHelper.readString("Product ID: ");
         String name = InputHelper.readString("Product Name: ");
         String category = InputHelper.readString("Category: ");
@@ -55,16 +54,16 @@ public class ProductController {
                 FoodProduct.requireDates(production, expiration);
                 break;
             } catch (IllegalArgumentException e) {
-                System.err.println(e.getMessage() + " Please enter both dates again.");
+                ConsoleView.showError(e.getMessage() + " Please enter both dates again.");
             }
         }
 
         FoodProduct product = new FoodProduct(id, name, category, unit, price, quantity, production, expiration);
         try {
             productService.addProduct(product);
-            System.out.println("Food product added successfully.");
+            ConsoleView.showSuccess("Food product added successfully.");
         } catch (BusinessException e) {
-            System.err.println(e.getMessage());
+            ConsoleView.showError(e.getMessage());
         }
 
     }

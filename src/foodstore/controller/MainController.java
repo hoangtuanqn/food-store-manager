@@ -5,6 +5,7 @@
 package foodstore.controller;
 
 import foodstore.util.InputHelper;
+import foodstore.view.ConsoleView;
 import foodstore.view.MenuView;
 
 /**
@@ -34,7 +35,7 @@ public class MainController {
                 case 5:
                     break;
                 case 0:
-                    System.out.println("Successfully exited the program!");
+                    ConsoleView.showSuccess("Successfully exited the program!");
                     return;
             }
         }
