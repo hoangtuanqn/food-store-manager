@@ -8,6 +8,7 @@ import foodstore.execption.BusinessException;
 import foodstore.model.FoodProduct;
 import foodstore.service.ProductService;
 import foodstore.util.InputHelper;
+import foodstore.view.MenuView;
 import foodstore.view.ProductView;
 import java.time.LocalDate;
 
@@ -29,33 +30,42 @@ public class ProductController {
         switch (choice) {
             case 1:
                 addProduct();
-              break;
-              
+                break;
+
             case 0:
                 return;
         }
     }
-    
+
     private void addProduct() {
-        
+
         ProductView.showAddHeader();
-        
+
         String id = InputHelper.readString("Product ID: ");
         String name = InputHelper.readString("Product Name: ");
         String category = InputHelper.readString("Category: ");
         String unit = InputHelper.readString("Unit: ");
         double price = InputHelper.readPrice("Price: ");
         int quantity = InputHelper.readIntRange("Quantity: ", 1);
-        LocalDate production = InputHelper.readDate("Production Date: ");
-        LocalDate expiration = InputHelper.readDate("Expiration Date: ");
-        
+        LocalDate production, expiration;
+        while (true) {
+            production = InputHelper.readDate("Production Date: ");
+            expiration = InputHelper.readDate("Expiration Date: ");
+            try {
+                FoodProduct.requireDates(production, expiration);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.err.println(e.getMessage() + " Please enter both dates again.");
+            }
+        }
+
         FoodProduct product = new FoodProduct(id, name, category, unit, price, quantity, production, expiration);
         try {
             productService.addProduct(product);
             System.out.println("Food product added successfully.");
-        } catch(BusinessException e){
+        } catch (BusinessException e) {
             System.err.println(e.getMessage());
         }
-        
+
     }
 }
