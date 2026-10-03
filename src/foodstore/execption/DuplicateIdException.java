@@ -2,12 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package foodstore.repository;
+package foodstore.execption;
 
 /**
  *
- * @author MSI
+ * @author ad
  */
-public class OrderRepository{
-
+public class DuplicateIdException extends BusinessException {
+    public DuplicateIdException(String message) {
+        super(message);
+    }
+    
 }

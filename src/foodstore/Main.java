@@ -4,14 +4,23 @@
  */
 package foodstore;
 
-import foodstore.view.MenuView;
+import foodstore.controller.MainController;
+import foodstore.controller.ProductController;
+import foodstore.repository.FoodProductRepository;
+import foodstore.service.ProductService;
 
 /**
  *
  * @author MSI
  */
 public class Main {
+
     public static void main(String[] args) {
-        MenuView.showMainMenu();
+        FoodProductRepository productRepository = new FoodProductRepository();
+        ProductService productService = new ProductService(productRepository);
+        ProductController productController = new ProductController(productService);
+        
+        new MainController(productController).run();
+
     }
 }
