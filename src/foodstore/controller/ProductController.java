@@ -44,8 +44,8 @@ public class ProductController {
         String name = InputHelper.readString("Product Name: ");
         String category = InputHelper.readString("Category: ");
         String unit = InputHelper.readString("Unit: ");
-        double price = InputHelper.readDouble("Price: ");
-        int quantity = InputHelper.readInt("Quantity: ");
+        double price = InputHelper.readPrice("Price: ");
+        int quantity = InputHelper.readIntRange("Quantity: ", 1);
         LocalDate production = InputHelper.readDate("Production Date: ");
         LocalDate expiration = InputHelper.readDate("Expiration Date: ");
         

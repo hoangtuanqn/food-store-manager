@@ -27,7 +27,7 @@ public class InputHelper {
             }
         }
     }
-    
+
     public static Double readDouble(String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -40,7 +40,7 @@ public class InputHelper {
         }
     }
 
-    public static int readIntRange(String prompt, int min, int max) {
+    public static int readIntRange(String prompt, int min) {
         while (true) {
             System.out.print(prompt);
             String line = sc.nextLine().trim();
@@ -49,14 +49,33 @@ public class InputHelper {
                 if (value < min) {
                     System.err.println("The number must be greater than or equal to " + min + ".");
                     continue;
-                } else if (value > max) {
-                    System.err.println("The number must be less than or equal to " + max + ".");
-                    continue;
                 }
                 return value;
             } catch (NumberFormatException e) {
                 System.err.println("Invalid number. Please try again.");
             }
+        }
+    }
+
+    public static int readIntRange(String prompt, int min, int max) {
+        while (true) {
+            int value = InputHelper.readIntRange(prompt, min);
+            if (value > max) {
+                System.err.println("The number must be less than or equal to " + max + ".");
+                continue;
+            }
+            return value;
+        }
+    }
+
+    public static Double readPrice(String prompt) {
+        while (true) {
+            Double price = readDouble(prompt);
+            if (price < 0) {
+                System.err.println("The amount cannot be negative.");
+                continue;
+            }
+            return price;
         }
     }
 
@@ -71,8 +90,8 @@ public class InputHelper {
             return line;
         }
     }
-    
-        public static LocalDate readDate(String prompt) {
+
+    public static LocalDate readDate(String prompt) {
         while (true) {
             System.out.print(prompt);
             String line = sc.nextLine().trim();
@@ -83,6 +102,4 @@ public class InputHelper {
             }
         }
     }
-
-
 }
