@@ -4,7 +4,7 @@
  */
 package foodstore.service;
 
-import foodstore.execption.DuplicateIdException;
+import foodstore.exception.DuplicateIdException;
 import foodstore.model.FoodProduct;
 import foodstore.repository.FoodProductRepository;
 
