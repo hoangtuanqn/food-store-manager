@@ -4,7 +4,7 @@
  */
 package foodstore.controller;
 
-import foodstore.execption.BusinessException;
+import foodstore.exception.BusinessException;
 import foodstore.model.FoodProduct;
 import foodstore.service.ProductService;
 import foodstore.util.InputHelper;
