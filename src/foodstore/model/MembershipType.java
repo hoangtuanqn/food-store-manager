@@ -9,5 +9,7 @@ package foodstore.model;
  * @author MSI
  */
 public class MembershipType {
+    REGULAR,
+    VIP
     
 }
