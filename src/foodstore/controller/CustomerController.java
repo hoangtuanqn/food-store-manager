@@ -30,7 +30,7 @@ public class CustomerController {
             CustomerView.showMenu();
 
             int choice = InputHelper.readIntRange(
-                    "Choose an option: ", 0, 6
+                    "Choose an option: ", 0, 5
             );
 
             switch (choice) {
