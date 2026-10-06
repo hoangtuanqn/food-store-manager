@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package foodstore.controller;
+
 import foodstore.exception.BusinessException;
 import foodstore.model.Customer;
 import foodstore.model.MembershipType;
@@ -11,6 +12,7 @@ import foodstore.util.InputHelper;
 import foodstore.view.ConsoleView;
 import foodstore.view.CustomerView;
 import java.util.List;
+
 /**
  *
  * @author MSI
@@ -28,7 +30,7 @@ public class CustomerController {
             CustomerView.showMenu();
 
             int choice = InputHelper.readIntRange(
-                    "Choose an option: ", 0, 6
+                    "Choose an option: ", 0, 5
             );
 
             switch (choice) {
@@ -51,10 +53,6 @@ public class CustomerController {
 
                 case 5:
                     searchCustomer();
-                    break;
-
-                case 6:
-                    calculateDiscount();
                     break;
 
                 case 0:
@@ -94,6 +92,11 @@ public class CustomerController {
                 address,
                 membershipType
         );
+        
+        boolean isConfirm = InputHelper.confirmAction("Add");
+        if (!isConfirm) {
+            return;
+        }
 
         try {
             customerService.addCustomer(customer);
@@ -127,19 +130,22 @@ public class CustomerController {
         System.out.println("Current information:");
         CustomerView.showCustomer(oldCustomer);
 
-        String name = InputHelper.readString(
-                "New Full Name: "
+        System.out.println("Press Enter to keep the current value.");
+
+        String name = InputHelper.readStringOrDefault(
+                "Full Name ", oldCustomer.getFullName()
         );
 
-        String phone = InputHelper.readString(
-                "New Phone: "
+        String phone = InputHelper.readStringOrDefault(
+                "Phone ", oldCustomer.getPhone()
         );
 
-        String address = InputHelper.readString(
-                "New Address: "
+        String address = InputHelper.readStringOrDefault(
+                "Address ", oldCustomer.getAddress()
         );
 
-        MembershipType membershipType = readMembershipType();
+        MembershipType membershipType
+                = readMembershipType(oldCustomer.getMembershipType());
 
         Customer updatedCustomer = new Customer(
                 id,
@@ -149,6 +155,11 @@ public class CustomerController {
                 membershipType
         );
 
+        boolean isConfirm = InputHelper.confirmAction("Update");
+        if (!isConfirm) {
+            return;
+        }
+        
         try {
             customerService.updateCustomer(updatedCustomer);
 
@@ -181,17 +192,11 @@ public class CustomerController {
         System.out.println("Customer to delete:");
         CustomerView.showCustomer(customer);
 
-        String confirm = InputHelper.readString(
-                "Are you sure? (Y/N): "
-        );
-
-        if (!confirm.equalsIgnoreCase("Y")) {
-            ConsoleView.showSuccess(
-                    "Delete operation cancelled."
-            );
+        boolean isConfirm = InputHelper.confirmAction("Delete");
+        if (!isConfirm) {
             return;
         }
-
+        
         try {
             customerService.deleteCustomer(id);
 
@@ -206,8 +211,8 @@ public class CustomerController {
 
     private void viewAllCustomers() {
 
-        List<Customer> customers =
-                customerService.getAllCustomers();
+        List<Customer> customers
+                = customerService.getAllCustomers();
 
         CustomerView.showCustomers(customers);
     }
@@ -220,67 +225,15 @@ public class CustomerController {
                 "Enter customer name or phone: "
         );
 
-        List<Customer> customers =
-                customerService.search(keyword);
+        List<Customer> customers
+                = customerService.search(keyword);
 
         CustomerView.showCustomers(customers);
     }
 
-    private void calculateDiscount() {
-
-        CustomerView.showDiscountHeader();
-
-        String id = InputHelper.readString(
-                "Customer ID: "
-        );
-
-        Customer customer = customerService.findById(id);
-
-        if (customer == null) {
-            ConsoleView.showError(
-                    "Customer ID does not exist."
-            );
-            return;
-        }
-
-        double subtotal = InputHelper.readPrice(
-                "Subtotal: "
-        );
-
-        double discount =
-                customer.calculateDiscount(subtotal);
-
-        double finalAmount =
-                subtotal - discount;
-
-        System.out.println();
-        System.out.println("Customer: "
-                + customer.getFullName());
-
-        System.out.println("Membership: "
-                + customer.getMembershipType());
-
-        System.out.printf(
-                "Subtotal: %.2f%n",
-                subtotal
-        );
-
-        System.out.printf(
-                "Discount: %.2f%n",
-                discount
-        );
-
-        System.out.printf(
-                "Final Amount: %.2f%n",
-                finalAmount
-        );
-    }
-
     private MembershipType readMembershipType() {
 
-        System.out.println("Membership Type:");
-        System.out.println("1. Regular");
-        System.out.println("2. VIP");
+        CustomerView.showMemberShipType();
 
         int choice = InputHelper.readIntRange(
                 "Choose membership type: ",
@@ -288,10 +241,22 @@ public class CustomerController {
                 2
         );
 
-        if (choice == 1) {
-            return MembershipType.REGULAR;
-        }
+        return choice == 1 ? MembershipType.REGULAR : MembershipType.VIP;
+    }
 
-        return MembershipType.VIP;
+    private MembershipType readMembershipType(MembershipType current) {
+
+        CustomerView.showMemberShipType();
+
+        int currentChoice = current == MembershipType.REGULAR ? 1 : 2;
+
+        int choice = InputHelper.readIntRangeOrDefault(
+                "Choose membership type ",
+                1,
+                2,
+                currentChoice
+        );
+
+        return choice == 1 ? MembershipType.REGULAR : MembershipType.VIP;
     }
 }

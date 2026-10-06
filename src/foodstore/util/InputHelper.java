@@ -4,6 +4,7 @@
  */
 package foodstore.util;
 
+import foodstore.view.ConsoleView;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -91,6 +92,32 @@ public class InputHelper {
         }
     }
 
+    public static String readStringOrDefault(String prompt, String currentValue) {
+        System.out.print(prompt + "[" + currentValue + "]: ");
+        String line = sc.nextLine().trim();
+        return line.isEmpty() ? currentValue : line;
+    }
+
+    public static int readIntRangeOrDefault(String prompt, int min, int max, int currentValue) {
+        while (true) {
+            System.out.print(prompt + "[" + currentValue + "]: ");
+            String line = sc.nextLine().trim();
+            if (line.isEmpty()) {
+                return currentValue;
+            }
+            try {
+                int value = Integer.parseInt(line);
+                if (value < min || value > max) {
+                    System.err.println("The number must be between " + min + " and " + max + ".");
+                    continue;
+                }
+                return value;
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid number. Please try again.");
+            }
+        }
+    }
+
     public static LocalDate readDate(String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -101,5 +128,10 @@ public class InputHelper {
                 System.err.println("Invalid date. Please use " + DateUtil.PATTERN + " (e.g. 01/12/2025).");
             }
         }
+    }
+    
+    public static boolean confirmAction(String action) {
+        ConsoleView.showConfirmAction(action);
+        return InputHelper.readIntRange("Choice: ", 1, 2) == 1;
     }
 }

@@ -13,10 +13,15 @@ import foodstore.view.MenuView;
  * @author ad
  */
 public class MainController {
+
     private final ProductController productController;
-    public MainController(ProductController productController) {
+    private final CustomerController customerController;
+
+    public MainController(ProductController productController, CustomerController customerController) {
         this.productController = productController;
+        this.customerController = customerController;
     }
+
     public void run() {
         while (true) {
             MenuView.showMainMenu();
@@ -27,6 +32,7 @@ public class MainController {
                     productController.run();
                     break;
                 case 2:
+                    customerController.run();
                     break;
                 case 3:
                     break;

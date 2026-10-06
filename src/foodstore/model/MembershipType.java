@@ -8,8 +8,7 @@ package foodstore.model;
  *
  * @author MSI
  */
-public class MembershipType {
+public enum MembershipType {
     REGULAR,
     VIP
-    
 }
