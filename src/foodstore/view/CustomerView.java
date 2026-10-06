@@ -10,7 +10,8 @@ import java.util.List;
  * @author MSI
  */
 public class CustomerView {
-
+    private static final String ROW_FORMAT = "%-7s%-19s%-15s%-10s%n";
+    
     public static void showMenu() {
         MenuView.showSubMenu(
                 "CUSTOMER MANAGEMENT",
@@ -50,16 +51,17 @@ public class CustomerView {
             ConsoleView.showError("No customers found.");
             return;
         }
-
-        System.out.println();
-        System.out.println("CUSTOMER LIST");
-        System.out.println("--------------------------------------------------------------------------------");
-
-        for (Customer customer : customers) {
-            System.out.println(customer);
+        MenuView.showTitle("CUSTOMER LIST");
+        System.out.printf(ROW_FORMAT, "ID", "Name", "Phone", "Type");
+        MenuView.showLine();
+        for (Customer c : customers) {
+            System.out.printf(ROW_FORMAT,
+                    c.getCustomerId(),
+                    c.getFullName(),
+                    c.getPhone(),
+                    c.getMembershipType());
         }
-
-        System.out.println("--------------------------------------------------------------------------------");
+        MenuView.showLine();
     }
 
     public static void showCustomer(Customer customer) {

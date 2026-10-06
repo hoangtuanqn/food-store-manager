@@ -45,6 +45,13 @@ public class MenuView {
     public static void showTitle(String title) {
         System.out.println("----------- " + title + " -----------");
     }
+    
+    public static void showLine() {
+        for(int i = 1; i <= WIDTH; i++) {                                       
+            System.out.print("-");
+        }
+        System.out.println("");
+    }
 
     private static void printLine(char c) {
         StringBuilder sb = new StringBuilder();
