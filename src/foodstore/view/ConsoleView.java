@@ -16,4 +16,10 @@ public class ConsoleView {
     public static void showSuccess(String message) {
         System.out.println("[SUCCESS] " + message);
     }
+    
+    public static void showConfirmAction(String action) {
+        System.out.println("[1] " + action + "\t[2] Cancel");
+    }
+
+    
 }

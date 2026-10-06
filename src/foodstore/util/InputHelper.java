@@ -4,6 +4,7 @@
  */
 package foodstore.util;
 
+import foodstore.view.ConsoleView;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -101,5 +102,10 @@ public class InputHelper {
                 System.err.println("Invalid date. Please use " + DateUtil.PATTERN + " (e.g. 01/12/2025).");
             }
         }
+    }
+    
+    public static boolean confirmAction(String action) {
+        ConsoleView.showConfirmAction(action);
+        return InputHelper.readIntRange("Choice: ", 1, 2) == 1;
     }
 }

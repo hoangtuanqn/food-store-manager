@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package foodstore.controller;
+
 import foodstore.exception.BusinessException;
 import foodstore.model.Customer;
 import foodstore.model.MembershipType;
@@ -11,6 +12,7 @@ import foodstore.util.InputHelper;
 import foodstore.view.ConsoleView;
 import foodstore.view.CustomerView;
 import java.util.List;
+
 /**
  *
  * @author MSI
@@ -68,7 +70,6 @@ public class CustomerController {
         while (true) {
             id = InputHelper.readString("Customer ID: ");
 
-
             if (customerService.checkIdExist(id)) {
                 ConsoleView.showError(
                         "Customer ID already exists!"
@@ -91,6 +92,11 @@ public class CustomerController {
                 address,
                 membershipType
         );
+        
+        boolean isConfirm = InputHelper.confirmAction("Add");
+        if (!isConfirm) {
+            return;
+        }
 
         try {
             customerService.addCustomer(customer);
@@ -125,15 +131,15 @@ public class CustomerController {
         CustomerView.showCustomer(oldCustomer);
 
         String name = InputHelper.readString(
-                "New Full Name: "
+                "New Full Name (leave blank to skip): "
         );
 
         String phone = InputHelper.readString(
-                "New Phone: "
+                "New Phone (leave blank to skip): "
         );
 
         String address = InputHelper.readString(
-                "New Address: "
+                "New Address (leave blank to skip): "
         );
 
         MembershipType membershipType = readMembershipType();
@@ -146,6 +152,11 @@ public class CustomerController {
                 membershipType
         );
 
+        boolean isConfirm = InputHelper.confirmAction("Update");
+        if (!isConfirm) {
+            return;
+        }
+        
         try {
             customerService.updateCustomer(updatedCustomer);
 
@@ -178,17 +189,11 @@ public class CustomerController {
         System.out.println("Customer to delete:");
         CustomerView.showCustomer(customer);
 
-        String confirm = InputHelper.readString(
-                "Are you sure? (Y/N): "
-        );
-
-        if (!confirm.equalsIgnoreCase("Y")) {
-            ConsoleView.showSuccess(
-                    "Delete operation cancelled."
-            );
+        boolean isConfirm = InputHelper.confirmAction("Delete");
+        if (!isConfirm) {
             return;
         }
-
+        
         try {
             customerService.deleteCustomer(id);
 
@@ -203,8 +208,8 @@ public class CustomerController {
 
     private void viewAllCustomers() {
 
-        List<Customer> customers =
-                customerService.getAllCustomers();
+        List<Customer> customers
+                = customerService.getAllCustomers();
 
         CustomerView.showCustomers(customers);
     }
@@ -217,17 +222,15 @@ public class CustomerController {
                 "Enter customer name or phone: "
         );
 
-        List<Customer> customers =
-                customerService.search(keyword);
+        List<Customer> customers
+                = customerService.search(keyword);
 
         CustomerView.showCustomers(customers);
     }
 
     private MembershipType readMembershipType() {
 
-        System.out.println("Membership Type:");
-        System.out.println("1. Regular");
-        System.out.println("2. VIP");
+        CustomerView.showMemberShipType();
 
         int choice = InputHelper.readIntRange(
                 "Choose membership type: ",

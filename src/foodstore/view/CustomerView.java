@@ -70,4 +70,10 @@ public class CustomerView {
 
         System.out.println(customer);
     }
+
+    public static void showMemberShipType() {
+        System.out.println("Membership Type:");
+        System.out.println("1. Regular");
+        System.out.println("2. VIP");
+    }
 }
