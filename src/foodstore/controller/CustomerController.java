@@ -53,10 +53,6 @@ public class CustomerController {
                     searchCustomer();
                     break;
 
-                case 6:
-                    calculateDiscount();
-                    break;
-
                 case 0:
                     return;
             }
@@ -71,6 +67,7 @@ public class CustomerController {
 
         while (true) {
             id = InputHelper.readString("Customer ID: ");
+
 
             if (customerService.checkIdExist(id)) {
                 ConsoleView.showError(
@@ -224,56 +221,6 @@ public class CustomerController {
                 customerService.search(keyword);
 
         CustomerView.showCustomers(customers);
-    }
-
-    private void calculateDiscount() {
-
-        CustomerView.showDiscountHeader();
-
-        String id = InputHelper.readString(
-                "Customer ID: "
-        );
-
-        Customer customer = customerService.findById(id);
-
-        if (customer == null) {
-            ConsoleView.showError(
-                    "Customer ID does not exist."
-            );
-            return;
-        }
-
-        double subtotal = InputHelper.readPrice(
-                "Subtotal: "
-        );
-
-        double discount =
-                customer.calculateDiscount(subtotal);
-
-        double finalAmount =
-                subtotal - discount;
-
-        System.out.println();
-        System.out.println("Customer: "
-                + customer.getFullName());
-
-        System.out.println("Membership: "
-                + customer.getMembershipType());
-
-        System.out.printf(
-                "Subtotal: %.2f%n",
-                subtotal
-        );
-
-        System.out.printf(
-                "Discount: %.2f%n",
-                discount
-        );
-
-        System.out.printf(
-                "Final Amount: %.2f%n",
-                finalAmount
-        );
     }
 
     private MembershipType readMembershipType() {
