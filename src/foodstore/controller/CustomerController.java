@@ -130,19 +130,22 @@ public class CustomerController {
         System.out.println("Current information:");
         CustomerView.showCustomer(oldCustomer);
 
-        String name = InputHelper.readString(
-                "New Full Name (leave blank to skip): "
+        System.out.println("Press Enter to keep the current value.");
+
+        String name = InputHelper.readStringOrDefault(
+                "Full Name ", oldCustomer.getFullName()
         );
 
-        String phone = InputHelper.readString(
-                "New Phone (leave blank to skip): "
+        String phone = InputHelper.readStringOrDefault(
+                "Phone ", oldCustomer.getPhone()
         );
 
-        String address = InputHelper.readString(
-                "New Address (leave blank to skip): "
+        String address = InputHelper.readStringOrDefault(
+                "Address ", oldCustomer.getAddress()
         );
 
-        MembershipType membershipType = readMembershipType();
+        MembershipType membershipType
+                = readMembershipType(oldCustomer.getMembershipType());
 
         Customer updatedCustomer = new Customer(
                 id,
@@ -238,10 +241,22 @@ public class CustomerController {
                 2
         );
 
-        if (choice == 1) {
-            return MembershipType.REGULAR;
-        }
+        return choice == 1 ? MembershipType.REGULAR : MembershipType.VIP;
+    }
 
-        return MembershipType.VIP;
+    private MembershipType readMembershipType(MembershipType current) {
+
+        CustomerView.showMemberShipType();
+
+        int currentChoice = current == MembershipType.REGULAR ? 1 : 2;
+
+        int choice = InputHelper.readIntRangeOrDefault(
+                "Choose membership type ",
+                1,
+                2,
+                currentChoice
+        );
+
+        return choice == 1 ? MembershipType.REGULAR : MembershipType.VIP;
     }
 }
