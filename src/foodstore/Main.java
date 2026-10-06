@@ -4,9 +4,12 @@
  */
 package foodstore;
 
+import foodstore.controller.CustomerController;
 import foodstore.controller.MainController;
 import foodstore.controller.ProductController;
+import foodstore.repository.CustomerRepository;
 import foodstore.repository.FoodProductRepository;
+import foodstore.service.CustomerService;
 import foodstore.service.ProductService;
 
 /**
@@ -20,7 +23,11 @@ public class Main {
         ProductService productService = new ProductService(productRepository);
         ProductController productController = new ProductController(productService);
         
-        new MainController(productController).run();
+        CustomerRepository customerRepository = new CustomerRepository();
+        CustomerService customerService = new CustomerService(customerRepository);
+        CustomerController customerController = new CustomerController(customerService);
+        
+        new MainController(productController, customerController).run();
 
     }
 }
