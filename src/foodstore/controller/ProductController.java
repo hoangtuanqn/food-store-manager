@@ -83,6 +83,10 @@ public class ProductController {
             }
         }
 
+        if (!InputHelper.confirmAction("Add")) {
+            return;
+        }
+
         try {
             FoodProduct product = new FoodProduct(id, name, category, unit, price, quantity, production, expiration);
             productService.addProduct(product);
@@ -126,6 +130,10 @@ public class ProductController {
             }
         }
 
+        if (!InputHelper.confirmAction("Update")) {
+            return;
+        }
+
         try {
             FoodProduct updated = new FoodProduct(exist.getProductId(), name, category, unit, price, quantity, production, expiration);
             productService.updateProduct(updated);
@@ -149,9 +157,7 @@ public class ProductController {
         
         ProductView.showInfo(existing);
 
-        int confirm = InputHelper.readIntRange("1.Delete  2.Cancel: ", 1, 2);
-        if (confirm == 2) {
-            ConsoleView.showSuccess("Delete cancelled.");
+        if (!InputHelper.confirmAction("Delete")) {
             return;
         }
 
