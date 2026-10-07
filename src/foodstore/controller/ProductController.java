@@ -70,7 +70,7 @@ public class ProductController {
         String category = InputHelper.readString("Category: ");
         String unit = InputHelper.readString("Unit: ");
         double price = InputHelper.readPrice("Price: ");
-        int quantity = InputHelper.readIntRange("Quantity: ", 1);
+        int quantity = InputHelper.readIntRange("Quantity: ", 0);
         LocalDate production, expiration;
         while (true) {
             production = InputHelper.readDate("Production Date: ");
@@ -112,7 +112,7 @@ public class ProductController {
         String category = InputHelper.readString("Enter New Category: ");
         String unit = InputHelper.readString("Enter New Unit: ");
         double price = InputHelper.readPrice("Enter New Price: ");
-        int quantity = InputHelper.readIntRange("Enter New Quantity: ", 1);
+        int quantity = InputHelper.readIntRange("Enter New Quantity: ", 0);
 
         LocalDate productDate = exist.getProductionDate();
         LocalDate expirationDate = exist.getExpirationDate();
