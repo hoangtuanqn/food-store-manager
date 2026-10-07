@@ -9,7 +9,6 @@ import foodstore.model.FoodProduct;
 import foodstore.service.ProductService;
 import foodstore.util.InputHelper;
 import foodstore.view.ConsoleView;
-import foodstore.view.MenuView;
 import foodstore.view.ProductView;
 import java.time.LocalDate;
 

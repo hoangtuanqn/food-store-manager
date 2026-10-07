@@ -5,11 +5,13 @@
 package foodstore;
 
 import foodstore.controller.CustomerController;
+import foodstore.controller.InventoryController;
 import foodstore.controller.MainController;
 import foodstore.controller.ProductController;
 import foodstore.repository.CustomerRepository;
 import foodstore.repository.FoodProductRepository;
 import foodstore.service.CustomerService;
+import foodstore.service.InventoryService;
 import foodstore.service.ProductService;
 
 /**
@@ -27,7 +29,9 @@ public class Main {
         CustomerService customerService = new CustomerService(customerRepository);
         CustomerController customerController = new CustomerController(customerService);
         
-        new MainController(productController, customerController).run();
+        InventoryService inventoryService = new InventoryService(productRepository);
+        InventoryController inventoryController = new InventoryController(inventoryService);
+        new MainController(productController, customerController, inventoryController).run();
 
     }
 }
