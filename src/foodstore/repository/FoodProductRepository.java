@@ -4,10 +4,13 @@
  */
 package foodstore.repository;
 import foodstore.model.FoodProduct;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 
 /**
  *
@@ -38,16 +41,16 @@ public class FoodProductRepository implements Repository<FoodProduct, String>{
 
     @Override
     public List<FoodProduct> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new ArrayList<>(products.values()) ;
     }
 
     @Override
     public void update(FoodProduct item) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        products.put(item.getProductId(), item);
     }
 
     @Override
     public boolean deleteById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return products.remove(id) != null;
     }
 }

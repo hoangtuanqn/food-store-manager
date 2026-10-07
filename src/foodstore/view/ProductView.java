@@ -5,11 +5,17 @@
 package foodstore.view;
 
 import foodstore.model.FoodProduct;
+import foodstore.util.DateUtil;
 import java.util.List;
 
+/**
+ *
+ * @author MSI
+ */
 public class ProductView {
 
-    private static final String ROW_FORMAT = "%-6s%-18s%-12s%-10s%-9s%-6s%n";
+    private static final String ROW_FORMAT = "%-6s%-18s%-12s%-8s%-10s%-7s%-12s%n";
+    private static final int TABLE_WIDTH = 73;
 
     public static void showMenu() {
         String[] options = {
@@ -18,16 +24,48 @@ public class ProductView {
             "Remove Food Product",
             "View All Food Products",
             "Search by Name or Category",
-            "Search by Expiration Date",
-            "View Available Products",
-            "View Expired Products",
-            "View Low Stock Products"
+            "Search by Expiration Date"
         };
         MenuView.showSubMenu("MANAGE FOOD PRODUCTS", options);
     }
 
     public static void showAddHeader() {
         MenuView.showTitle("ADD FOOD PRODUCT");
+    }
+
+    public static void showUpdateHeader() {
+        MenuView.showTitle("UPDATE FOOD PRODUCT");
+    }
+
+    public static void showDeleteHeader() {
+        MenuView.showTitle("DELETE FOOD PRODUCT");
+    }
+
+    public static void showViewAllHeader() {
+        MenuView.showTitle("FOOD PRODUCT LIST");
+    }
+
+    public static void showSearchHeader() {
+        MenuView.showTitle("SEARCH FOOD PRODUCT");
+    }
+
+    public static void showTable(List<FoodProduct> products) {
+        if (products == null || products.isEmpty()) {
+            ConsoleView.showError("No food products found.");
+            return;
+        }
+        printRows(products);
+    }
+
+    public static void showInfo(FoodProduct p) {
+        System.out.println("Current information:");
+        System.out.println("Name: " + p.getName());
+        System.out.println("Category: " + p.getCategory());
+        System.out.println("Unit: " + p.getUnit());
+        System.out.println("Price: " + formatPrice(p.getPrice()));
+        System.out.println("Quantity: " + p.getQuantity());
+        System.out.println("Production Date: " + DateUtil.format(p.getProductionDate()));
+        System.out.println("Expiration Date: " + DateUtil.format(p.getExpirationDate()));
     }
 
     public static void showInventoryMenu() {
@@ -66,17 +104,26 @@ public class ProductView {
             return;
         }
         MenuView.showTitle(title);
-        System.out.printf(ROW_FORMAT, "ID", "Name", "Category", "Unit", "Price", "Stock");
-        MenuView.showLine();
+        printRows(products);
+    }
+
+    private static void printRows(List<FoodProduct> products) {
+        System.out.printf(ROW_FORMAT, "ID", "Name", "Category", "Unit", "Price", "Stock", "Expiry");
+        MenuView.showLine(TABLE_WIDTH);
         for (FoodProduct p : products) {
             System.out.printf(ROW_FORMAT,
                     p.getProductId(),
                     p.getName(),
                     p.getCategory(),
                     p.getUnit(),
-                    p.getPrice(),
-                    p.getQuantity());
+                    formatPrice(p.getPrice()),
+                    p.getQuantity(),
+                    DateUtil.format(p.getExpirationDate()));
         }
-        MenuView.showLine();
+        MenuView.showLine(TABLE_WIDTH);
+    }
+
+    private static String formatPrice(double price) {
+        return String.format("%.0f", price);
     }
 }
