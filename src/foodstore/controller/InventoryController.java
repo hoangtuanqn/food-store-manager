@@ -37,8 +37,7 @@ public class InventoryController {
             case 4:
                 viewSellable();
                 break;
-            default:
-                ProductView.showError("Invalid choice.");
+            default: ProductView.showError("Invalid choice.");
                 break;
         }
     }
@@ -51,6 +50,7 @@ public class InventoryController {
         }
     }
  
+               
     public void viewExpired() {
         try {
             ProductView.showExpiredProducts(inventoryService.getExpiredProducts());
@@ -74,6 +74,4 @@ public class InventoryController {
             ProductView.showError(e.getMessage());
         }
     }
-    
-    
 }
