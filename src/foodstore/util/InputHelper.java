@@ -80,6 +80,26 @@ public class InputHelper {
         }
     }
 
+    public static double readPriceOrDefault(String prompt, double currentValue) {
+        while (true) {
+            System.out.print(prompt + "[" + String.format("%.0f", currentValue) + "]: ");
+            String line = sc.nextLine().trim();
+            if (line.isEmpty()) {
+                return currentValue;
+            }
+            try {
+                double value = Double.parseDouble(line);
+                if (value <= 0) {
+                    System.err.println("The amount must be greater than 0.");
+                    continue;
+                }
+                return value;
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid number. Please try again.");
+            }
+        }
+    }
+
     public static String readString(String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -130,6 +150,21 @@ public class InputHelper {
         }
     }
     
+    public static LocalDate readDateOrDefault(String prompt, LocalDate currentValue) {
+        while (true) {
+            System.out.print(prompt + "[" + DateUtil.format(currentValue) + "]: ");
+            String line = sc.nextLine().trim();
+            if (line.isEmpty()) {
+                return currentValue;
+            }
+            try {
+                return DateUtil.parse(line);
+            } catch (DateTimeParseException e) {
+                System.err.println("Invalid date. Please use " + DateUtil.PATTERN + " (e.g. 01/12/2025).");
+            }
+        }
+    }
+
     public static boolean confirmAction(String action) {
         ConsoleView.showConfirmAction(action);
         return InputHelper.readIntRange("Choice: ", 1, 2) == 1;
