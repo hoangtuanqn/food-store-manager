@@ -27,7 +27,7 @@ public class ProductController {
     public void run() {
         while (true) {
             ProductView.showMenu();
-            int choice = InputHelper.readIntRange("Choose an option: ", 0, 9);
+            int choice = InputHelper.readIntRange("Choose an option: ", 0, 6);
             switch (choice) {
                 case 1:
                     addProduct();
@@ -54,8 +54,8 @@ public class ProductController {
     }
 
     private void addProduct() {
-
         ProductView.showAddHeader();
+
         String id;
         while (true) {
             id = InputHelper.readString("Product ID: ");
@@ -64,13 +64,14 @@ public class ProductController {
             } else {
                 break;
             }
-
         }
+
         String name = InputHelper.readString("Product Name: ");
         String category = InputHelper.readString("Category: ");
         String unit = InputHelper.readString("Unit: ");
         double price = InputHelper.readPrice("Price: ");
-        int quantity = InputHelper.readIntRange("Quantity: ", 1);
+        int quantity = InputHelper.readIntRange("Quantity: ", 0);
+
         LocalDate production, expiration;
         while (true) {
             production = InputHelper.readDate("Production Date: ");
@@ -83,111 +84,94 @@ public class ProductController {
             }
         }
 
-        FoodProduct product = new FoodProduct(id, name, category, unit, price, quantity, production, expiration);
-        try {
-            productService.addProduct(product);
-            ConsoleView.showSuccess("Food product added successfully.");
-        } catch (BusinessException e) {
-            ConsoleView.showError(e.getMessage());
+        if (!InputHelper.confirmAction("Add")) {
+            return;
         }
 
+        try {
+            FoodProduct product = new FoodProduct(id, name, category, unit, price, quantity, production, expiration);
+            productService.addProduct(product);
+            ConsoleView.showSuccess("Food product added successfully.");
+        } catch (BusinessException | IllegalArgumentException e) {
+            ConsoleView.showError(e.getMessage());
+        }
     }
 
     private void updateProduct() {
         ProductView.showUpdateHeader();
-        String Id = InputHelper.readString("Enter ID to update: ");
+        String id = InputHelper.readString("Enter ID to update: ");
 
         FoodProduct exist;
-
         try {
-            exist = productService.getProductById(Id);
+            exist = productService.getProductById(id);
         } catch (BusinessException e) {
             ConsoleView.showError(e.getMessage());
             return;
         }
 
         ProductView.showInfo(exist);
+        System.out.println("Press Enter to keep the current value.");
 
-        String name = InputHelper.readString("Enter New Product Name: ");
-        String category = InputHelper.readString("Enter New Category: ");
-        String unit = InputHelper.readString("Enter New Unit: ");
-        double price = InputHelper.readPrice("Enter New Price: ");
-        int quantity = InputHelper.readIntRange("Enter New Quantity: ", 1);
+        String name = InputHelper.readStringOrDefault("Product Name ", exist.getName());
+        String category = InputHelper.readStringOrDefault("Category ", exist.getCategory());
+        String unit = InputHelper.readStringOrDefault("Unit ", exist.getUnit());
+        double price = InputHelper.readPriceOrDefault("Price ", exist.getPrice());
+        int quantity = InputHelper.readIntRangeOrDefault("Quantity ", 0, Integer.MAX_VALUE, exist.getQuantity());
 
-        LocalDate productDate = exist.getProductionDate();
-        LocalDate expirationDate = exist.getExpirationDate();
-
+        LocalDate production, expiration;
         while (true) {
-            LocalDate newProductDate = InputHelper.readDate("Enter New Product Date: ");
-            LocalDate updateProductDate;
-            if (newProductDate == null) {
-                updateProductDate = productDate;
-            } else {
-                updateProductDate = newProductDate;
-            }
-
-            LocalDate newExpirationDate = InputHelper.readDate("Enter New Expiration Date: ");
-            LocalDate updateExpirationDate;
-            if (newExpirationDate == null) {
-                updateExpirationDate = expirationDate;
-            } else {
-                updateExpirationDate = newExpirationDate;
-            }
-
+            production = InputHelper.readDateOrDefault("Production Date ", exist.getProductionDate());
+            expiration = InputHelper.readDateOrDefault("Expiration Date ", exist.getExpirationDate());
             try {
-                FoodProduct.requireDates(updateProductDate, updateExpirationDate);
-                productDate = updateProductDate;
-                expirationDate = updateExpirationDate;
+                FoodProduct.requireDates(production, expiration);
                 break;
             } catch (IllegalArgumentException e) {
-                ConsoleView.showError(e.getMessage() + "Please enter dates again");
+                ConsoleView.showError(e.getMessage() + " Please enter both dates again.");
             }
         }
 
-        FoodProduct updated = new FoodProduct(exist.getProductId(), name, category, unit, price, quantity, productDate, expirationDate);
-
-        try {
-            productService.updateProduct(updated);
-            ConsoleView.showSuccess("Food product updated successfully.");
-        } catch (BusinessException e) {
-            ConsoleView.showError(e.getMessage());
+        if (!InputHelper.confirmAction("Update")) {
+            return;
         }
 
+        try {
+            FoodProduct updated = new FoodProduct(exist.getProductId(), name, category, unit, price, quantity, production, expiration);
+            productService.updateProduct(updated);
+            ConsoleView.showSuccess("Food product updated successfully.");
+        } catch (BusinessException | IllegalArgumentException e) {
+            ConsoleView.showError(e.getMessage());
+        }
     }
 
     private void deleteProduct() {
         ProductView.showDeleteHeader();
-        String Id = InputHelper.readString("Enter Product ID to delete: ");
+        String id = InputHelper.readString("Enter Product ID to delete: ");
 
         FoodProduct existing;
         try {
-            existing = productService.getProductById(Id);
+            existing = productService.getProductById(id);
         } catch (BusinessException e) {
             ConsoleView.showError(e.getMessage());
             return;
         }
-        
+
         ProductView.showInfo(existing);
 
-        int confirm = InputHelper.readIntRange("1.Delete  2.Cancel: ", 1, 2);
-        if (confirm == 2) {
-            ConsoleView.showSuccess("Delete cancelled.");
+        if (!InputHelper.confirmAction("Delete")) {
             return;
         }
 
         try {
-            productService.deleteProduct(Id);
+            productService.deleteProduct(id);
             ConsoleView.showSuccess("Food product deleted successfully.");
         } catch (BusinessException e) {
             ConsoleView.showError(e.getMessage());
         }
+    }
 
-}
-
-private void viewAllProducts() {
+    private void viewAllProducts() {
         ProductView.showViewAllHeader();
         ProductView.showTable(productService.getAllProducts());
-
     }
 
     private void searchKeyWord() {

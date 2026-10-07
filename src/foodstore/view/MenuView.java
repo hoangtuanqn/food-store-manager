@@ -47,7 +47,11 @@ public class MenuView {
     }
     
     public static void showLine() {
-        for(int i = 1; i <= WIDTH; i++) {                                       
+        showLine(WIDTH);
+    }
+
+    public static void showLine(int width) {
+        for (int i = 1; i <= width; i++) {
             System.out.print("-");
         }
         System.out.println("");
