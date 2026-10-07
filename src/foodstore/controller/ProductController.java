@@ -83,11 +83,11 @@ public class ProductController {
             }
         }
 
-        FoodProduct product = new FoodProduct(id, name, category, unit, price, quantity, production, expiration);
         try {
+            FoodProduct product = new FoodProduct(id, name, category, unit, price, quantity, production, expiration);
             productService.addProduct(product);
             ConsoleView.showSuccess("Food product added successfully.");
-        } catch (BusinessException e) {
+        } catch (BusinessException | IllegalArgumentException e) {
             ConsoleView.showError(e.getMessage());
         }
 

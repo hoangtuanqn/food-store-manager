@@ -72,8 +72,8 @@ public class InputHelper {
     public static Double readPrice(String prompt) {
         while (true) {
             Double price = readDouble(prompt);
-            if (price < 0) {
-                System.err.println("The amount cannot be negative.");
+            if (price <= 0) {
+                System.err.println("The amount must be greater than 0.");
                 continue;
             }
             return price;
