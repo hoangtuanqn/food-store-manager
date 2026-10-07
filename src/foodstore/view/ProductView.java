@@ -9,10 +9,11 @@ package foodstore.view;
  * @author MSI
  */
 import foodstore.model.FoodProduct;
-import foodstore.util.DateUtil;
 import java.util.List;
 
 public class ProductView {
+
+    private static final String ROW_FORMAT = "%-6s%-18s%-12s%-10s%-9s%-6s%n";
 
     public static void showMenu() {
         String[] options = {
@@ -106,29 +107,22 @@ public class ProductView {
     }
 
     private static void showProductTable(String title, List<FoodProduct> products, String emptyMessage) {
-        MenuView.showTitle(title);
         if (products == null || products.isEmpty()) {
-            System.out.println(emptyMessage);
+            ConsoleView.showError(emptyMessage);
             return;
         }
-        String header = String.format( "ID", "Name", "Category", "Qty", "Expiry");
-        StringBuilder line = new StringBuilder();
-        for (int i = 0; i < header.length(); i++) {
-            line.append('-');
-        }
-        System.out.println(line);
-        System.out.println(header);
-        System.out.println(line);
+        MenuView.showTitle(title);
+        System.out.printf(ROW_FORMAT, "ID", "Name", "Category", "Unit", "Price", "Stock");
+        MenuView.showLine();
         for (FoodProduct p : products) {
-            System.out.println(String.format(
+            System.out.printf(ROW_FORMAT,
                     p.getProductId(),
                     p.getName(),
                     p.getCategory(),
-                    String.valueOf(p.getQuantity()),
-                    DateUtil.format(p.getExpirationDate())));
+                    p.getUnit(),
+                    p.getPrice(),
+                    p.getQuantity());
         }
-        System.out.println(line);
-        System.out.println("Total: " + products.size() + " product(s)");
+        MenuView.showLine();
     }
-    
 }
