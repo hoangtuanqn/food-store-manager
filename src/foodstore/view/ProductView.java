@@ -24,10 +24,7 @@ public class ProductView {
             "Remove Food Product",
             "View All Food Products",
             "Search by Name or Category",
-            "Search by Expiration Date",
-            "View Available Products",
-            "View Expired Products",
-            "View Low Stock Products"
+            "Search by Expiration Date"
         };
         MenuView.showSubMenu("MANAGE FOOD PRODUCTS", options);
     }

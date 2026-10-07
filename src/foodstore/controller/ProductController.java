@@ -27,7 +27,7 @@ public class ProductController {
     public void run() {
         while (true) {
             ProductView.showMenu();
-            int choice = InputHelper.readIntRange("Choose an option: ", 0, 9);
+            int choice = InputHelper.readIntRange("Choose an option: ", 0, 6);
             switch (choice) {
                 case 1:
                     addProduct();
