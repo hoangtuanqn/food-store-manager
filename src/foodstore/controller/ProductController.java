@@ -54,8 +54,8 @@ public class ProductController {
     }
 
     private void addProduct() {
-
         ProductView.showAddHeader();
+
         String id;
         while (true) {
             id = InputHelper.readString("Product ID: ");
@@ -64,13 +64,14 @@ public class ProductController {
             } else {
                 break;
             }
-
         }
+
         String name = InputHelper.readString("Product Name: ");
         String category = InputHelper.readString("Category: ");
         String unit = InputHelper.readString("Unit: ");
         double price = InputHelper.readPrice("Price: ");
         int quantity = InputHelper.readIntRange("Quantity: ", 0);
+
         LocalDate production, expiration;
         while (true) {
             production = InputHelper.readDate("Production Date: ");
@@ -94,7 +95,6 @@ public class ProductController {
         } catch (BusinessException | IllegalArgumentException e) {
             ConsoleView.showError(e.getMessage());
         }
-
     }
 
     private void updateProduct() {
@@ -145,16 +145,16 @@ public class ProductController {
 
     private void deleteProduct() {
         ProductView.showDeleteHeader();
-        String Id = InputHelper.readString("Enter Product ID to delete: ");
+        String id = InputHelper.readString("Enter Product ID to delete: ");
 
         FoodProduct existing;
         try {
-            existing = productService.getProductById(Id);
+            existing = productService.getProductById(id);
         } catch (BusinessException e) {
             ConsoleView.showError(e.getMessage());
             return;
         }
-        
+
         ProductView.showInfo(existing);
 
         if (!InputHelper.confirmAction("Delete")) {
@@ -162,18 +162,16 @@ public class ProductController {
         }
 
         try {
-            productService.deleteProduct(Id);
+            productService.deleteProduct(id);
             ConsoleView.showSuccess("Food product deleted successfully.");
         } catch (BusinessException e) {
             ConsoleView.showError(e.getMessage());
         }
+    }
 
-}
-
-private void viewAllProducts() {
+    private void viewAllProducts() {
         ProductView.showViewAllHeader();
         ProductView.showTable(productService.getAllProducts());
-
     }
 
     private void searchKeyWord() {
