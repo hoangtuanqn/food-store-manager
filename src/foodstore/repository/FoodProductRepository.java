@@ -45,11 +45,12 @@ public class FoodProductRepository implements Repository<FoodProduct, String>{
     }
 
     @Override
-    public void update(FoodProduct item) {products.put(item.getProductId(), item);
+    public void update(FoodProduct item) {
+        products.put(item.getProductId(), item);
     }
 
     @Override
     public boolean deleteById(String id) {
-       return products.remove(id) != null;
+        return products.remove(id) != null;
     }
 }
