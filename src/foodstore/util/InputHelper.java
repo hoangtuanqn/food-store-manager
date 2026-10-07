@@ -24,7 +24,7 @@ public class InputHelper {
             try {
                 return Integer.parseInt(line);
             } catch (NumberFormatException e) {
-                System.err.print("Invalid number. Please try again.");
+                System.err.println("Invalid number. Please try again.");
             }
         }
     }
@@ -36,7 +36,7 @@ public class InputHelper {
             try {
                 return Double.parseDouble(line);
             } catch (NumberFormatException e) {
-                System.err.print("Invalid number. Please try again.");
+                System.err.println("Invalid number. Please try again.");
             }
         }
     }
