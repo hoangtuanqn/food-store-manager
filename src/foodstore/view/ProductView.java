@@ -4,32 +4,19 @@
  */
 package foodstore.view;
 
-<<<<<<< HEAD
-/**
- *
- * @author MSI
- */
-=======
-<<<<<<< HEAD
->>>>>>> 125c7fb (complete Lab2 product management feature)
-import foodstore.model.FoodProduct;
-=======
-/**
- *
- * @author MSI
- */
 import foodstore.model.FoodProduct;
 import foodstore.util.DateUtil;
->>>>>>> ab5572b (complete Lab2 product management feature)
 import java.util.List;
 
+/**
+ *
+ * @author MSI
+ */
 public class ProductView {
 
-<<<<<<< HEAD
-    private static final String ROW_FORMAT = "%-6s%-18s%-12s%-10s%-9s%-6s%n";
+    private static final String ROW_FORMAT = "%-6s%-18s%-12s%-8s%-10s%-7s%-12s%n";
+    private static final int TABLE_WIDTH = 73;
 
-=======
->>>>>>> ab5572b (complete Lab2 product management feature)
     public static void showMenu() {
         String[] options = {
             "Add Food Product",
@@ -66,31 +53,24 @@ public class ProductView {
     }
 
     public static void showTable(List<FoodProduct> products) {
-        System.out.printf("%-6s %-20s %-12s %-8s %10s %8s%n",
-                "ID", "Name", "Category", "Unit", "Price", "Stock");
-        System.out.println("-------------------------------------------------------------");
-
-        if (products.isEmpty()) {
-            System.out.println("No food products found.");
-        } else {
-            for (FoodProduct object : products) {
-                System.out.printf("%-6s %-20s %-12s %-8s %10s %8d%n",
-                        object.getProductId(), object.getName(), object.getCategory(), object.getUnit(), object.getPrice(), object.getQuantity());
-            }
+        if (products == null || products.isEmpty()) {
+            ConsoleView.showError("No food products found.");
+            return;
         }
-        System.out.println("-------------------------------------------------------------");
+        printRows(products);
     }
 
     public static void showInfo(FoodProduct p) {
-        System.out.println("Current Information:");
+        System.out.println("Current information:");
         System.out.println("Name: " + p.getName());
         System.out.println("Category: " + p.getCategory());
         System.out.println("Unit: " + p.getUnit());
-        System.out.println("Price: " + p.getPrice());
+        System.out.println("Price: " + formatPrice(p.getPrice()));
         System.out.println("Quantity: " + p.getQuantity());
         System.out.println("Production Date: " + DateUtil.format(p.getProductionDate()));
         System.out.println("Expiration Date: " + DateUtil.format(p.getExpirationDate()));
     }
+
     public static void showInventoryMenu() {
         String[] options = {
             "View Low Stock Products",
@@ -127,58 +107,26 @@ public class ProductView {
             return;
         }
         MenuView.showTitle(title);
-        System.out.printf(ROW_FORMAT, "ID", "Name", "Category", "Unit", "Price", "Stock");
-        MenuView.showLine();
+        printRows(products);
+    }
+
+    private static void printRows(List<FoodProduct> products) {
+        System.out.printf(ROW_FORMAT, "ID", "Name", "Category", "Unit", "Price", "Stock", "Expiry");
+        MenuView.showLine(TABLE_WIDTH);
         for (FoodProduct p : products) {
             System.out.printf(ROW_FORMAT,
                     p.getProductId(),
                     p.getName(),
                     p.getCategory(),
                     p.getUnit(),
-                    p.getPrice(),
-                    p.getQuantity());
+                    formatPrice(p.getPrice()),
+                    p.getQuantity(),
+                    DateUtil.format(p.getExpirationDate()));
         }
-        MenuView.showLine();
-    public static void showUpdateHeader() {
-        MenuView.showTitle("UPDATE FOOD PRODUCT");
+        MenuView.showLine(TABLE_WIDTH);
     }
 
-    public static void showDeleteHeader() {
-        MenuView.showTitle("DELETE FOOD PRODUCT");
-    }
-
-    public static void showViewAllHeader() {
-        MenuView.showTitle("FOOD PRODUCT LIST");
-    }
-
-    public static void showSearchHeader() {
-        MenuView.showTitle("SEARCH FOOD PRODUCT");
-    }
-
-    public static void showTable(List<FoodProduct> products) {
-        System.out.printf("%-6s %-20s %-12s %-8s %10s %8s%n",
-                "ID", "Name", "Category", "Unit", "Price", "Stock");
-        System.out.println("-------------------------------------------------------------");
-
-        if (products.isEmpty()) {
-            System.out.println("No food products found.");
-        } else {
-            for (FoodProduct object : products) {
-                System.out.printf("%-6s %-20s %-12s %-8s %10s %8d%n",
-                        object.getProductId(), object.getName(), object.getCategory(), object.getUnit(), object.getPrice(), object.getQuantity());
-            }
-        }
-        System.out.println("-------------------------------------------------------------");
-    }
-
-    public static void showInfo(FoodProduct p) {
-        System.out.println("Current Information:");
-        System.out.println("Name: " + p.getName());
-        System.out.println("Category: " + p.getCategory());
-        System.out.println("Unit: " + p.getUnit());
-        System.out.println("Price: " + p.getPrice());
-        System.out.println("Quantity: " + p.getQuantity());
-        System.out.println("Production Date: " + DateUtil.format(p.getProductionDate()));
-        System.out.println("Expiration Date: " + DateUtil.format(p.getExpirationDate()));
+    private static String formatPrice(double price) {
+        return String.format("%.0f", price);
     }
 }
