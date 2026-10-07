@@ -50,7 +50,7 @@ public class ProductService {
 
     public void updateProduct(FoodProduct product) {
         if (!repository.existsById(product.getProductId())) {
-            throw new NotFoundException("Product Id is not found. Failed delete.");
+            throw new NotFoundException("Product ID is not found. Failed to update.");
         }
         
         repository.update(product);
@@ -93,7 +93,7 @@ public class ProductService {
 
     public void deleteProduct(String id) {
         if (repository.deleteById(id) == false) {
-            throw new NotFoundException("Failed to delete product. Try again.");
+            throw new NotFoundException("Product ID is not found. Failed to delete.");
         }
     }
 }
