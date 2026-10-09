@@ -8,6 +8,8 @@ package foodstore.exception;
  *
  * @author MSI
  */
-public class InvalidTransactionException {
-    
+public class InvalidTransactionException extends BusinessException {
+    public InvalidTransactionException(String message) {
+        super(message);
+    }
 }

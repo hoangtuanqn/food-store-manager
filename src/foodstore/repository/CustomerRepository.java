@@ -3,11 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package foodstore.repository;
+
 import foodstore.model.Customer;
+import foodstore.model.MembershipType;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -16,39 +16,64 @@ import java.util.Optional;
  */
 public class CustomerRepository implements Repository<Customer, String> {
 
-    private final Map<String, Customer> customers;
+    private final List<Customer> customers;
 
     public CustomerRepository() {
-        this.customers = new LinkedHashMap<>();
+        this.customers = new ArrayList<>();
+        seedData();
+    }
+    
+    private void seedData() {
+        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
     }
 
     @Override
     public void add(Customer item) {
-        customers.put(item.getCustomerId(), item);
+        customers.add(item);
     }
 
     @Override
     public Optional<Customer> findById(String id) {
-        return Optional.ofNullable(customers.get(id));
+        int index = indexOf(id);
+        return index < 0 ? Optional.<Customer>empty() : Optional.of(customers.get(index));
     }
 
     @Override
     public boolean existsById(String id) {
-        return customers.containsKey(id);
+        return indexOf(id) >= 0;
     }
 
     @Override
     public List<Customer> findAll() {
-        return new ArrayList<>(customers.values());
+        return new ArrayList<>(customers);
     }
 
     @Override
     public void update(Customer item) {
-        customers.put(item.getCustomerId(), item);
+        int index = indexOf(item.getCustomerId());
+        if (index >= 0) {
+            customers.set(index, item);
+        } else {
+            customers.add(item);
+        }
     }
 
     @Override
     public boolean deleteById(String id) {
-        return customers.remove(id) != null;
+        int index = indexOf(id);
+        if (index < 0) {
+            return false;
+        }
+        customers.remove(index);
+        return true;
+    }
+
+    private int indexOf(String id) {
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getCustomerId().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

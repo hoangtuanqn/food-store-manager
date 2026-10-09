@@ -8,6 +8,8 @@ package foodstore.model;
  *
  * @author MSI
  */
-public class OrderStatus {
-    
+public enum OrderStatus {
+    PENDING,
+    COMPLETED,
+    CANCELLED
 }

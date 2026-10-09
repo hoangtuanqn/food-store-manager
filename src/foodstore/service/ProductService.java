@@ -35,6 +35,10 @@ public class ProductService {
     public boolean checkIdExist(String id) {
         return repository.existsById(id);
     }
+    
+    public FoodProduct getProduct(String id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Not found Product ID " + id + "."));
+    }
 
     public List<FoodProduct> getAllProducts() {
         return repository.findAll();

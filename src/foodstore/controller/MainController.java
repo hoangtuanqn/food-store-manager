@@ -17,11 +17,17 @@ public class MainController {
     private final ProductController productController;
     private final CustomerController customerController;
     private final InventoryController inventoryController;
+    private final SalesController salesController;
 
-    public MainController(ProductController productController, CustomerController customerController, InventoryController inventoryController) {
+    public MainController(
+            ProductController productController, 
+            CustomerController customerController, 
+            InventoryController inventoryController, 
+            SalesController salesController) {
         this.productController = productController;
         this.customerController = customerController;
         this.inventoryController = inventoryController;
+        this.salesController = salesController;
     }
 
     public void run() {
@@ -37,6 +43,7 @@ public class MainController {
                     customerController.run();
                     break;
                 case 3:
+                    salesController.run();
                     break;
                 case 4:
                     inventoryController.run();
