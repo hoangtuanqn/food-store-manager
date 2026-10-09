@@ -5,6 +5,7 @@
 package foodstore.service;
 import foodstore.exception.DuplicateIdException;
 import foodstore.model.Customer;
+import foodstore.model.MembershipType;
 import foodstore.repository.CustomerRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,14 +45,14 @@ public class CustomerService {
         return repository.findById(id).orElse(null);
     }
 
-    public void updateCustomer(Customer customer) {
-        if (!repository.existsById(customer.getCustomerId())) {
-            throw new IllegalArgumentException(
-                    "Customer ID does not exist."
-            );
-        }
-
-        repository.update(customer);
+    public void updateCustomer(String id, String name, String phone,
+                               String address, MembershipType type) {
+        Customer c = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Customer ID does not exist."));
+        c.setFullName(name);
+        c.setPhone(phone);
+        c.setAddress(address);
+        c.setMembershipType(type);
     }
 
     public void deleteCustomer(String id) {
