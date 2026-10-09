@@ -147,21 +147,13 @@ public class CustomerController {
         MembershipType membershipType
                 = readMembershipType(oldCustomer.getMembershipType());
 
-        Customer updatedCustomer = new Customer(
-                id,
-                name,
-                phone,
-                address,
-                membershipType
-        );
-
         boolean isConfirm = InputHelper.confirmAction("Update");
         if (!isConfirm) {
             return;
         }
         
         try {
-            customerService.updateCustomer(updatedCustomer);
+            customerService.updateCustomer(id, name, phone, address, membershipType);
 
             ConsoleView.showSuccess(
                     "Customer updated successfully."
