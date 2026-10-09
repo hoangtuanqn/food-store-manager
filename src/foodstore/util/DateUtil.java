@@ -15,7 +15,7 @@ import java.time.format.ResolverStyle;
 public class DateUtil {
     public static final String PATTERN = "dd/MM/yyyy";
 
-    private static final DateTimeFormatter FORMATTER =
+    public static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
     
     public static LocalDate parse(String text) {
