@@ -20,12 +20,12 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
 
     public FoodProductRepository() {
         this.products = new ArrayList<>();
-        seedData();
+//        seedData();
     }
 
-    private void seedData() {
-        products.add(new FoodProduct("P001", "Banh mi", "Tinh bot", "Cai", 3000, 100, LocalDate.now(), LocalDate.parse("2027-01-10")));
-    }
+//    private void seedData() {
+//        products.add(new FoodProduct("P001", "Banh mi", "Tinh bot", "Cai", 3000, 100, LocalDate.now(), LocalDate.parse("2027-01-10")));
+//    }
 
     @Override
     public void add(FoodProduct item) {

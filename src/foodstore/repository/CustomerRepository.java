@@ -20,12 +20,12 @@ public class CustomerRepository implements Repository<Customer, String> {
 
     public CustomerRepository() {
         this.customers = new ArrayList<>();
-        seedData();
+//        seedData();
     }
     
-    private void seedData() {
-        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
-    }
+//    private void seedData() {
+//        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
+//    }
 
     @Override
     public void add(Customer item) {
