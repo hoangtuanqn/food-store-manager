@@ -23,13 +23,13 @@ public class InventoryService {
     public void checkSellable(String productId, int quantity) {
         FoodProduct p = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
         if (quantity <= 0) {
-            throw new InvalidQuantityException("Quantity must be greater than 0");
+            throw new InvalidQuantityException("Quantity must be greater than zero.");
         }
         if (p.isExpired()) {
-            throw new ExpiredProductException("The product was expired " + p.getName());
+            throw new ExpiredProductException("This food product has expired.");
         }
         if (p.getQuantity() < quantity) {
-            throw new InsufficientStockException("The product was out of stock. " + p.getQuantity() + " is available");
+            throw new InsufficientStockException("Insufficient stock.");
         }
     }
 
@@ -37,6 +37,7 @@ public class InventoryService {
         FoodProduct p = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
         p.setQuantity(p.getQuantity() - quantity);
         productRepository.update(p);
+          
     }
 
     public void updateInventory(String productId, int newQuantity) {
