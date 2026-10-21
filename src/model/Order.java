@@ -77,7 +77,7 @@ public class Order {
 
     public OrderDetail findDetail(String productId) {
         for (OrderDetail d : details) {
-            if (d.getProduct().getProductId().equals(productId)) {
+            if (d.getProductId().equals(productId)) {
                 return d;
             }
         }
@@ -89,7 +89,7 @@ public class Order {
         if (detail == null) {
             throw new IllegalArgumentException("Order detail is required.");
         }
-        OrderDetail existing = findDetail(detail.getProduct().getProductId());
+        OrderDetail existing = findDetail(detail.getProductId());
         if (existing != null) {
             existing.increaseQuantity(detail.getQuantity());
         } else {

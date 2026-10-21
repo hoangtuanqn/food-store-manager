@@ -95,7 +95,7 @@ public class SalesView {
         MenuView.showLine();
         for (OrderDetail d : order.getDetails()) {
             System.out.printf(BILL_ROW,
-                    d.getProduct().getName(),
+                    d.getProductName(),
                     d.getQuantity(),
                     money(d.getUnitPrice()),
                     money(d.getLineTotal()));
