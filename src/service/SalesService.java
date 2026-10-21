@@ -98,13 +98,13 @@ public class SalesService {
         // stock and expiry may have changed since the product was added: check every line first
         for (OrderDetail d : order.getDetails()) {
             try {
-                inventoryService.checkSellable(d.getProduct().getProductId(), d.getQuantity());
+                inventoryService.checkSellable(d.getProductId(), d.getQuantity());
             } catch (BusinessException e) {
-                throw new InvalidTransactionException(d.getProduct().getName() + ": " + e.getMessage());
+                throw new InvalidTransactionException(d.getProductName() + ": " + e.getMessage());
             }
         }
         for (OrderDetail d : order.getDetails()) {
-            inventoryService.deductInventory(d.getProduct().getProductId(), d.getQuantity());
+            inventoryService.deductInventory(d.getProductId(), d.getQuantity());
         }
         order.complete();
         orderRepository.update(order);

@@ -10,7 +10,9 @@ package model;
  */
 public class OrderDetail {
 
-    private final FoodProduct product;
+    private final String productId;
+    private final String productName;
+    private final String unit;
     private int quantity;
     private final double unitPrice;
 
@@ -18,13 +20,24 @@ public class OrderDetail {
         if (product == null) {
             throw new IllegalArgumentException("Product is required.");
         }
-        this.product = product;
+        // snapshot: later changes to the product must not change this invoice line
+        this.productId = product.getProductId();
+        this.productName = product.getName();
+        this.unit = product.getUnit();
         this.unitPrice = product.getPrice();
         setQuantity(quantity);
     }
 
-    public FoodProduct getProduct() {
-        return product;
+    public String getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getUnit() {
+        return unit;
     }
 
     public int getQuantity() {
@@ -53,6 +66,6 @@ public class OrderDetail {
     @Override
     public String toString() {
         return String.format("%-6s %-18s %4d %,10.0f %,12.0f",
-                product.getProductId(), product.getName(), quantity, unitPrice, getLineTotal());
+                productId, productName, quantity, unitPrice, getLineTotal());
     }
 }
