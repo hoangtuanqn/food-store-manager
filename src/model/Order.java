@@ -23,6 +23,11 @@ public class Order {
     private OrderStatus status;
     private double discountAmount;
 
+    // customer info frozen when the sale is confirmed
+    private String customerNameAtSale;
+    private MembershipType membershipTypeAtSale;
+    private double discountRateAtSale;
+
     public Order(String orderId, Customer customer, LocalDate orderDate) {
         if (orderId == null || orderId.trim().isEmpty()) {
             throw new IllegalArgumentException("Order ID must not be empty.");
@@ -49,6 +54,22 @@ public class Order {
         return customer;
     }
 
+    public String getCustomerId() {
+        return customer.getCustomerId();
+    }
+
+    public String getCustomerName() {
+        return isCompleted() ? customerNameAtSale : customer.getFullName();
+    }
+
+    public MembershipType getMembershipType() {
+        return isCompleted() ? membershipTypeAtSale : customer.getMembershipType();
+    }
+
+    public double getDiscountRate() {
+        return isCompleted() ? discountRateAtSale : customer.getDiscountRate();
+    }
+
     public LocalDate getOrderDate() {
         return orderDate;
     }
@@ -63,6 +84,10 @@ public class Order {
 
     public boolean isPending() {
         return status == OrderStatus.PENDING;
+    }
+
+    public boolean isCompleted() {
+        return status == OrderStatus.COMPLETED;
     }
 
     public boolean isEmpty() {
@@ -109,6 +134,9 @@ public class Order {
         if (details.isEmpty()) {
             throw new InvalidTransactionException("A sales transaction must contain at least one product.");
         }
+        customerNameAtSale = customer.getFullName();
+        membershipTypeAtSale = customer.getMembershipType();
+        discountRateAtSale = customer.getDiscountRate();
         discountAmount = customer.calculateDiscount(getSubtotal());
         status = OrderStatus.COMPLETED;
     }
@@ -127,7 +155,7 @@ public class Order {
     }
 
     public double getDiscount() {
-        if (status == OrderStatus.COMPLETED) {
+        if (isCompleted()) {
             return discountAmount;
         }
         return customer.calculateDiscount(getSubtotal());
