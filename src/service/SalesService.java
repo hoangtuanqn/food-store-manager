@@ -146,11 +146,8 @@ public class SalesService {
         }
         String lowerKeyword = keyword.trim().toLowerCase();
         return orderRepository.findAll().stream()
-                .filter(order -> {
-                    Customer c = order.getCustomer();
-                    return c.getCustomerId().toLowerCase().equals(lowerKeyword)
-                            || c.getFullName().toLowerCase().contains(lowerKeyword);
-                })
+                .filter(order -> order.getCustomerId().toLowerCase().equals(lowerKeyword)
+                        || order.getCustomerName().toLowerCase().contains(lowerKeyword))
                 .collect(Collectors.toList());
     }
 }

@@ -94,16 +94,16 @@ public class Customer {
         this.membershipType = membershipType;
     }
 
+    public double getDiscountRate() {
+        return membershipType == MembershipType.VIP ? 0.10 : 0;
+    }
+
     public double calculateDiscount(double subtotal) {
         if (subtotal < 0) {
             throw new IllegalArgumentException("Subtotal cannot be negative.");
         }
 
-        if (membershipType == MembershipType.VIP) {
-            return subtotal * 0.10;
-        }
-
-        return 0;
+        return subtotal * getDiscountRate();
     }
 
     @Override

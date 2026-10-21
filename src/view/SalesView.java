@@ -79,8 +79,8 @@ public class SalesView {
         MenuView.showTitle("BILL SUMMARY");
         System.out.println();
         System.out.println("Transaction ID: " + order.getOrderId());
-        System.out.println("Customer: " + order.getCustomer().getFullName());
-        System.out.println("Membership: " + order.getCustomer().getMembershipType());
+        System.out.println("Customer: " + order.getCustomerName());
+        System.out.println("Membership: " + order.getMembershipType());
         System.out.println("Date: " + order.getOrderDate().format(DateHelper.FORMATTER));
         System.out.println("Status: " + order.getStatus());
         System.out.println();
@@ -106,8 +106,8 @@ public class SalesView {
     }
 
     private static String discountLabel(Order order) {
-        if (order.getCustomer().getMembershipType() == MembershipType.VIP) {
-            return "VIP Discount (10%):";
+        if (order.getMembershipType() == MembershipType.VIP) {
+            return String.format("VIP Discount (%.0f%%):", order.getDiscountRate() * 100);
         }
         return "Discount:";
     }
@@ -122,7 +122,7 @@ public class SalesView {
         MenuView.showLine();
         orders.forEach(o -> System.out.printf(HISTORY_ROW,
                 o.getOrderId(),
-                o.getCustomer().getFullName(),
+                o.getCustomerName(),
                 o.getOrderDate().format(DateHelper.FORMATTER),
                 o.getTotalQuantity(),
                 money(o.getFinalAmount()),
