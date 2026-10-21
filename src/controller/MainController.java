@@ -4,7 +4,7 @@
  */
 package controller;
 
-import util.InputHelper;
+import helper.InputHelper;
 import view.ConsoleView;
 import view.MenuView;
 

@@ -3,7 +3,7 @@ package controller;
 
 import exception.BusinessException;
 import service.InventoryService;
-import util.InputHelper;
+import helper.InputHelper;
 import view.ProductView;
 public class InventoryController {
     private final InventoryService inventoryService;

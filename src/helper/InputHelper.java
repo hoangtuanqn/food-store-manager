@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package util;
+package helper;
 
 import view.ConsoleView;
 import java.time.LocalDate;
@@ -113,7 +113,7 @@ public class InputHelper {
     }
 
     public static String readId(String prompt) {
-        return IdUtil.normalize(readString(prompt));
+        return IdHelper.normalize(readString(prompt));
     }
 
     public static String readStringOrDefault(String prompt, String currentValue) {
@@ -147,24 +147,24 @@ public class InputHelper {
             System.out.print(prompt);
             String line = sc.nextLine().trim();
             try {
-                return DateUtil.parse(line);
+                return DateHelper.parse(line);
             } catch (DateTimeParseException e) {
-                System.err.println("Invalid date. Please use " + DateUtil.PATTERN + " (e.g. 01/12/2025).");
+                System.err.println("Invalid date. Please use " + DateHelper.PATTERN + " (e.g. 01/12/2025).");
             }
         }
     }
     
     public static LocalDate readDateOrDefault(String prompt, LocalDate currentValue) {
         while (true) {
-            System.out.print(prompt + "[" + DateUtil.format(currentValue) + "]: ");
+            System.out.print(prompt + "[" + DateHelper.format(currentValue) + "]: ");
             String line = sc.nextLine().trim();
             if (line.isEmpty()) {
                 return currentValue;
             }
             try {
-                return DateUtil.parse(line);
+                return DateHelper.parse(line);
             } catch (DateTimeParseException e) {
-                System.err.println("Invalid date. Please use " + DateUtil.PATTERN + " (e.g. 01/12/2025).");
+                System.err.println("Invalid date. Please use " + DateHelper.PATTERN + " (e.g. 01/12/2025).");
             }
         }
     }

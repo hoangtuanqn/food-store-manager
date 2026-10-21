@@ -5,7 +5,7 @@
 package view;
 
 import model.FoodProduct;
-import util.DateUtil;
+import helper.DateHelper;
 import java.util.List;
 
 /**
@@ -64,8 +64,8 @@ public class ProductView {
         System.out.println("Unit: " + p.getUnit());
         System.out.println("Price: " + formatPrice(p.getPrice()));
         System.out.println("Quantity: " + p.getQuantity());
-        System.out.println("Production Date: " + DateUtil.format(p.getProductionDate()));
-        System.out.println("Expiration Date: " + DateUtil.format(p.getExpirationDate()));
+        System.out.println("Production Date: " + DateHelper.format(p.getProductionDate()));
+        System.out.println("Expiration Date: " + DateHelper.format(p.getExpirationDate()));
     }
 
     public static void showInventoryMenu() {
@@ -118,7 +118,7 @@ public class ProductView {
                     p.getUnit(),
                     formatPrice(p.getPrice()),
                     p.getQuantity(),
-                    DateUtil.format(p.getExpirationDate()));
+                    DateHelper.format(p.getExpirationDate()));
         }
         MenuView.showLine(TABLE_WIDTH);
     }

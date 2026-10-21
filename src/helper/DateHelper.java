@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package util;
+package helper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,7 +12,7 @@ import java.time.format.ResolverStyle;
  *
  * @author ad
  */
-public class DateUtil {
+public class DateHelper {
     public static final String PATTERN = "dd/MM/yyyy";
 
     public static final DateTimeFormatter FORMATTER =
