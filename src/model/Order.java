@@ -76,12 +76,10 @@ public class Order {
     }
 
     public OrderDetail findDetail(String productId) {
-        for (OrderDetail d : details) {
-            if (d.getProductId().equals(productId)) {
-                return d;
-            }
-        }
-        return null;
+        return details.stream()
+                .filter(d -> d.getProductId().equals(productId))
+                .findFirst()
+                .orElse(null);
     }
 
     public void addDetail(OrderDetail detail) {
@@ -121,19 +119,11 @@ public class Order {
     }
 
     public int getTotalQuantity() {
-        int sum = 0;
-        for (OrderDetail d : details) {
-            sum += d.getQuantity();
-        }
-        return sum;
+        return details.stream().mapToInt(OrderDetail::getQuantity).sum();
     }
 
     public double getSubtotal() {
-        double sum = 0;
-        for (OrderDetail d : details) {
-            sum += d.getLineTotal();
-        }
-        return sum;
+        return details.stream().mapToDouble(OrderDetail::getLineTotal).sum();
     }
 
     public double getDiscount() {

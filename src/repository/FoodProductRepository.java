@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -69,11 +70,9 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
     }
 
     private int indexOf(String id) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProductId().equals(id)) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(0, products.size())
+                .filter(i -> products.get(i).getProductId().equals(id))
+                .findFirst()
+                .orElse(-1);
     }
 }

@@ -9,6 +9,7 @@ import exception.NotFoundException;
 import model.FoodProduct;
 import repository.FoodProductRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.time.LocalDate;
@@ -61,37 +62,29 @@ public class ProductService {
     }
 
     public List<FoodProduct> searchKeyWords(String keyWords) {
-        List<FoodProduct> result = new ArrayList<>();
         if (keyWords == null || keyWords.trim().isEmpty()) {
-            return result;
+            return new ArrayList<>();
         }
 
         String lowerKeyWords = keyWords.trim().toLowerCase();
 
-        for (FoodProduct product : repository.findAll()) {
-            String name = product.getName();
-            String category = product.getCategory();
-            if (name != null && name.toLowerCase().contains(lowerKeyWords)) {
-                result.add(product);
-            } else if (category != null && category.toLowerCase().contains(lowerKeyWords)) {
-                result.add(product);
-            }
-        }
-        return result;
+        return repository.findAll().stream()
+                .filter(product -> containsIgnoreCase(product.getName(), lowerKeyWords)
+                        || containsIgnoreCase(product.getCategory(), lowerKeyWords))
+                .collect(Collectors.toList());
     }
 
     public List<FoodProduct> searchExpirationDate(LocalDate date) {
-        List<FoodProduct> result = new ArrayList<>();
-
         if (date == null) {
-            return result;
+            return new ArrayList<>();
         }
-        for (FoodProduct object : repository.findAll()) {
-            if (date.equals(object.getExpirationDate())) {
-                result.add(object);
-            }
-        }
-        return result;
+        return repository.findAll().stream()
+                .filter(product -> date.equals(product.getExpirationDate()))
+                .collect(Collectors.toList());
+    }
+
+    private static boolean containsIgnoreCase(String text, String lowerKeyWords) {
+        return text != null && text.toLowerCase().contains(lowerKeyWords);
     }
     
 

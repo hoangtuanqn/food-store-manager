@@ -6,7 +6,6 @@ package view;
 
 import model.FoodProduct;
 import model.Order;
-import model.OrderDetail;
 import model.MembershipType;
 import helper.DateHelper;
 import java.util.List;
@@ -93,13 +92,11 @@ public class SalesView {
 
         System.out.printf(BILL_ROW, "Product", "Qty", "Price", "Amount");
         MenuView.showLine();
-        for (OrderDetail d : order.getDetails()) {
-            System.out.printf(BILL_ROW,
-                    d.getProductName(),
-                    d.getQuantity(),
-                    money(d.getUnitPrice()),
-                    money(d.getLineTotal()));
-        }
+        order.getDetails().forEach(d -> System.out.printf(BILL_ROW,
+                d.getProductName(),
+                d.getQuantity(),
+                money(d.getUnitPrice()),
+                money(d.getLineTotal())));
         MenuView.showLine();
         System.out.printf("%-30s%19s VND%n", "Subtotal:", money(order.getSubtotal()));
         System.out.printf("%-30s%19s VND%n", discountLabel(order), money(order.getDiscount()));
@@ -123,15 +120,13 @@ public class SalesView {
         MenuView.showTitle("TRANSACTION HISTORY");
         System.out.printf(HISTORY_ROW, "ID", "Customer", "Date", "Items", "Total (VND)", "Status");
         MenuView.showLine();
-        for (Order o : orders) {
-            System.out.printf(HISTORY_ROW,
-                    o.getOrderId(),
-                    o.getCustomer().getFullName(),
-                    o.getOrderDate().format(DateHelper.FORMATTER),
-                    o.getTotalQuantity(),
-                    money(o.getFinalAmount()),
-                    o.getStatus());
-        }
+        orders.forEach(o -> System.out.printf(HISTORY_ROW,
+                o.getOrderId(),
+                o.getCustomer().getFullName(),
+                o.getOrderDate().format(DateHelper.FORMATTER),
+                o.getTotalQuantity(),
+                money(o.getFinalAmount()),
+                o.getStatus()));
         MenuView.showLine();
     }
 }
