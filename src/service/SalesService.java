@@ -125,6 +125,18 @@ public class SalesService {
         orderRepository.deleteById(orderId);
     }
 
+    public int countOrdersByCustomer(String customerId) {
+        return orderRepository.countByCustomerId(customerId);
+    }
+
+    public boolean isProductUsedInAnyOrder(String productId) {
+        return orderRepository.existsByProductId(productId);
+    }
+
+    public boolean isProductInPendingOrder(String productId) {
+        return orderRepository.existsPendingByProductId(productId);
+    }
+
     public List<Order> getAllTransactions() {
         return orderRepository.findAll();
     }
