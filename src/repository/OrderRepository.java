@@ -62,6 +62,34 @@ public class OrderRepository implements Repository<Order, String> {
         return true;
     }
 
+    public int countByCustomerId(String customerId) {
+        int count = 0;
+        for (Order order : orders) {
+            if (order.getCustomer().getCustomerId().equals(customerId)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean existsByProductId(String productId) {
+        for (Order order : orders) {
+            if (order.findDetail(productId) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean existsPendingByProductId(String productId) {
+        for (Order order : orders) {
+            if (order.isPending() && order.findDetail(productId) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private int indexOf(String id) {
         for (int i = 0; i < orders.size(); i++) {
             if (orders.get(i).getOrderId().equals(id)) {
