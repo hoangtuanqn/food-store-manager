@@ -112,6 +112,10 @@ public class InputHelper {
         }
     }
 
+    public static String readId(String prompt) {
+        return IdUtil.normalize(readString(prompt));
+    }
+
     public static String readStringOrDefault(String prompt, String currentValue) {
         System.out.print(prompt + "[" + currentValue + "]: ");
         String line = sc.nextLine().trim();
