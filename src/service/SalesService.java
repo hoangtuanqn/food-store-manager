@@ -20,6 +20,7 @@ import repository.OrderRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -96,16 +97,14 @@ public class SalesService {
         }
 
         // stock and expiry may have changed since the product was added: check every line first
-        for (OrderDetail d : order.getDetails()) {
+        order.getDetails().forEach(d -> {
             try {
                 inventoryService.checkSellable(d.getProductId(), d.getQuantity());
             } catch (BusinessException e) {
                 throw new InvalidTransactionException(d.getProductName() + ": " + e.getMessage());
             }
-        }
-        for (OrderDetail d : order.getDetails()) {
-            inventoryService.deductInventory(d.getProductId(), d.getQuantity());
-        }
+        });
+        order.getDetails().forEach(d -> inventoryService.deductInventory(d.getProductId(), d.getQuantity()));
         order.complete();
         orderRepository.update(order);
         return order;
@@ -142,18 +141,16 @@ public class SalesService {
     }
 
     public List<Order> searchByCustomer(String keyword) {
-        List<Order> result = new ArrayList<>();
         if (keyword == null || keyword.trim().isEmpty()) {
-            return result;
+            return new ArrayList<>();
         }
         String lowerKeyword = keyword.trim().toLowerCase();
-        for (Order order : orderRepository.findAll()) {
-            Customer c = order.getCustomer();
-            if (c.getCustomerId().toLowerCase().equals(lowerKeyword)
-                    || c.getFullName().toLowerCase().contains(lowerKeyword)) {
-                result.add(order);
-            }
-        }
-        return result;
+        return orderRepository.findAll().stream()
+                .filter(order -> {
+                    Customer c = order.getCustomer();
+                    return c.getCustomerId().toLowerCase().equals(lowerKeyword)
+                            || c.getFullName().toLowerCase().contains(lowerKeyword);
+                })
+                .collect(Collectors.toList());
     }
 }

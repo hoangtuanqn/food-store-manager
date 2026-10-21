@@ -110,16 +110,14 @@ public class ProductView {
     private static void printRows(List<FoodProduct> products) {
         System.out.printf(ROW_FORMAT, "ID", "Name", "Category", "Unit", "Price", "Stock", "Expiry");
         MenuView.showLine(TABLE_WIDTH);
-        for (FoodProduct p : products) {
-            System.out.printf(ROW_FORMAT,
-                    p.getProductId(),
-                    p.getName(),
-                    p.getCategory(),
-                    p.getUnit(),
-                    formatPrice(p.getPrice()),
-                    p.getQuantity(),
-                    DateHelper.format(p.getExpirationDate()));
-        }
+        products.forEach(p -> System.out.printf(ROW_FORMAT,
+                p.getProductId(),
+                p.getName(),
+                p.getCategory(),
+                p.getUnit(),
+                formatPrice(p.getPrice()),
+                p.getQuantity(),
+                DateHelper.format(p.getExpirationDate())));
         MenuView.showLine(TABLE_WIDTH);
     }
 

@@ -8,6 +8,7 @@ import model.Order;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -78,11 +79,9 @@ public class OrderRepository implements Repository<Order, String> {
     }
 
     private int indexOf(String id) {
-        for (int i = 0; i < orders.size(); i++) {
-            if (orders.get(i).getOrderId().equals(id)) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(0, orders.size())
+                .filter(i -> orders.get(i).getOrderId().equals(id))
+                .findFirst()
+                .orElse(-1);
     }
 }

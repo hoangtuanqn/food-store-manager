@@ -4,6 +4,9 @@
  */
 package view;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
  *
  * @author MSI
@@ -22,11 +25,8 @@ public class MenuView {
             "Sales Management",
             "Inventory Management",
             "Reports"};
-        int optionLength = options.length;
-
-        for (int i = 0; i < optionLength; ++i) {
-            System.out.println((i + 1) + ". " + options[i]);
-        }
+        IntStream.range(0, options.length)
+                .forEach(i -> System.out.println((i + 1) + ". " + options[i]));
         System.out.println("0. Exit");
         printLine('-');
     }
@@ -35,9 +35,8 @@ public class MenuView {
         printLine('=');
         printTitleCenter(title);
         printLine('=');
-        for (int i = 0; i < options.length; ++i) {
-            System.out.println((i + 1) + ". " + options[i]);
-        }
+        IntStream.range(0, options.length)
+                .forEach(i -> System.out.println((i + 1) + ". " + options[i]));
         System.out.println("0. Back");
         printLine('-');
     }
@@ -51,26 +50,21 @@ public class MenuView {
     }
 
     public static void showLine(int width) {
-        for (int i = 1; i <= width; i++) {
-            System.out.print("-");
-        }
-        System.out.println("");
+        System.out.println(repeat('-', width));
     }
 
     private static void printLine(char c) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < WIDTH; ++i) {
-            sb.append(c);
-        }
-        System.out.println(sb.toString());
+        System.out.println(repeat(c, WIDTH));
     }
 
     private static void printTitleCenter(String title) {
         int padding = Math.max(0, (WIDTH - title.length()) / 2);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < padding; ++i) {
-            sb.append(' ');
-        }
-        System.out.println(sb.toString() + title);
+        System.out.println(repeat(' ', padding) + title);
+    }
+
+    private static String repeat(char c, int times) {
+        return IntStream.range(0, times)
+                .mapToObj(i -> String.valueOf(c))
+                .collect(Collectors.joining());
     }
 }

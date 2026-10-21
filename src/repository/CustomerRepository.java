@@ -9,6 +9,7 @@ import model.MembershipType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -69,11 +70,9 @@ public class CustomerRepository implements Repository<Customer, String> {
     }
 
     private int indexOf(String id) {
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getCustomerId().equals(id)) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(0, customers.size())
+                .filter(i -> customers.get(i).getCustomerId().equals(id))
+                .findFirst()
+                .orElse(-1);
     }
 }

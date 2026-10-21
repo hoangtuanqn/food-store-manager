@@ -54,13 +54,11 @@ public class CustomerView {
         MenuView.showTitle("CUSTOMER LIST");
         System.out.printf(ROW_FORMAT, "ID", "Name", "Phone", "Type");
         MenuView.showLine();
-        for (Customer c : customers) {
-            System.out.printf(ROW_FORMAT,
-                    c.getCustomerId(),
-                    c.getFullName(),
-                    c.getPhone(),
-                    c.getMembershipType());
-        }
+        customers.forEach(c -> System.out.printf(ROW_FORMAT,
+                c.getCustomerId(),
+                c.getFullName(),
+                c.getPhone(),
+                c.getMembershipType()));
         MenuView.showLine();
     }
 
