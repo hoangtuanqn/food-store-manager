@@ -65,7 +65,7 @@ public class OrderRepository implements Repository<Order, String> {
 
     public int countByCustomerId(String customerId) {
         return (int) orders.stream()
-                .filter(order -> order.getCustomer().getCustomerId().equals(customerId))
+                .filter(order -> order.getCustomerId().equals(customerId))
                 .count();
     }
 
