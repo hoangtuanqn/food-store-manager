@@ -7,7 +7,7 @@ package controller;
 import exception.BusinessException;
 import model.FoodProduct;
 import service.ProductService;
-import util.InputHelper;
+import helper.InputHelper;
 import view.ConsoleView;
 import view.ProductView;
 import java.time.LocalDate;

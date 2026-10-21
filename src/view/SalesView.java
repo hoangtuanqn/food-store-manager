@@ -8,7 +8,7 @@ import model.FoodProduct;
 import model.Order;
 import model.OrderDetail;
 import model.MembershipType;
-import util.DateUtil;
+import helper.DateHelper;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,7 +72,7 @@ public class SalesView {
     public static void showProductInfo(FoodProduct product) {
         System.out.println("Product Name: " + product.getName());
         System.out.println("Available Stock: " + product.getQuantity());
-        System.out.println("Expiration Date: " + product.getExpirationDate().format(DateUtil.FORMATTER));
+        System.out.println("Expiration Date: " + product.getExpirationDate().format(DateHelper.FORMATTER));
     }
 
     public static void showBill(Order order) {
@@ -82,7 +82,7 @@ public class SalesView {
         System.out.println("Transaction ID: " + order.getOrderId());
         System.out.println("Customer: " + order.getCustomer().getFullName());
         System.out.println("Membership: " + order.getCustomer().getMembershipType());
-        System.out.println("Date: " + order.getOrderDate().format(DateUtil.FORMATTER));
+        System.out.println("Date: " + order.getOrderDate().format(DateHelper.FORMATTER));
         System.out.println("Status: " + order.getStatus());
         System.out.println();
 
@@ -127,7 +127,7 @@ public class SalesView {
             System.out.printf(HISTORY_ROW,
                     o.getOrderId(),
                     o.getCustomer().getFullName(),
-                    o.getOrderDate().format(DateUtil.FORMATTER),
+                    o.getOrderDate().format(DateHelper.FORMATTER),
                     o.getTotalQuantity(),
                     money(o.getFinalAmount()),
                     o.getStatus());

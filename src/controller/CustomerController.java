@@ -8,7 +8,7 @@ import exception.BusinessException;
 import model.Customer;
 import model.MembershipType;
 import service.CustomerService;
-import util.InputHelper;
+import helper.InputHelper;
 import view.ConsoleView;
 import view.CustomerView;
 import java.util.List;
