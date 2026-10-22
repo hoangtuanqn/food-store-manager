@@ -4,6 +4,7 @@
  */
 package service;
 
+import exception.BusinessException;
 import exception.DuplicateIdException;
 import exception.NotFoundException;
 import model.FoodProduct;
@@ -21,9 +22,11 @@ import java.time.LocalDate;
 public class ProductService {
 
     private final FoodProductRepository repository;
+    private final SalesService salesService;
 
-    public ProductService(FoodProductRepository repository) {
+    public ProductService(FoodProductRepository repository, SalesService salesService) {
         this.repository = repository;
+        this.salesService = salesService;
     }
 
     public void addProduct(FoodProduct product) {
@@ -36,7 +39,7 @@ public class ProductService {
     public boolean checkIdExist(String id) {
         return repository.existsById(id);
     }
-    
+
     public FoodProduct getProduct(String id) {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("Not found Product ID " + id + "."));
     }
@@ -57,7 +60,7 @@ public class ProductService {
         if (!repository.existsById(product.getProductId())) {
             throw new NotFoundException("Product ID is not found. Failed to update.");
         }
-        
+
         repository.update(product);
     }
 
@@ -70,7 +73,7 @@ public class ProductService {
 
         return repository.findAll().stream()
                 .filter(product -> containsIgnoreCase(product.getName(), lowerKeyWords)
-                        || containsIgnoreCase(product.getCategory(), lowerKeyWords))
+                || containsIgnoreCase(product.getCategory(), lowerKeyWords))
                 .collect(Collectors.toList());
     }
 
@@ -86,11 +89,18 @@ public class ProductService {
     private static boolean containsIgnoreCase(String text, String lowerKeyWords) {
         return text != null && text.toLowerCase().contains(lowerKeyWords);
     }
-    
 
     public void deleteProduct(String id) {
-        if (repository.deleteById(id) == false) {
-            throw new NotFoundException("Product ID is not found. Failed to delete.");
+        Optional<FoodProduct> find = repository.findById(id);
+        if(find.isPresent() == false){
+            throw new NotFoundException("Product ID is not found.");
         }
+        
+        FoodProduct product = find.get();
+        if(salesService.isProductUsedInAnyOrder(product.getProductId()) ){
+            throw new BusinessException("Product " + product.getProductId() + 
+                    "cannot be deleted" );
+        }
+        repository.deleteById(product.getProductId());
     }
 }
