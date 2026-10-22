@@ -16,7 +16,7 @@ public class InventoryController {
         int choice;
         do {
             ProductView.showInventoryMenu();
-            choice = InputHelper.readIntRange("Enter your choice: ", 0, 4);
+            choice = InputHelper.readIntRange("Enter your choice: ", 0, 6);
             if (choice != 0) {
                 handle(choice);
             }
@@ -37,8 +37,32 @@ public class InventoryController {
             case 4:
                 viewSellable();
                 break;
+            case 5:
+                 updateStock();
+                 break;
+            case 6:
+                viewMovements();
+                break;
             default: ProductView.showError("Invalid choice.");
                 break;
+        }
+    }
+    public void updateStock() {
+        try {
+            // [KIỂM TRA] đổi tên hàm cho khớp InputHelper của nhóm (readString/readInt/readIntRange)
+            String id = InputHelper.readString("Enter product ID: ");
+            int newQty = InputHelper.readInt("Enter new stock quantity: ");
+            inventoryService.updateInventory(id, newQty);
+            ProductView.showMessage("Stock updated successfully."); // [KIỂM TRA] tên hàm trong ProductView
+        } catch (BusinessException e) {
+            ProductView.showError(e.getMessage());
+        }
+    }
+    public void viewMovements() {
+        try {
+            ProductView.showStockMovements(inventoryService.getStockMovements()); // [THÊM] hàm mới trong ProductView
+        } catch (BusinessException e) {
+            ProductView.showError(e.getMessage());
         }
     }
  
