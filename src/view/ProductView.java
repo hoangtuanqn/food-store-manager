@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package view;
-
+import model.StockMovement;
 import model.FoodProduct;
 import helper.DateHelper;
 import java.util.List;
@@ -47,6 +47,9 @@ public class ProductView {
 
     public static void showSearchHeader() {
         MenuView.showTitle("SEARCH FOOD PRODUCT");
+    }
+     public static void showMessage(String message) {
+        System.out.println(message);
     }
 
     public static void showTable(List<FoodProduct> products) {
@@ -96,6 +99,16 @@ public class ProductView {
 
     public static void showError(String message) {
         System.out.println("Error: " + message);
+    }
+     public static void showStockMovements(List<StockMovement> list) {
+        if (list.isEmpty()) {
+            System.out.println("No stock movements recorded.");
+            return;
+        }
+        System.out.println("===== STOCK MOVEMENT HISTORY =====");
+        for (StockMovement m : list) {
+            System.out.println(m); // dùng StockMovement.toString() đã viết
+        }
     }
 
     private static void showProductTable(String title, List<FoodProduct> products, String emptyMessage) {
