@@ -31,7 +31,7 @@ public class Main {
         InventoryService inventoryService = new InventoryService(productRepository, movementRepository);
         InventoryController inventoryController = new InventoryController(inventoryService);
         SalesService salesService = new SalesService(orderRepository, customerRepository, productRepository, inventoryService);
-        ProductService productService = new ProductService(productRepository, salesService);   // truyền thêm salesService
+        ProductService productService = new ProductService(productRepository, salesService); 
         ProductController productController = new ProductController(productService);
         CustomerService customerService = new CustomerService(customerRepository);
         CustomerController customerController = new CustomerController(customerService);
