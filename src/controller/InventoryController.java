@@ -49,18 +49,18 @@ public class InventoryController {
     }
     public void updateStock() {
         try {
-            // [KIỂM TRA] đổi tên hàm cho khớp InputHelper của nhóm (readString/readInt/readIntRange)
+           
             String id = InputHelper.readId("Enter product ID: ");
             int newQty = InputHelper.readIntRange("Enter new stock quantity: ",0);
             inventoryService.updateInventory(id, newQty);
-            ProductView.showMessage("Stock updated successfully."); // [KIỂM TRA] tên hàm trong ProductView
+            ProductView.showMessage("Stock updated successfully."); // 
         } catch (BusinessException e) {
             ProductView.showError(e.getMessage());
         }
     }
     public void viewMovements() {
         try {
-            ProductView.showStockMovements(inventoryService.getStockMovements()); // [THÊM] hàm mới trong ProductView
+            ProductView.showStockMovements(inventoryService.getStockMovements()); 
         } catch (BusinessException e) {
             ProductView.showError(e.getMessage());
         }
