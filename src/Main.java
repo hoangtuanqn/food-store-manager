@@ -35,8 +35,7 @@ public class Main {
         ProductService productService = new ProductService(productRepository, salesService);   // truyền thêm salesService
         ProductController productController = new ProductController(productService);
 
-        
-        CustomerService customerService = new CustomerService(customerRepository, orderRepository);
+        CustomerService customerService = new CustomerService(customerRepository);
         CustomerController customerController = new CustomerController(customerService);
     }
 }
