@@ -76,7 +76,9 @@ public class ProductView {
             "View Low Stock Products",
             "View Expired Products",
             "View Near Expiry Products",
-            "View Sellable Products"
+            "View Sellable Products",
+            "Update Stock Quantity",
+            "View Stock Movement History"    
         };
         MenuView.showSubMenu("INVENTORY MANAGEMENT", options);
     }
@@ -102,12 +104,12 @@ public class ProductView {
     }
      public static void showStockMovements(List<StockMovement> list) {
         if (list.isEmpty()) {
-            System.out.println("No stock movements recorded.");
+            ConsoleView.showError("No stock movements recorded.");
             return;
         }
-        System.out.println("===== STOCK MOVEMENT HISTORY =====");
+        MenuView.showTitle("===== STOCK MOVEMENT HISTORY =====");
         for (StockMovement m : list) {
-            System.out.println(m); // dùng StockMovement.toString() đã viết
+            System.out.println(m.toString());; // dùng StockMovement.toString() đã viết
         }
     }
 
