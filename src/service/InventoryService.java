@@ -43,7 +43,7 @@ public class InventoryService {
         deductInventory(productId, quantity, null);
     }
 
-    // Bản mới: trừ kho sau khi bán và ghi log SALE kèm order ID
+    
     public void deductInventory(String productId, int quantity, String orderId) {
         checkSellable(productId, quantity);
         FoodProduct p = productRepository.findById(productId)
