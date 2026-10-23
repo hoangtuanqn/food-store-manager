@@ -196,7 +196,8 @@ public class CustomerController {
                     "Customer deleted successfully."
             );
 
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            // Đã cập nhật bắt cả IllegalStateException để in ra thông báo chặn xóa thân thiện
             ConsoleView.showError(e.getMessage());
         }
     }

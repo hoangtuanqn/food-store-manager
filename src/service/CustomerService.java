@@ -1,26 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
+
 import exception.DuplicateIdException;
 import model.Customer;
 import model.MembershipType;
 import repository.CustomerRepository;
+import repository.OrderRepository; // 1. Nhớ import OrderRepository
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-/**
- *
- * @author MSI
- */
 public class CustomerService {
 
     private final CustomerRepository repository;
+    private final OrderRepository orderRepository; // 2. Khai báo OrderRepository
 
-    public CustomerService(CustomerRepository repository) {
+    // 3. Cập nhật Constructor nhận ĐỦ 2 tham số
+    public CustomerService(CustomerRepository repository, OrderRepository orderRepository) {
         this.repository = repository;
+        this.orderRepository = orderRepository;
     }
 
     public void addCustomer(Customer customer) {
@@ -29,7 +25,6 @@ public class CustomerService {
                     "Failed to add customer. Customer ID already exists."
             );
         }
-
         repository.add(customer);
     }
 
@@ -56,6 +51,14 @@ public class CustomerService {
     }
 
     public void deleteCustomer(String id) {
+        // Kiểm tra xem khách hàng có đơn hàng nào không (chặn xóa nếu có >= 1 giao dịch)
+        int transactionCount = orderRepository.countByCustomerId(id);
+        if (transactionCount > 0) {
+            throw new IllegalStateException(
+                    String.format("Customer %s has %d transactions and cannot be deleted.", id, transactionCount)
+            );
+        }
+
         if (!repository.deleteById(id)) {
             throw new IllegalArgumentException(
                     "Customer ID does not exist."
@@ -65,7 +68,6 @@ public class CustomerService {
 
     public List<Customer> search(String keyword) {
         String searchKeyword = keyword.trim().toLowerCase();
-
         return repository.findAll()
                 .stream()
                 .filter(customer ->
