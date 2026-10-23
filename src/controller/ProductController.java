@@ -58,7 +58,7 @@ public class ProductController {
 
         String id;
         while (true) {
-            id = InputHelper.readString("Product ID: ");
+            id = InputHelper.readId("Product ID: ");
             if (productService.checkIdExist(id)) {
                 ConsoleView.showError("Product ID already exists!");
             } else {
@@ -99,7 +99,7 @@ public class ProductController {
 
     private void updateProduct() {
         ProductView.showUpdateHeader();
-        String id = InputHelper.readString("Enter ID to update: ");
+        String id = InputHelper.readId("Enter ID to update: ");
 
         FoodProduct exist;
         try {
@@ -145,7 +145,7 @@ public class ProductController {
 
     private void deleteProduct() {
         ProductView.showDeleteHeader();
-        String id = InputHelper.readString("Enter Product ID to delete: ");
+        String id = InputHelper.readId("Enter Product ID to delete: ");
 
         FoodProduct existing;
         try {

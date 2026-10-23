@@ -6,6 +6,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import helper.IdHelper;
 
 /**
  *
@@ -29,7 +30,7 @@ public class FoodProduct {
     public FoodProduct(String productId, String name, String category, String unit,
             double price, int quantity,
             LocalDate productionDate, LocalDate expirationDate) {
-        this.productId = requireText(productId, "Product ID");
+        this.productId = IdHelper.normalize(requireText(productId, "Product ID"));
         this.name = requireText(name, "Product name");
         this.category = requireText(category, "Category");
         this.unit = requireText(unit, "Unit");

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
+import helper.IdHelper;
 
 /**
  *
@@ -70,8 +71,9 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
     }
 
     private int indexOf(String id) {
+        String k = IdHelper.normalize(id);
         return IntStream.range(0, products.size())
-                .filter(i -> products.get(i).getProductId().equals(id))
+                .filter(i -> products.get(i).getProductId().equals(k))
                 .findFirst()
                 .orElse(-1);
     }
