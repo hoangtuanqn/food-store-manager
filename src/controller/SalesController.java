@@ -25,6 +25,7 @@ public class SalesController {
     private final CustomerService customerService;
     private final ProductService productService;
 
+    // Giữ lại constructor đầy đủ, xóa bỏ constructor thừa gây lỗi UnsupportedOperationException
     public SalesController(SalesService salesService, CustomerService customerService, ProductService productService) {
         this.salesService = salesService;
         this.customerService = customerService;
@@ -75,7 +76,8 @@ public class SalesController {
 
         String id;
         while (true) {
-            id = InputHelper.readString("Transaction ID: ");
+            // Sử dụng readId để chuẩn hóa ID không phân biệt hoa thường (Task 12)
+            id = InputHelper.readId("Transaction ID: ");
 
             if (salesService.checkIdExist(id)) {
                 ConsoleView.showError(
@@ -87,7 +89,8 @@ public class SalesController {
         }
         String customerId;
         while (true) {
-            customerId = InputHelper.readString("Customer ID: ");
+            // Sử dụng readId để chuẩn hóa Customer ID
+            customerId = InputHelper.readId("Customer ID: ");
 
             if (!customerService.checkIdExist(customerId)) {
                 ConsoleView.showError(
@@ -142,7 +145,8 @@ public class SalesController {
             return;
         }
 
-        String productId = InputHelper.readString("Product ID: ");
+        // Dùng readId để chuẩn hóa Product ID khi xóa sản phẩm
+        String productId = InputHelper.readId("Product ID: ");
         if (!InputHelper.confirmAction("Remove")) {
             return;
         }
@@ -216,7 +220,8 @@ public class SalesController {
     }
 
     private Order findTransaction() {
-        String orderId = InputHelper.readString("Transaction ID: ");
+        // Dùng readId để chuẩn hóa Transaction ID khi tìm kiếm
+        String orderId = InputHelper.readId("Transaction ID: ");
         try {
             return salesService.getTransaction(orderId);
         } catch (BusinessException e) {
@@ -237,7 +242,8 @@ public class SalesController {
 
     private void addProductsLoop(String orderId) {
         while (true) {
-            String productId = InputHelper.readString("Product ID: ");
+            // Dùng readId để chuẩn hóa Product ID khi thêm sản phẩm vào hóa đơn
+            String productId = InputHelper.readId("Product ID: ");
             try {
                 FoodProduct product = productService.getProduct(productId);
                 SalesView.showProductInfo(product);

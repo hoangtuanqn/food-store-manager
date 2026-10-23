@@ -32,11 +32,23 @@ public class Main {
 
         SalesService salesService = new SalesService(orderRepository, customerRepository, productRepository, inventoryService);
 
-        ProductService productService = new ProductService(productRepository, salesService);   // truyền thêm salesService
+        ProductService productService = new ProductService(productRepository, salesService);
         ProductController productController = new ProductController(productService);
 
-        
         CustomerService customerService = new CustomerService(customerRepository, orderRepository);
         CustomerController customerController = new CustomerController(customerService);
+
+        // SỬA TẠI ĐÂY: Truyền đủ 3 tham số cho SalesController theo đúng thứ tự constructor mới
+        SalesController salesController = new SalesController(salesService, customerService, productService);
+
+        // Khởi tạo MainController với đầy đủ 4 Controller
+        MainController mainController = new MainController(
+                productController, 
+                customerController, 
+                inventoryController, 
+                salesController
+        );
+        
+        mainController.run();
     }
 }

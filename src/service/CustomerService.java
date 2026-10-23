@@ -1,10 +1,12 @@
 package service;
 
 import exception.DuplicateIdException;
+import helper.IdHelper;
 import model.Customer;
 import model.MembershipType;
 import repository.CustomerRepository;
 import repository.OrderRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,8 @@ public class CustomerService {
 
     /**
      * Kiểm tra định dạng số điện thoại Việt Nam (10 chữ số bắt đầu bằng 0, hoặc dạng +84)
+     * @param phone
+     * @return 
      */
     public boolean isValidVietnamesePhone(String phone) {
         if (phone == null) return false;
@@ -29,6 +33,8 @@ public class CustomerService {
 
     /**
      * Tìm khách hàng theo số điện thoại
+     * @param phone
+     * @return 
      */
     public Customer findCustomerByPhone(String phone) {
         if (phone == null) return null;
@@ -39,6 +45,10 @@ public class CustomerService {
     }
 
     public void addCustomer(Customer customer) {
+        if (customer == null || customer.getCustomerId() == null) {
+            throw new IllegalArgumentException("Customer or Customer ID cannot be null.");
+        }
+
         if (repository.existsById(customer.getCustomerId())) {
             throw new DuplicateIdException(
                     "Failed to add customer. Customer ID already exists."
@@ -75,7 +85,8 @@ public class CustomerService {
 
     public void updateCustomer(String id, String name, String phone,
                                String address, MembershipType type) {
-        Customer c = repository.findById(id)
+        String normalizedId = IdHelper.normalize(id);
+        Customer c = repository.findById(normalizedId)
                 .orElseThrow(() -> new IllegalArgumentException("Customer ID does not exist."));
 
         // Kiểm tra định dạng số điện thoại mới
@@ -85,7 +96,7 @@ public class CustomerService {
 
         // Kiểm tra trùng số điện thoại nhưng phải KHÁC chính khách hàng đang được update
         Customer existingCustomer = findCustomerByPhone(phone);
-        if (existingCustomer != null && !existingCustomer.getCustomerId().equals(id)) {
+        if (existingCustomer != null && !IdHelper.normalize(existingCustomer.getCustomerId()).equals(normalizedId)) {
             throw new IllegalStateException(
                     String.format("Phone number already belongs to customer %s.", existingCustomer.getCustomerId())
             );
@@ -95,18 +106,21 @@ public class CustomerService {
         c.setPhone(phone);
         c.setAddress(address);
         c.setMembershipType(type);
+        
+        repository.update(c);
     }
 
     public void deleteCustomer(String id) {
-        // Kiểm tra xem khách hàng có đơn hàng nào không (chặn xóa nếu có >= 1 giao dịch)
-        int transactionCount = orderRepository.countByCustomerId(id);
+        String normalizedId = IdHelper.normalize(id);
+        // Kiểm tra xem khách hàng có đơn hàng nào không
+        int transactionCount = orderRepository.countByCustomerId(normalizedId);
         if (transactionCount > 0) {
             throw new IllegalStateException(
-                    String.format("Customer %s has %d transactions and cannot be deleted.", id, transactionCount)
+                    String.format("Customer %s has %d transactions and cannot be deleted.", normalizedId, transactionCount)
             );
         }
 
-        if (!repository.deleteById(id)) {
+        if (!repository.deleteById(normalizedId)) {
             throw new IllegalArgumentException(
                     "Customer ID does not exist."
             );
@@ -114,12 +128,16 @@ public class CustomerService {
     }
 
     public List<Customer> search(String keyword) {
+        if (keyword == null) return new ArrayList<>();
         String searchKeyword = keyword.trim().toLowerCase();
+        String normalizedKeyword = IdHelper.normalize(keyword).toLowerCase();
+        
         return repository.findAll()
                 .stream()
                 .filter(customer ->
-                        customer.getFullName().toLowerCase().contains(searchKeyword)
-                        || customer.getPhone().contains(searchKeyword)
+                        (customer.getCustomerId() != null && IdHelper.normalize(customer.getCustomerId()).toLowerCase().contains(normalizedKeyword))
+                        || (customer.getFullName() != null && customer.getFullName().toLowerCase().contains(searchKeyword))
+                        || (customer.getPhone() != null && customer.getPhone().contains(searchKeyword))
                 )
                 .collect(Collectors.toList());
     }

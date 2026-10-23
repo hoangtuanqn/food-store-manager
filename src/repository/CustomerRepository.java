@@ -4,8 +4,8 @@
  */
 package repository;
 
+import helper.IdHelper;
 import model.Customer;
-import model.MembershipType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +21,8 @@ public class CustomerRepository implements Repository<Customer, String> {
 
     public CustomerRepository() {
         this.customers = new ArrayList<>();
-//        seedData();
+//      seedData();
     }
-    
-//    private void seedData() {
-//        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
-//    }
 
     @Override
     public void add(Customer item) {
@@ -36,7 +32,7 @@ public class CustomerRepository implements Repository<Customer, String> {
     @Override
     public Optional<Customer> findById(String id) {
         int index = indexOf(id);
-        return index < 0 ? Optional.<Customer>empty() : Optional.of(customers.get(index));
+        return index < 0 ? Optional.empty() : Optional.of(customers.get(index));
     }
 
     @Override
@@ -70,8 +66,13 @@ public class CustomerRepository implements Repository<Customer, String> {
     }
 
     private int indexOf(String id) {
+        if (id == null) return -1;
+        String normalizedSearchId = IdHelper.normalize(id);
         return IntStream.range(0, customers.size())
-                .filter(i -> customers.get(i).getCustomerId().equals(id))
+                .filter(i -> {
+                    String currentId = customers.get(i).getCustomerId();
+                    return currentId != null && IdHelper.normalize(currentId).equals(normalizedSearchId);
+                })
                 .findFirst()
                 .orElse(-1);
     }
