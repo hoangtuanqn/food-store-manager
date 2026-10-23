@@ -98,7 +98,16 @@ public class SalesController {
             }
         }
 
-        LocalDate date = InputHelper.readDate("Date: ");
+        LocalDate date;
+        while (true) {
+            date = InputHelper.readDate("Date: ");
+            try {
+                salesService.validateTransactionDate(date);
+                break;
+            } catch (BusinessException e) {
+                ConsoleView.showError(e.getMessage() + " Please enter the date again.");
+            }
+        }
 
         if (!InputHelper.confirmAction("Continue")) {
             return;
