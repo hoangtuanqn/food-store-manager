@@ -109,7 +109,7 @@ public class ProductView {
         }
         MenuView.showTitle("===== STOCK MOVEMENT HISTORY =====");
         for (StockMovement m : list) {
-            System.out.println(m.toString());; // dùng StockMovement.toString() đã viết
+            System.out.println(m.toString());; 
         }
     }
 
