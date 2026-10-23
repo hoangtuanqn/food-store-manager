@@ -148,6 +148,9 @@ public class FoodProduct {
         if (production == null || expiration == null) {
             throw new IllegalArgumentException("Production date and expiration date are required.");
         }
+        if(production.isAfter(LocalDate.now()) ){
+            throw new IllegalArgumentException("Production date cannot be in the future");
+        }
         if (production.isAfter(expiration)) {
             throw new IllegalArgumentException("Production date cannot be after expiration date.");
         }
