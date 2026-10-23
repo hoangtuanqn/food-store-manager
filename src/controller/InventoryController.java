@@ -50,8 +50,8 @@ public class InventoryController {
     public void updateStock() {
         try {
             // [KIỂM TRA] đổi tên hàm cho khớp InputHelper của nhóm (readString/readInt/readIntRange)
-            String id = InputHelper.readString("Enter product ID: ");
-            int newQty = InputHelper.readInt("Enter new stock quantity: ");
+            String id = InputHelper.readId("Enter product ID: ");
+            int newQty = InputHelper.readIntRange("Enter new stock quantity: ",0);
             inventoryService.updateInventory(id, newQty);
             ProductView.showMessage("Stock updated successfully."); // [KIỂM TRA] tên hàm trong ProductView
         } catch (BusinessException e) {
