@@ -49,10 +49,17 @@ public class SalesService {
         return orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("Transaction ID " + orderId + " does not exist."));
     }
 
+    public void validateTransactionDate(LocalDate date) {
+        if (date != null && date.isAfter(LocalDate.now())) {
+            throw new InvalidTransactionException("Transaction date cannot be in the future.");
+        }
+    }
+
     public Order createTransaction(String orderId, String customerId, LocalDate date) {
         if (orderRepository.existsById(orderId)) {
             throw new DuplicateIdException("Transaction ID already exists.");
         }
+        validateTransactionDate(date);
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Customer ID " + customerId + " does not exist."));
 
