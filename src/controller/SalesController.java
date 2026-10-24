@@ -87,7 +87,7 @@ public class SalesController {
         }
         String customerId;
         while (true) {
-            customerId = InputHelper.readString("Customer ID: ");
+            customerId = InputHelper.readId("Customer ID: ");
 
             if (!customerService.checkIdExist(customerId)) {
                 ConsoleView.showError(
