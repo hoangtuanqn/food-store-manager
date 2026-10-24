@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package service;
 
 import exception.DuplicateIdException;
@@ -8,6 +12,10 @@ import repository.OrderRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author MSI
+ */
 public class CustomerService {
 
     private final CustomerRepository repository;
@@ -115,6 +123,7 @@ public class CustomerService {
 
     public List<Customer> search(String keyword) {
         String searchKeyword = keyword.trim().toLowerCase();
+
         return repository.findAll()
                 .stream()
                 .filter(customer ->
