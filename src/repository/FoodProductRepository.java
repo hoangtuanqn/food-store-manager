@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import helper.IdHelper;
+import helper.FileHelper;
+
 
 /**
  *
@@ -21,7 +23,7 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
     private final List<FoodProduct> products;
 
     public FoodProductRepository() {
-        this.products = new ArrayList<>();
+        this.products = FileHelper.load(FileHelper.PRODUCTS, new ArrayList<>());
 //        seedData();
     }
 
@@ -29,9 +31,14 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
 //        products.add(new FoodProduct("P001", "Banh mi", "Tinh bot", "Cai", 3000, 100, LocalDate.now(), LocalDate.parse("2027-01-10")));
 //    }
 
+    private void save (){
+        FileHelper.save(FileHelper.PRODUCTS, products);
+    }
+    
     @Override
     public void add(FoodProduct item) {
         products.add(item);
+        save();
     }
 
     @Override
@@ -58,6 +65,7 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
         } else {
             products.add(item);
         }
+        save();
     }
 
     @Override
@@ -67,6 +75,7 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
             return false;
         }
         products.remove(index);
+        save();
         return true;
     }
 
