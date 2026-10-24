@@ -11,6 +11,7 @@ import controller.SalesController;
 import repository.CustomerRepository;
 import repository.FoodProductRepository;
 import repository.OrderRepository;
+import repository.StockMovementRepository;
 import service.CustomerService;
 import service.InventoryService;
 import service.ProductService;
@@ -27,15 +28,17 @@ public class Main {
         CustomerRepository customerRepository = new CustomerRepository();
         OrderRepository orderRepository = new OrderRepository();
 
-        InventoryService inventoryService = new InventoryService(productRepository);
+        StockMovementRepository movementRepository = new StockMovementRepository();
+
+        InventoryService inventoryService = new InventoryService(productRepository, movementRepository);
         InventoryController inventoryController = new InventoryController(inventoryService);
 
         SalesService salesService = new SalesService(orderRepository, customerRepository, productRepository, inventoryService);
 
-        ProductService productService = new ProductService(productRepository, salesService);
+        ProductService productService = new ProductService(productRepository, salesService, inventoryService);
         ProductController productController = new ProductController(productService);
 
-        
+
         CustomerService customerService = new CustomerService(customerRepository, orderRepository);
         CustomerController customerController = new CustomerController(customerService);
     }

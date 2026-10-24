@@ -23,10 +23,12 @@ public class ProductService {
 
     private final FoodProductRepository repository;
     private final SalesService salesService;
+    private final InventoryService inventoryService;
 
-    public ProductService(FoodProductRepository repository, SalesService salesService) {
+    public ProductService(FoodProductRepository repository, SalesService salesService, InventoryService inventoryService) {
         this.repository = repository;
         this.salesService = salesService;
+        this.inventoryService = inventoryService;
     }
 
     public void addProduct(FoodProduct product) {
@@ -57,11 +59,12 @@ public class ProductService {
     }
 
     public void updateProduct(FoodProduct product) {
-        if (!repository.existsById(product.getProductId())) {
-            throw new NotFoundException("Product ID is not found. Failed to update.");
-        }
+        FoodProduct current = repository.findById(product.getProductId())
+                .orElseThrow(() -> new NotFoundException("Product ID is not found. Failed to update."));
+        int oldQuantity = current.getQuantity();
 
         repository.update(product);
+        inventoryService.recordManualUpdate(product.getProductId(), oldQuantity, product.getQuantity());
     }
 
     public List<FoodProduct> searchKeyWords(String keyWords) {
@@ -95,7 +98,7 @@ public class ProductService {
         if(find.isPresent() == false){
             throw new NotFoundException("Product ID is not found.");
         }
-        
+
         FoodProduct product = find.get();
         if(salesService.isProductUsedInAnyOrder(product.getProductId()) ){
             throw new BusinessException("Product " + product.getProductId() + 

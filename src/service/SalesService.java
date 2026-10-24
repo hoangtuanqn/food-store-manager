@@ -109,7 +109,7 @@ public class SalesService {
                 throw new InvalidTransactionException(d.getProductName() + ": " + e.getMessage());
             }
         });
-        order.getDetails().forEach(d -> inventoryService.deductInventory(d.getProductId(), d.getQuantity()));
+        order.getDetails().forEach(d -> inventoryService.deductInventory(d.getProductId(), d.getQuantity(), orderId));
         order.complete();
         orderRepository.update(order);
         return order;
