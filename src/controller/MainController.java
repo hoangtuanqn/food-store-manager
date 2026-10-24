@@ -18,16 +18,19 @@ public class MainController {
     private final CustomerController customerController;
     private final InventoryController inventoryController;
     private final SalesController salesController;
+    private final ReportController reportController;
 
     public MainController(
             ProductController productController, 
             CustomerController customerController, 
             InventoryController inventoryController, 
-            SalesController salesController) {
+            SalesController salesController,
+            ReportController reportController) {
         this.productController = productController;
         this.customerController = customerController;
         this.inventoryController = inventoryController;
         this.salesController = salesController;
+        this.reportController = reportController;
     }
 
     public void run() {
@@ -49,6 +52,7 @@ public class MainController {
                     inventoryController.run();
                     break;
                 case 5:
+                    reportController.run();
                     break;
                 case 0:
                     ConsoleView.showSuccess("Successfully exited the program!");
