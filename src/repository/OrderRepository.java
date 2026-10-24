@@ -24,6 +24,10 @@ public class OrderRepository implements Repository<Order, String> {
         this.orders = FileHelper.load(FileHelper.ORDERS, new ArrayList<Order>());
     }
 
+    public void linkCustomers(CustomerRepository customerRepository) {
+        orders.forEach(order -> customerRepository.findById(order.getCustomerId()).ifPresent(order::setCustomer));
+    }
+
     private void save() {
         FileHelper.save(FileHelper.ORDERS, orders);
     }
