@@ -4,6 +4,7 @@
  */
 package repository;
 
+import helper.FileHelper;
 import helper.IdHelper;
 import model.Order;
 import java.util.ArrayList;
@@ -20,12 +21,17 @@ public class OrderRepository implements Repository<Order, String> {
     private final List<Order> orders;
 
     public OrderRepository() {
-        this.orders = new ArrayList<>();
+        this.orders = FileHelper.load(FileHelper.ORDERS, new ArrayList<Order>());
+    }
+
+    private void save() {
+        FileHelper.save(FileHelper.ORDERS, orders);
     }
 
     @Override
     public void add(Order item) {
         orders.add(item);
+        save();
     }
 
     @Override
@@ -52,6 +58,7 @@ public class OrderRepository implements Repository<Order, String> {
         } else {
             orders.add(item);
         }
+        save();
     }
 
     @Override
@@ -61,6 +68,7 @@ public class OrderRepository implements Repository<Order, String> {
             return false;
         }
         orders.remove(index);
+        save();
         return true;
     }
 
