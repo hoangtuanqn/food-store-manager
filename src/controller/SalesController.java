@@ -142,7 +142,7 @@ public class SalesController {
             return;
         }
 
-        String productId = InputHelper.readString("Product ID: ");
+        String productId = InputHelper.readId("Product ID: ");
         if (!InputHelper.confirmAction("Remove")) {
             return;
         }
@@ -236,7 +236,7 @@ public class SalesController {
 
     private void addProductsLoop(String orderId) {
         while (true) {
-            String productId = InputHelper.readString("Product ID: ");
+            String productId = InputHelper.readId("Product ID: ");
             try {
                 FoodProduct product = productService.getProduct(productId);
                 SalesView.showProductInfo(product);
