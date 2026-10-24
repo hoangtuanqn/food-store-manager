@@ -48,7 +48,7 @@ public class Main {
         ReturnRepository returnRepository = new ReturnRepository();
         ReturnService returnService = new ReturnService(salesService, returnRepository, inventoryService);
         SalesController salesController = new SalesController(salesService, customerService, productService, returnService);
-        ReportService reportService = new ReportService(salesService, returnRepository);
+        ReportService reportService = new ReportService(salesService, returnRepository, inventoryService);
         ReportController reportController = new ReportController(reportService);
         new MainController(productController, customerController, inventoryController, salesController, reportController).run();
     }

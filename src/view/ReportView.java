@@ -4,7 +4,9 @@
  */
 package view;
 
+import helper.DateHelper;
 import model.CustomerSpending;
+import model.FoodProduct;
 import model.ProductSales;
 import model.SalesSummary;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.Locale;
  */
 public class ReportView {
 
+    private static final String LOW_STOCK_ROW = "%-12s%-20s%-14s%6s%n";
+    private static final String EXPIRED_ROW = "%-12s%-22s%16s%n";
     private static final String TOP_SPENDING_ROW = "%-13s%-20s%16s%n";
     private static final String BEST_SELLING_ROW = "%-12s%-22s%14s%n";
 
@@ -26,7 +30,9 @@ public class ReportView {
                     "Daily Sales Report",
                     "Monthly Sales Report",
                     "Best-Selling Products",
-                    "Highest-Spending Customers"
+                    "Highest-Spending Customers",
+                    "Low Stock Report",
+                    "Expired Products Report"
                 }
         );
     }
@@ -62,6 +68,37 @@ public class ReportView {
                 c.getCustomerId(), c.getCustomerName(),
                 String.format(Locale.US, "%,.0f", c.getTotalPurchase()) + " VND"));
         MenuView.showLine();
+    }
+
+    public static void showLowStockReport(List<FoodProduct> products) {
+        System.out.println();
+        MenuView.showTitle("LOW STOCK REPORT");
+        if (products.isEmpty()) {
+            ConsoleView.showError("No low stock products.");
+            return;
+        }
+        System.out.println();
+        System.out.printf(LOW_STOCK_ROW, "Product ID", "Product Name", "Category", "Stock");
+        MenuView.showLine();
+        products.forEach(p -> System.out.printf(LOW_STOCK_ROW,
+                p.getProductId(), p.getName(), p.getCategory(), p.getQuantity()));
+        MenuView.showLine();
+    }
+
+    public static void showExpiredReport(List<FoodProduct> products) {
+        System.out.println();
+        MenuView.showTitle("EXPIRED FOOD PRODUCTS");
+        if (products.isEmpty()) {
+            ConsoleView.showError("No expired products.");
+            return;
+        }
+        System.out.println();
+        System.out.printf(EXPIRED_ROW, "Product ID", "Product Name", "Expiration Date");
+        MenuView.showLine();
+        products.forEach(p -> System.out.printf(EXPIRED_ROW,
+                p.getProductId(), p.getName(), DateHelper.format(p.getExpirationDate())));
+        MenuView.showLine();
+        System.out.println(products.size() + " expired products found.");
     }
 
     public static void showSalesReport(String title, String period, SalesSummary summary) {

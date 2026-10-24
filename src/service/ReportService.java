@@ -5,6 +5,7 @@
 package service;
 
 import model.CustomerSpending;
+import model.FoodProduct;
 import model.Order;
 import model.ProductSales;
 import model.ReturnDetail;
@@ -30,10 +31,20 @@ public class ReportService {
 
     private final SalesService salesService;
     private final ReturnRepository returnRepository;
+    private final InventoryService inventoryService;
 
-    public ReportService(SalesService salesService, ReturnRepository returnRepository) {
+    public ReportService(SalesService salesService, ReturnRepository returnRepository, InventoryService inventoryService) {
         this.salesService = salesService;
         this.returnRepository = returnRepository;
+        this.inventoryService = inventoryService;
+    }
+
+    public List<FoodProduct> getLowStockProducts() {
+        return inventoryService.getLowStockProducts();
+    }
+
+    public List<FoodProduct> getExpiredProducts() {
+        return inventoryService.getExpiredProducts();
     }
 
     public SalesSummary getDailySummary(LocalDate day) {
