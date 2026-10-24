@@ -58,3 +58,5 @@ desktop.ini
 *~
 ```
 /FoodStore/nbproject/private/
+# Saved data
+data/*.dat
