@@ -50,14 +50,23 @@ public class ReportController {
     }
 
     private void showBestSellingProducts() {
+        LocalDate[] period = readPeriod();
+        ReportView.showBestSellingProducts(describePeriod(period),
+                reportService.getBestSellingProducts(period[0], period[1]));
+    }
+
+    private LocalDate[] readPeriod() {
         LocalDate from = InputHelper.readDate("From date: ");
         LocalDate to = InputHelper.readDate("To date: ");
         while (to.isBefore(from)) {
             ConsoleView.showError("To date cannot be before from date.");
             to = InputHelper.readDate("To date: ");
         }
-        ReportView.showBestSellingProducts("From " + DateHelper.format(from) + " to " + DateHelper.format(to),
-                reportService.getBestSellingProducts(from, to));
+        return new LocalDate[]{from, to};
+    }
+
+    private String describePeriod(LocalDate[] period) {
+        return "From " + DateHelper.format(period[0]) + " to " + DateHelper.format(period[1]);
     }
 
     private void showMonthlySalesReport() {
