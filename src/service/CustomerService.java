@@ -1,6 +1,11 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package service;
 
 import exception.DuplicateIdException;
+import exception.EntityInUseException;
 import model.Customer;
 import model.MembershipType;
 import repository.CustomerRepository;
@@ -8,6 +13,10 @@ import repository.OrderRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author MSI
+ */
 public class CustomerService {
 
     private final CustomerRepository repository;
@@ -98,11 +107,10 @@ public class CustomerService {
     }
 
     public void deleteCustomer(String id) {
-        // Kiểm tra xem khách hàng có đơn hàng nào không (chặn xóa nếu có >= 1 giao dịch)
         int transactionCount = orderRepository.countByCustomerId(id);
         if (transactionCount > 0) {
-            throw new IllegalStateException(
-                    String.format("Customer %s has %d transactions and cannot be deleted.", id, transactionCount)
+            throw new EntityInUseException(
+                    "Customer " + id + " has " + transactionCount + " transactions and cannot be deleted."
             );
         }
 
@@ -115,6 +123,7 @@ public class CustomerService {
 
     public List<Customer> search(String keyword) {
         String searchKeyword = keyword.trim().toLowerCase();
+
         return repository.findAll()
                 .stream()
                 .filter(customer ->
