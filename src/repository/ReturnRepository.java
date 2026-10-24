@@ -4,6 +4,7 @@
  */
 package repository;
 
+import helper.FileHelper;
 import model.ReturnOrder;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class ReturnRepository {
 
-    private final List<ReturnOrder> returns = new ArrayList<>();
+    private final List<ReturnOrder> returns = FileHelper.load(FileHelper.RETURNS, new ArrayList<ReturnOrder>());
 
     public String nextId() {
         return String.format("R%02d", returns.size() + 1);
@@ -23,6 +24,7 @@ public class ReturnRepository {
 
     public void add(ReturnOrder returnOrder) {
         returns.add(returnOrder);
+        FileHelper.save(FileHelper.RETURNS, returns);
     }
 
     public List<ReturnOrder> findAll() {
