@@ -4,11 +4,14 @@
  */
 package model;
 
+import java.io.Serializable;
+import helper.IdHelper;
+
 /**
  *
  * @author MSI
  */
-public class Customer {
+public class Customer implements Serializable {
 
     private final String customerId;
     private String fullName;
@@ -39,7 +42,7 @@ public class Customer {
             throw new IllegalArgumentException("Membership type must not be null.");
         }
 
-        this.customerId = customerId.trim();
+        this.customerId = IdHelper.normalize(customerId);
         this.fullName = fullName.trim();
         this.phone = phone.trim();
         this.address = address.trim();

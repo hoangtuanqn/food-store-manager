@@ -4,6 +4,8 @@
  */
 package repository;
 
+import helper.FileHelper;
+import helper.IdHelper;
 import model.Customer;
 import model.MembershipType;
 import java.util.ArrayList;
@@ -20,17 +22,25 @@ public class CustomerRepository implements Repository<Customer, String> {
     private final List<Customer> customers;
 
     public CustomerRepository() {
-        this.customers = new ArrayList<>();
-//        seedData();
+        
+        this.customers = FileHelper.load(FileHelper.CUSTOMERS, new ArrayList<Customer>());
+//      seedData();
     }
     
 //    private void seedData() {
 //        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
+//        save(); // Nếu dùng seed data thì gọi save() để ghi xuống file lần đầu
 //    }
+
+    // Hàm tiện ích để ghi danh sách hiện tại ra file
+    private void save() {
+        FileHelper.save(FileHelper.CUSTOMERS, customers);
+    }
 
     @Override
     public void add(Customer item) {
         customers.add(item);
+        save(); 
     }
 
     @Override
@@ -57,6 +67,7 @@ public class CustomerRepository implements Repository<Customer, String> {
         } else {
             customers.add(item);
         }
+        save(); 
     }
 
     @Override
@@ -66,12 +77,14 @@ public class CustomerRepository implements Repository<Customer, String> {
             return false;
         }
         customers.remove(index);
+        save(); 
         return true;
     }
 
     private int indexOf(String id) {
+        String normalizedId = IdHelper.normalize(id);
         return IntStream.range(0, customers.size())
-                .filter(i -> customers.get(i).getCustomerId().equals(id))
+                .filter(i -> customers.get(i).getCustomerId().equals(normalizedId))
                 .findFirst()
                 .orElse(-1);
     }
