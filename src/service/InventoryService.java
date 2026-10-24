@@ -47,6 +47,14 @@ public class InventoryService {
         recordMovement(productId, oldQuantity, p.getQuantity(), MovementSource.SALE, orderId);
     }
 
+    public void restockFromReturn(String productId, int quantity, String orderId) {
+        FoodProduct p = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
+        int oldQuantity = p.getQuantity();
+        p.setQuantity(oldQuantity + quantity);
+        productRepository.update(p);
+        recordMovement(productId, oldQuantity, p.getQuantity(), MovementSource.RETURN, orderId);
+    }
+
     public void updateInventory(String productId, int newQuantity) {
         if (newQuantity < 0) {
             throw new InvalidQuantityException("Stock quantity cannot be negative");
