@@ -5,6 +5,7 @@
 package service;
 
 import exception.DuplicateIdException;
+import exception.EntityInUseException;
 import model.Customer;
 import model.MembershipType;
 import repository.CustomerRepository;
@@ -106,11 +107,10 @@ public class CustomerService {
     }
 
     public void deleteCustomer(String id) {
-        // Kiểm tra xem khách hàng có đơn hàng nào không (chặn xóa nếu có >= 1 giao dịch)
         int transactionCount = orderRepository.countByCustomerId(id);
         if (transactionCount > 0) {
-            throw new IllegalStateException(
-                    String.format("Customer %s has %d transactions and cannot be deleted.", id, transactionCount)
+            throw new EntityInUseException(
+                    "Customer " + id + " has " + transactionCount + " transactions and cannot be deleted."
             );
         }
 
