@@ -23,7 +23,6 @@ public class Order {
     private OrderStatus status;
     private double discountAmount;
 
-    // customer info frozen when the sale is confirmed
     private String customerNameAtSale;
     private MembershipType membershipTypeAtSale;
     private double discountRateAtSale;
@@ -45,7 +44,6 @@ public class Order {
         this.status = OrderStatus.PENDING;
     }
 
-    // Getter
     public String getOrderId() {
         return orderId;
     }

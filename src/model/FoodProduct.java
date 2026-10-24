@@ -25,7 +25,6 @@ public class FoodProduct {
     private LocalDate productionDate;
     private LocalDate expirationDate;
 
-    // constructor
     public FoodProduct(String productId, String name, String category, String unit,
             double price, int quantity,
             LocalDate productionDate, LocalDate expirationDate) {
@@ -40,7 +39,6 @@ public class FoodProduct {
         this.expirationDate = expirationDate;
     }
 
-    // Getters
     public String getProductId() {
         return productId;
     }
@@ -73,7 +71,6 @@ public class FoodProduct {
         return expirationDate;
     }
 
-    // Setter
     public void setName(String name) {
         this.name = requireText(name, "Product name");
     }
@@ -100,7 +97,6 @@ public class FoodProduct {
         this.expirationDate = expirationDate;
     }
 
-    // method
     public boolean isExpiredOn(LocalDate date) {
         return date.isAfter(expirationDate);
     }
@@ -122,7 +118,6 @@ public class FoodProduct {
         return days >= 0 && days <= NEAR_EXPIRATION_DAYS;
     }
 
-    // Validate
     private static String requireText(String value, String field) {
         if (value == null || value.trim().isEmpty()) {
             throw new IllegalArgumentException(field + " must not be empty.");
@@ -156,7 +151,6 @@ public class FoodProduct {
         }
     }
 
-    // Object
     @Override
     public boolean equals(Object o) {
         if (this == o) {

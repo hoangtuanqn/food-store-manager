@@ -79,7 +79,6 @@ public class SalesService {
             throw new InvalidQuantityException("Quantity must be greater than zero.");
         }
 
-        // the same product can be added several times, so check the accumulated quantity
         OrderDetail existing = order.findDetail(productId);
         int totalQuantity = quantity + (existing == null ? 0 : existing.getQuantity());
         inventoryService.checkSellable(productId, totalQuantity);
@@ -103,7 +102,6 @@ public class SalesService {
             throw new InvalidTransactionException("A sales transaction must contain at least one product.");
         }
 
-        // stock and expiry may have changed since the product was added: check every line first
         order.getDetails().forEach(d -> {
             try {
                 inventoryService.checkSellable(d.getProductId(), d.getQuantity());
