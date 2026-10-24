@@ -5,7 +5,9 @@
 package service;
 
 import exception.DuplicateIdException;
+import exception.DuplicatePhoneException;
 import exception.EntityInUseException;
+import helper.PhoneHelper;
 import model.Customer;
 import model.MembershipType;
 import repository.CustomerRepository;
@@ -27,24 +29,15 @@ public class CustomerService {
         this.orderRepository = orderRepository;
     }
 
-    /**
-     * Kiểm tra định dạng số điện thoại Việt Nam (10 chữ số bắt đầu bằng 0, hoặc dạng +84)
-     */
-    public boolean isValidVietnamesePhone(String phone) {
-        if (phone == null) return false;
-        String phoneRegex = "^(0[3|5|7|8|9][0-9]{8}|\\+84[3|5|7|8|9][0-9]{8})$";
-        return phone.matches(phoneRegex);
-    }
-
-    /**
-     * Tìm khách hàng theo số điện thoại
-     */
-    public Customer findCustomerByPhone(String phone) {
-        if (phone == null) return null;
-        return repository.findAll().stream()
-                .filter(c -> phone.equals(c.getPhone()))
+    public String validatePhone(String phone, String ownerId) {
+        String normalized = PhoneHelper.normalize(phone);
+        repository.findAll().stream()
+                .filter(c -> c.getPhone().equals(normalized) && !c.getCustomerId().equals(ownerId))
                 .findFirst()
-                .orElse(null);
+                .ifPresent(owner -> {
+                    throw new DuplicatePhoneException("Phone number already belongs to customer " + owner.getCustomerId() + ".");
+                });
+        return normalized;
     }
 
     public void addCustomer(Customer customer) {
@@ -54,16 +47,7 @@ public class CustomerService {
             );
         }
 
-        if (!isValidVietnamesePhone(customer.getPhone())) {
-            throw new IllegalArgumentException("Invalid phone number format. Must be 10 digits starting with 0 or +84.");
-        }
-
-        Customer existingCustomer = findCustomerByPhone(customer.getPhone());
-        if (existingCustomer != null) {
-            throw new IllegalStateException(
-                    String.format("Phone number already belongs to customer %s.", existingCustomer.getCustomerId())
-            );
-        }
+        customer.setPhone(validatePhone(customer.getPhone(), customer.getCustomerId()));
 
         repository.add(customer);
     }
@@ -85,19 +69,10 @@ public class CustomerService {
         Customer c = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Customer ID does not exist."));
 
-        if (!isValidVietnamesePhone(phone)) {
-            throw new IllegalArgumentException("Invalid phone number format. Must be 10 digits starting with 0 or +84.");
-        }
-
-        Customer existingCustomer = findCustomerByPhone(phone);
-        if (existingCustomer != null && !existingCustomer.getCustomerId().equals(id)) {
-            throw new IllegalStateException(
-                    String.format("Phone number already belongs to customer %s.", existingCustomer.getCustomerId())
-            );
-        }
+        String validPhone = validatePhone(phone, id);
 
         c.setFullName(name);
-        c.setPhone(phone);
+        c.setPhone(validPhone);
         c.setAddress(address);
         c.setMembershipType(type);
     }

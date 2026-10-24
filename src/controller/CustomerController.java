@@ -80,7 +80,7 @@ public class CustomerController {
         }
 
         String name = InputHelper.readString("Full Name: ");
-        String phone = InputHelper.readString("Phone: ");
+        String phone = readPhone(id, null);
         String address = InputHelper.readString("Address: ");
 
         MembershipType membershipType = readMembershipType();
@@ -105,7 +105,7 @@ public class CustomerController {
                     "Customer added successfully."
             );
 
-        } catch (BusinessException e) {
+        } catch (BusinessException | IllegalArgumentException e) {
             ConsoleView.showError(e.getMessage());
         }
     }
@@ -136,9 +136,7 @@ public class CustomerController {
                 "Full Name ", oldCustomer.getFullName()
         );
 
-        String phone = InputHelper.readStringOrDefault(
-                "Phone ", oldCustomer.getPhone()
-        );
+        String phone = readPhone(id, oldCustomer.getPhone());
 
         String address = InputHelper.readStringOrDefault(
                 "Address ", oldCustomer.getAddress()
@@ -221,6 +219,19 @@ public class CustomerController {
                 = customerService.search(keyword);
 
         CustomerView.showCustomers(customers);
+    }
+
+    private String readPhone(String customerId, String currentPhone) {
+        while (true) {
+            String input = currentPhone == null
+                    ? InputHelper.readString("Phone: ")
+                    : InputHelper.readStringOrDefault("Phone ", currentPhone);
+            try {
+                return customerService.validatePhone(input, customerId);
+            } catch (BusinessException | IllegalArgumentException e) {
+                ConsoleView.showError(e.getMessage());
+            }
+        }
     }
 
     private MembershipType readMembershipType() {
