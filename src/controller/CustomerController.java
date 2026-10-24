@@ -68,7 +68,7 @@ public class CustomerController {
         String id;
 
         while (true) {
-            id = InputHelper.readString("Customer ID: ");
+            id = InputHelper.readId("Customer ID: ");
 
             if (customerService.checkIdExist(id)) {
                 ConsoleView.showError(
@@ -114,7 +114,7 @@ public class CustomerController {
 
         CustomerView.showUpdateHeader();
 
-        String id = InputHelper.readString(
+        String id = InputHelper.readId(
                 "Customer ID to update: "
         );
 
@@ -166,7 +166,7 @@ public class CustomerController {
 
         CustomerView.showDeleteHeader();
 
-        String id = InputHelper.readString(
+        String id = InputHelper.readId(
                 "Customer ID to delete: "
         );
 

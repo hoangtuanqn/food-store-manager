@@ -4,6 +4,7 @@
  */
 package repository;
 
+import helper.IdHelper;
 import model.Customer;
 import model.MembershipType;
 import java.util.ArrayList;
@@ -70,8 +71,9 @@ public class CustomerRepository implements Repository<Customer, String> {
     }
 
     private int indexOf(String id) {
+        String normalizedId = IdHelper.normalize(id);
         return IntStream.range(0, customers.size())
-                .filter(i -> customers.get(i).getCustomerId().equals(id))
+                .filter(i -> customers.get(i).getCustomerId().equals(normalizedId))
                 .findFirst()
                 .orElse(-1);
     }
