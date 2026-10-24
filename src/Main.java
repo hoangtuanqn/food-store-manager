@@ -35,7 +35,7 @@ public class Main {
 
         SalesService salesService = new SalesService(orderRepository, customerRepository, productRepository, inventoryService);
 
-        ProductService productService = new ProductService(productRepository, salesService);
+        ProductService productService = new ProductService(productRepository, salesService, inventoryService);
         ProductController productController = new ProductController(productService);
 
 
