@@ -38,8 +38,10 @@ public class Main {
         ProductService productService = new ProductService(productRepository, salesService, inventoryService);
         ProductController productController = new ProductController(productService);
 
-
         CustomerService customerService = new CustomerService(customerRepository, orderRepository);
         CustomerController customerController = new CustomerController(customerService);
+
+        SalesController salesController = new SalesController(salesService, customerService, productService);
+        new MainController(productController, customerController, inventoryController, salesController).run();
     }
 }
