@@ -54,12 +54,10 @@ public class CustomerService {
             );
         }
 
-        // Kiểm tra định dạng số điện thoại
         if (!isValidVietnamesePhone(customer.getPhone())) {
             throw new IllegalArgumentException("Invalid phone number format. Must be 10 digits starting with 0 or +84.");
         }
 
-        // Kiểm tra trùng số điện thoại với khách hàng khác
         Customer existingCustomer = findCustomerByPhone(customer.getPhone());
         if (existingCustomer != null) {
             throw new IllegalStateException(
@@ -87,12 +85,10 @@ public class CustomerService {
         Customer c = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Customer ID does not exist."));
 
-        // Kiểm tra định dạng số điện thoại mới
         if (!isValidVietnamesePhone(phone)) {
             throw new IllegalArgumentException("Invalid phone number format. Must be 10 digits starting with 0 or +84.");
         }
 
-        // Kiểm tra trùng số điện thoại nhưng phải KHÁC chính khách hàng đang được update
         Customer existingCustomer = findCustomerByPhone(phone);
         if (existingCustomer != null && !existingCustomer.getCustomerId().equals(id)) {
             throw new IllegalStateException(
