@@ -162,7 +162,6 @@ public class SalesController {
         }
         SalesView.showBill(order);
 
-        // the bill is the last step before the sale is completed
         if (order.isPending() && !order.isEmpty() && InputHelper.confirmAction("Confirm Sale")) {
             confirmSale(order.getOrderId());
         }

@@ -32,7 +32,7 @@ public class Main {
 
         SalesService salesService = new SalesService(orderRepository, customerRepository, productRepository, inventoryService);
 
-        ProductService productService = new ProductService(productRepository, salesService);   // truyền thêm salesService
+        ProductService productService = new ProductService(productRepository, salesService);
         ProductController productController = new ProductController(productService);
 
         
