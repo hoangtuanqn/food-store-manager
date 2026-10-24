@@ -5,13 +5,17 @@
 package service;
 
 import model.Order;
+import model.ProductSales;
 import model.ReturnDetail;
 import model.ReturnOrder;
 import model.SalesSummary;
 import repository.ReturnRepository;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +23,8 @@ import java.util.stream.Collectors;
  * @author MSI
  */
 public class ReportService {
+
+    private static final int BEST_SELLING_LIMIT = 10;
 
     private final SalesService salesService;
     private final ReturnRepository returnRepository;
@@ -37,14 +43,47 @@ public class ReportService {
         return getSummary(yearMonth.atDay(1), yearMonth.atEndOfMonth());
     }
 
-    private SalesSummary getSummary(LocalDate from, LocalDate to) {
-        List<Order> orders = salesService.getAllTransactions().stream()
+    public List<ProductSales> getBestSellingProducts(LocalDate from, LocalDate to) {
+        Map<String, Integer> quantities = new HashMap<>();
+        Map<String, String> names = new HashMap<>();
+        getCompletedOrders(from, to).stream()
+                .flatMap(order -> order.getDetails().stream())
+                .forEach(d -> {
+                    quantities.merge(d.getProductId(), d.getQuantity(), Integer::sum);
+                    names.put(d.getProductId(), d.getProductName());
+                });
+        getReturns(from, to).stream()
+                .flatMap(returnOrder -> returnOrder.getDetails().stream())
+                .forEach(d -> {
+                    quantities.merge(d.getProductId(), -d.getQuantity(), Integer::sum);
+                    names.putIfAbsent(d.getProductId(), d.getProductName());
+                });
+
+        return quantities.entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
+                .map(entry -> new ProductSales(entry.getKey(), names.get(entry.getKey()), entry.getValue()))
+                .sorted(Comparator.comparingInt(ProductSales::getQuantitySold).reversed()
+                        .thenComparing(ProductSales::getProductId))
+                .limit(BEST_SELLING_LIMIT)
+                .collect(Collectors.toList());
+    }
+
+    private List<Order> getCompletedOrders(LocalDate from, LocalDate to) {
+        return salesService.getAllTransactions().stream()
                 .filter(Order::isCompleted)
                 .filter(order -> isWithin(order.getOrderDate(), from, to))
                 .collect(Collectors.toList());
-        List<ReturnOrder> returns = returnRepository.findAll().stream()
+    }
+
+    private List<ReturnOrder> getReturns(LocalDate from, LocalDate to) {
+        return returnRepository.findAll().stream()
                 .filter(returnOrder -> isWithin(returnOrder.getReturnDate(), from, to))
                 .collect(Collectors.toList());
+    }
+
+    private SalesSummary getSummary(LocalDate from, LocalDate to) {
+        List<Order> orders = getCompletedOrders(from, to);
+        List<ReturnOrder> returns = getReturns(from, to);
 
         int productsSold = orders.stream().mapToInt(Order::getTotalQuantity).sum()
                 - returns.stream().flatMap(r -> r.getDetails().stream()).mapToInt(ReturnDetail::getQuantity).sum();

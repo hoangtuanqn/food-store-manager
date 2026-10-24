@@ -7,6 +7,7 @@ package controller;
 import helper.DateHelper;
 import helper.InputHelper;
 import service.ReportService;
+import view.ConsoleView;
 import view.ReportView;
 import java.time.LocalDate;
 
@@ -25,13 +26,16 @@ public class ReportController {
     public void run() {
         while (true) {
             ReportView.showMenu();
-            int choice = InputHelper.readIntRange("Choose an option: ", 0, 2);
+            int choice = InputHelper.readIntRange("Choose an option: ", 0, 3);
             switch (choice) {
                 case 1:
                     showDailySalesReport();
                     break;
                 case 2:
                     showMonthlySalesReport();
+                    break;
+                case 3:
+                    showBestSellingProducts();
                     break;
                 case 0:
                     return;
@@ -43,6 +47,17 @@ public class ReportController {
         LocalDate day = InputHelper.readDate("Date: ");
         ReportView.showSalesReport("DAILY SALES REPORT", "Date: " + DateHelper.format(day),
                 reportService.getDailySummary(day));
+    }
+
+    private void showBestSellingProducts() {
+        LocalDate from = InputHelper.readDate("From date: ");
+        LocalDate to = InputHelper.readDate("To date: ");
+        while (to.isBefore(from)) {
+            ConsoleView.showError("To date cannot be before from date.");
+            to = InputHelper.readDate("To date: ");
+        }
+        ReportView.showBestSellingProducts("From " + DateHelper.format(from) + " to " + DateHelper.format(to),
+                reportService.getBestSellingProducts(from, to));
     }
 
     private void showMonthlySalesReport() {
