@@ -5,7 +5,9 @@
 package view;
 
 import model.FoodProduct;
+import model.StockMovement;
 import helper.DateHelper;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ public class ProductView {
 
     private static final String ROW_FORMAT = "%-6s%-18s%-12s%-8s%-10s%-7s%-12s%n";
     private static final int TABLE_WIDTH = 73;
+    private static final String MOVEMENT_ROW = "%-21s%-9s%6s%6s  %-16s%-8s%n";
+    private static final DateTimeFormatter MOVEMENT_TIME = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public static void showMenu() {
         String[] options = {
@@ -73,9 +77,33 @@ public class ProductView {
             "View Low Stock Products",
             "View Expired Products",
             "View Near Expiry Products",
-            "View Sellable Products"
+            "View Sellable Products",
+            "Update Stock Quantity",
+            "View Stock Movement History"
         };
         MenuView.showSubMenu("INVENTORY MANAGEMENT", options);
+    }
+
+    public static void showMessage(String message) {
+        System.out.println(message);
+    }
+
+    public static void showStockMovements(List<StockMovement> movements) {
+        if (movements == null || movements.isEmpty()) {
+            ConsoleView.showError("No stock movements recorded.");
+            return;
+        }
+        MenuView.showTitle("STOCK MOVEMENT HISTORY");
+        System.out.printf(MOVEMENT_ROW, "Time", "Product", "Old", "New", "Source", "Order");
+        MenuView.showLine(TABLE_WIDTH);
+        movements.forEach(m -> System.out.printf(MOVEMENT_ROW,
+                m.getTimestamp().format(MOVEMENT_TIME),
+                m.getProductId(),
+                m.getOldQuantity(),
+                m.getNewQuantity(),
+                m.getSource(),
+                m.getOrderId() == null ? "-" : m.getOrderId()));
+        MenuView.showLine(TABLE_WIDTH);
     }
 
     public static void showLowStockProducts(List<FoodProduct> products) {
