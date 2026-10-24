@@ -4,7 +4,9 @@
  */
 package view;
 
+import model.ProductSales;
 import model.SalesSummary;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -13,14 +15,33 @@ import java.util.Locale;
  */
 public class ReportView {
 
+    private static final String BEST_SELLING_ROW = "%-12s%-22s%14s%n";
+
     public static void showMenu() {
         MenuView.showSubMenu(
                 "REPORTS",
                 new String[]{
                     "Daily Sales Report",
-                    "Monthly Sales Report"
+                    "Monthly Sales Report",
+                    "Best-Selling Products"
                 }
         );
+    }
+
+    public static void showBestSellingProducts(String period, List<ProductSales> products) {
+        System.out.println();
+        MenuView.showTitle("BEST-SELLING FOOD PRODUCTS");
+        System.out.println(period);
+        if (products.isEmpty()) {
+            ConsoleView.showError("No sales found in this period.");
+            return;
+        }
+        System.out.println();
+        System.out.printf(BEST_SELLING_ROW, "Product ID", "Product Name", "Quantity Sold");
+        MenuView.showLine();
+        products.forEach(p -> System.out.printf(BEST_SELLING_ROW,
+                p.getProductId(), p.getProductName(), p.getQuantitySold()));
+        MenuView.showLine();
     }
 
     public static void showSalesReport(String title, String period, SalesSummary summary) {
