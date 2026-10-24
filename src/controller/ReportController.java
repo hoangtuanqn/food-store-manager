@@ -26,7 +26,7 @@ public class ReportController {
     public void run() {
         while (true) {
             ReportView.showMenu();
-            int choice = InputHelper.readIntRange("Choose an option: ", 0, 4);
+            int choice = InputHelper.readIntRange("Choose an option: ", 0, 6);
             switch (choice) {
                 case 1:
                     showDailySalesReport();
@@ -39,6 +39,12 @@ public class ReportController {
                     break;
                 case 4:
                     showTopSpendingCustomers();
+                    break;
+                case 5:
+                    ReportView.showLowStockReport(reportService.getLowStockProducts());
+                    break;
+                case 6:
+                    ReportView.showExpiredReport(reportService.getExpiredProducts());
                     break;
                 case 0:
                     return;
