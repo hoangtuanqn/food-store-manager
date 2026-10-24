@@ -37,14 +37,22 @@ public class ReportService {
         return getSummary(yearMonth.atDay(1), yearMonth.atEndOfMonth());
     }
 
-    private SalesSummary getSummary(LocalDate from, LocalDate to) {
-        List<Order> orders = salesService.getAllTransactions().stream()
+    private List<Order> getCompletedOrders(LocalDate from, LocalDate to) {
+        return salesService.getAllTransactions().stream()
                 .filter(Order::isCompleted)
                 .filter(order -> isWithin(order.getOrderDate(), from, to))
                 .collect(Collectors.toList());
-        List<ReturnOrder> returns = returnRepository.findAll().stream()
+    }
+
+    private List<ReturnOrder> getReturns(LocalDate from, LocalDate to) {
+        return returnRepository.findAll().stream()
                 .filter(returnOrder -> isWithin(returnOrder.getReturnDate(), from, to))
                 .collect(Collectors.toList());
+    }
+
+    private SalesSummary getSummary(LocalDate from, LocalDate to) {
+        List<Order> orders = getCompletedOrders(from, to);
+        List<ReturnOrder> returns = getReturns(from, to);
 
         int productsSold = orders.stream().mapToInt(Order::getTotalQuantity).sum()
                 - returns.stream().flatMap(r -> r.getDetails().stream()).mapToInt(ReturnDetail::getQuantity).sum();
