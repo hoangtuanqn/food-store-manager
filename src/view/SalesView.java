@@ -6,6 +6,7 @@ package view;
 
 import model.FoodProduct;
 import model.Order;
+import model.ReturnOrder;
 import model.MembershipType;
 import helper.DateHelper;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Locale;
 public class SalesView {
 
     private static final String BILL_ROW = "%-18s%5s%12s%14s%n";
+    private static final String RETURN_ROW = "%-18s%5s%14s%12s%n";
     private static final String HISTORY_ROW = "%-7s%-20s%-12s%7s%15s  %-10s%n";
 
     public static void showMenu() {
@@ -31,7 +33,8 @@ public class SalesView {
                     "View All Orders",
                     "Search orders by customer",
                     "Cancel order",
-                    "Delete order"
+                    "Delete order",
+                    "Return products"
                 }
         );
     }
@@ -58,6 +61,29 @@ public class SalesView {
 
     public static void showCancelHeader() {
         MenuView.showTitle("CANCEL TRANSACTION");
+    }
+
+    public static void showReturnHeader() {
+        MenuView.showTitle("RETURN PRODUCTS");
+    }
+
+    public static void showReturn(ReturnOrder returnOrder) {
+        System.out.println();
+        MenuView.showTitle("RETURN " + returnOrder.getReturnId());
+        System.out.println("Transaction ID: " + returnOrder.getOrderId());
+        System.out.println("Date: " + returnOrder.getReturnDate().format(DateHelper.FORMATTER));
+        System.out.println("Reason: " + returnOrder.getReason());
+        System.out.println();
+        System.out.printf(RETURN_ROW, "Product", "Qty", "Amount", "Restocked");
+        MenuView.showLine();
+        returnOrder.getDetails().forEach(d -> System.out.printf(RETURN_ROW,
+                d.getProductName(),
+                d.getQuantity(),
+                money(d.getLineTotal()),
+                d.isRestocked() ? "Yes" : "No"));
+        MenuView.showLine();
+        System.out.printf("%-30s%19s VND%n", "Refund Amount:", money(returnOrder.getRefundAmount()));
+        MenuView.showLine();
     }
 
     public static void showDeleteHeader() {
