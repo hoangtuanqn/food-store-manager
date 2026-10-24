@@ -4,6 +4,7 @@
  */
 package view;
 
+import model.CustomerSpending;
 import model.ProductSales;
 import model.SalesSummary;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Locale;
  */
 public class ReportView {
 
+    private static final String TOP_SPENDING_ROW = "%-13s%-20s%16s%n";
     private static final String BEST_SELLING_ROW = "%-12s%-22s%14s%n";
 
     public static void showMenu() {
@@ -23,7 +25,8 @@ public class ReportView {
                 new String[]{
                     "Daily Sales Report",
                     "Monthly Sales Report",
-                    "Best-Selling Products"
+                    "Best-Selling Products",
+                    "Highest-Spending Customers"
                 }
         );
     }
@@ -41,6 +44,23 @@ public class ReportView {
         MenuView.showLine();
         products.forEach(p -> System.out.printf(BEST_SELLING_ROW,
                 p.getProductId(), p.getProductName(), p.getQuantitySold()));
+        MenuView.showLine();
+    }
+
+    public static void showTopSpendingCustomers(String period, List<CustomerSpending> customers) {
+        System.out.println();
+        MenuView.showTitle("HIGHEST-SPENDING CUSTOMERS");
+        System.out.println(period);
+        if (customers.isEmpty()) {
+            ConsoleView.showError("No purchases found in this period.");
+            return;
+        }
+        System.out.println();
+        System.out.printf(TOP_SPENDING_ROW, "Customer ID", "Customer Name", "Total Purchase");
+        MenuView.showLine();
+        customers.forEach(c -> System.out.printf(TOP_SPENDING_ROW,
+                c.getCustomerId(), c.getCustomerName(),
+                String.format(Locale.US, "%,.0f", c.getTotalPurchase()) + " VND"));
         MenuView.showLine();
     }
 
