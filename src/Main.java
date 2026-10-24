@@ -31,6 +31,7 @@ public class Main {
         FoodProductRepository productRepository = new FoodProductRepository();
         CustomerRepository customerRepository = new CustomerRepository();
         OrderRepository orderRepository = new OrderRepository();
+        orderRepository.linkCustomers(customerRepository);
 
         StockMovementRepository movementRepository = new StockMovementRepository();
 

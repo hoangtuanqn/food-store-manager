@@ -4,13 +4,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import helper.IdHelper;
 
 /**
  *
  * @author MSI
  */
-public class Customer {
+public class Customer implements Serializable {
 
     private final String customerId;
     private String fullName;

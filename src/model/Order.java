@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import exception.InvalidTransactionException;
 import exception.NotFoundException;
 import java.time.LocalDate;
@@ -14,10 +15,10 @@ import java.util.List;
  *
  * @author MSI
  */
-public class Order {
+public class Order implements Serializable {
 
     private final String orderId;
-    private final Customer customer;
+    private Customer customer;
     private final LocalDate orderDate;
     private final List<OrderDetail> details;
     private OrderStatus status;
@@ -50,6 +51,10 @@ public class Order {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getCustomerId() {

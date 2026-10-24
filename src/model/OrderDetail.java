@@ -4,11 +4,12 @@
  */
 package model;
 
+import java.io.Serializable;
 /**
  *
  * @author MSI
  */
-public class OrderDetail {
+public class OrderDetail implements Serializable {
 
     private final String productId;
     private final String productName;
