@@ -4,6 +4,7 @@
  */
 package repository;
 
+import helper.IdHelper;
 import model.Order;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +65,9 @@ public class OrderRepository implements Repository<Order, String> {
     }
 
     public int countByCustomerId(String customerId) {
+        String normalizedId = IdHelper.normalize(customerId);
         return (int) orders.stream()
-                .filter(order -> order.getCustomerId().equals(customerId))
+                .filter(order -> order.getCustomerId().equals(normalizedId))
                 .count();
     }
 
