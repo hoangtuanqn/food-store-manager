@@ -4,6 +4,7 @@
  */
 package service;
 
+import model.CustomerSpending;
 import model.Order;
 import model.ProductSales;
 import model.ReturnDetail;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class ReportService {
 
     private static final int BEST_SELLING_LIMIT = 10;
+    private static final int TOP_SPENDING_LIMIT = 10;
 
     private final SalesService salesService;
     private final ReturnRepository returnRepository;
@@ -65,6 +67,28 @@ public class ReportService {
                 .sorted(Comparator.comparingInt(ProductSales::getQuantitySold).reversed()
                         .thenComparing(ProductSales::getProductId))
                 .limit(BEST_SELLING_LIMIT)
+                .collect(Collectors.toList());
+    }
+
+    public List<CustomerSpending> getTopSpendingCustomers(LocalDate from, LocalDate to) {
+        Map<String, Double> totals = new HashMap<>();
+        Map<String, String> names = new HashMap<>();
+        getCompletedOrders(from, to).forEach(order -> {
+            totals.merge(order.getCustomerId(), order.getFinalAmount(), Double::sum);
+            names.put(order.getCustomerId(), order.getCustomerName());
+        });
+        getReturns(from, to).forEach(returnOrder -> {
+            Order order = salesService.getTransaction(returnOrder.getOrderId());
+            totals.merge(order.getCustomerId(), -returnOrder.getRefundAmount(), Double::sum);
+            names.putIfAbsent(order.getCustomerId(), order.getCustomerName());
+        });
+
+        return totals.entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
+                .map(entry -> new CustomerSpending(entry.getKey(), names.get(entry.getKey()), entry.getValue()))
+                .sorted(Comparator.comparingDouble(CustomerSpending::getTotalPurchase).reversed()
+                        .thenComparing(CustomerSpending::getCustomerId))
+                .limit(TOP_SPENDING_LIMIT)
                 .collect(Collectors.toList());
     }
 
