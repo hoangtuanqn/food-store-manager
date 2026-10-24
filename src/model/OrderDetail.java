@@ -20,7 +20,6 @@ public class OrderDetail {
         if (product == null) {
             throw new IllegalArgumentException("Product is required.");
         }
-        // snapshot: later changes to the product must not change this invoice line
         this.productId = product.getProductId();
         this.productName = product.getName();
         this.unit = product.getUnit();
