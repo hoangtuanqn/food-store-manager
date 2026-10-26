@@ -12,5 +12,5 @@ public class ExpiredProductException extends BusinessException {
     public ExpiredProductException(String message) {
         super(message);
     }
-    
+
 }

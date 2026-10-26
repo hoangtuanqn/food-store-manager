@@ -70,7 +70,7 @@ public class CustomerController {
         while (true) {
             id = InputHelper.readId("Customer ID: ");
 
-            if (customerService.checkIdExist(id)) {
+            if (customerService.existsById(id)) {
                 ConsoleView.showError(
                         "Customer ID already exists!"
                 );
@@ -92,7 +92,7 @@ public class CustomerController {
                 address,
                 membershipType
         );
-        
+
         boolean isConfirm = InputHelper.confirmAction("Add");
         if (!isConfirm) {
             return;
@@ -149,7 +149,7 @@ public class CustomerController {
         if (!isConfirm) {
             return;
         }
-        
+
         try {
             customerService.updateCustomer(id, name, phone, address, membershipType);
 
@@ -186,7 +186,7 @@ public class CustomerController {
         if (!isConfirm) {
             return;
         }
-        
+
         try {
             customerService.deleteCustomer(id);
 

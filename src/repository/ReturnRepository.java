@@ -33,15 +33,15 @@ public class ReturnRepository {
 
     public List<ReturnOrder> findByOrderId(String orderId) {
         return returns.stream()
-                .filter(r -> r.getOrderId().equals(orderId))
+                .filter(returnOrder -> returnOrder.getOrderId().equals(orderId))
                 .collect(Collectors.toList());
     }
 
     public int countReturned(String orderId, String productId) {
         return findByOrderId(orderId).stream()
-                .flatMap(r -> r.getDetails().stream())
-                .filter(d -> d.getProductId().equals(productId))
-                .mapToInt(d -> d.getQuantity())
+                .flatMap(returnOrder -> returnOrder.getDetails().stream())
+                .filter(detail -> detail.getProductId().equals(productId))
+                .mapToInt(detail -> detail.getQuantity())
                 .sum();
     }
 }

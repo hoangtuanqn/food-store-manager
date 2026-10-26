@@ -41,7 +41,7 @@ public class SalesService {
         this.inventoryService = inventoryService;
     }
 
-    public boolean checkIdExist(String id) {
+    public boolean existsById(String id) {
         return orderRepository.existsById(id);
     }
 
@@ -102,14 +102,14 @@ public class SalesService {
             throw new InvalidTransactionException("A sales transaction must contain at least one product.");
         }
 
-        order.getDetails().forEach(d -> {
+        order.getDetails().forEach(detail -> {
             try {
-                inventoryService.checkSellable(d.getProductId(), d.getQuantity());
+                inventoryService.checkSellable(detail.getProductId(), detail.getQuantity());
             } catch (BusinessException e) {
-                throw new InvalidTransactionException(d.getProductName() + ": " + e.getMessage());
+                throw new InvalidTransactionException(detail.getProductName() + ": " + e.getMessage());
             }
         });
-        order.getDetails().forEach(d -> inventoryService.deductInventory(d.getProductId(), d.getQuantity(), orderId));
+        order.getDetails().forEach(detail -> inventoryService.deductInventory(detail.getProductId(), detail.getQuantity(), orderId));
         order.complete();
         orderRepository.update(order);
         return order;

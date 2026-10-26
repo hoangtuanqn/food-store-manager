@@ -81,7 +81,7 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
     private int indexOf(String id) {
         String normalizedId = IdHelper.normalize(id);
         return IntStream.range(0, products.size())
-                .filter(i -> products.get(i).getProductId().equals(normalizedId))
+                .filter(index -> products.get(index).getProductId().equals(normalizedId))
                 .findFirst()
                 .orElse(-1);
     }

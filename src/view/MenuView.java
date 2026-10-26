@@ -26,7 +26,7 @@ public class MenuView {
             "Inventory Management",
             "Reports"};
         IntStream.range(0, options.length)
-                .forEach(i -> System.out.println((i + 1) + ". " + options[i]));
+                .forEach(index -> System.out.println((index + 1) + ". " + options[index]));
         System.out.println("0. Exit");
         printLine('-');
     }
@@ -36,7 +36,7 @@ public class MenuView {
         printTitleCenter(title);
         printLine('=');
         IntStream.range(0, options.length)
-                .forEach(i -> System.out.println((i + 1) + ". " + options[i]));
+                .forEach(index -> System.out.println((index + 1) + ". " + options[index]));
         System.out.println("0. Back");
         printLine('-');
     }
@@ -44,7 +44,7 @@ public class MenuView {
     public static void showTitle(String title) {
         System.out.println("----------- " + title + " -----------");
     }
-    
+
     public static void showLine() {
         showLine(WIDTH);
     }
@@ -53,8 +53,8 @@ public class MenuView {
         System.out.println(repeat('-', width));
     }
 
-    private static void printLine(char c) {
-        System.out.println(repeat(c, WIDTH));
+    private static void printLine(char character) {
+        System.out.println(repeat(character, WIDTH));
     }
 
     private static void printTitleCenter(String title) {
@@ -62,9 +62,9 @@ public class MenuView {
         System.out.println(repeat(' ', padding) + title);
     }
 
-    private static String repeat(char c, int times) {
+    private static String repeat(char character, int times) {
         return IntStream.range(0, times)
-                .mapToObj(i -> String.valueOf(c))
+                .mapToObj(index -> String.valueOf(character))
                 .collect(Collectors.joining());
     }
 }

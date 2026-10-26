@@ -59,7 +59,7 @@ public class ProductController {
         String id;
         while (true) {
             id = InputHelper.readId("Product ID: ");
-            if (productService.checkIdExist(id)) {
+            if (productService.existsById(id)) {
                 ConsoleView.showError("Product ID already exists!");
             } else {
                 break;
@@ -101,27 +101,27 @@ public class ProductController {
         ProductView.showUpdateHeader();
         String id = InputHelper.readId("Enter ID to update: ");
 
-        FoodProduct exist;
+        FoodProduct existingProduct;
         try {
-            exist = productService.getProductById(id);
+            existingProduct = productService.getProductById(id);
         } catch (BusinessException e) {
             ConsoleView.showError(e.getMessage());
             return;
         }
 
-        ProductView.showInfo(exist);
+        ProductView.showInfo(existingProduct);
         System.out.println("Press Enter to keep the current value.");
 
-        String name = InputHelper.readStringOrDefault("Product Name ", exist.getName());
-        String category = InputHelper.readStringOrDefault("Category ", exist.getCategory());
-        String unit = InputHelper.readStringOrDefault("Unit ", exist.getUnit());
-        double price = InputHelper.readPriceOrDefault("Price ", exist.getPrice());
-        int quantity = InputHelper.readIntRangeOrDefault("Quantity ", 0, Integer.MAX_VALUE, exist.getQuantity());
+        String name = InputHelper.readStringOrDefault("Product Name ", existingProduct.getName());
+        String category = InputHelper.readStringOrDefault("Category ", existingProduct.getCategory());
+        String unit = InputHelper.readStringOrDefault("Unit ", existingProduct.getUnit());
+        double price = InputHelper.readPriceOrDefault("Price ", existingProduct.getPrice());
+        int quantity = InputHelper.readIntRangeOrDefault("Quantity ", 0, Integer.MAX_VALUE, existingProduct.getQuantity());
 
         LocalDate production, expiration;
         while (true) {
-            production = InputHelper.readDateOrDefault("Production Date ", exist.getProductionDate());
-            expiration = InputHelper.readDateOrDefault("Expiration Date ", exist.getExpirationDate());
+            production = InputHelper.readDateOrDefault("Production Date ", existingProduct.getProductionDate());
+            expiration = InputHelper.readDateOrDefault("Expiration Date ", existingProduct.getExpirationDate());
             try {
                 FoodProduct.requireDates(production, expiration);
                 break;
@@ -135,7 +135,7 @@ public class ProductController {
         }
 
         try {
-            FoodProduct updated = new FoodProduct(exist.getProductId(), name, category, unit, price, quantity, production, expiration);
+            FoodProduct updated = new FoodProduct(existingProduct.getProductId(), name, category, unit, price, quantity, production, expiration);
             productService.updateProduct(updated);
             ConsoleView.showSuccess("Food product updated successfully.");
         } catch (BusinessException | IllegalArgumentException e) {

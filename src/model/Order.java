@@ -105,7 +105,7 @@ public class Order implements Serializable {
 
     public OrderDetail findDetail(String productId) {
         return details.stream()
-                .filter(d -> d.getProductId().equals(productId))
+                .filter(detail -> detail.getProductId().equals(productId))
                 .findFirst()
                 .orElse(null);
     }

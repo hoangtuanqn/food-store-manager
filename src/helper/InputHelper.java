@@ -153,7 +153,7 @@ public class InputHelper {
             }
         }
     }
-    
+
     public static LocalDate readDateOrDefault(String prompt, LocalDate currentValue) {
         while (true) {
             System.out.print(prompt + "[" + DateHelper.format(currentValue) + "]: ");

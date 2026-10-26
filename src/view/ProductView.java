@@ -61,15 +61,15 @@ public class ProductView {
         printRows(products);
     }
 
-    public static void showInfo(FoodProduct p) {
+    public static void showInfo(FoodProduct product) {
         System.out.println("Current information:");
-        System.out.println("Name: " + p.getName());
-        System.out.println("Category: " + p.getCategory());
-        System.out.println("Unit: " + p.getUnit());
-        System.out.println("Price: " + formatPrice(p.getPrice()));
-        System.out.println("Quantity: " + p.getQuantity());
-        System.out.println("Production Date: " + DateHelper.format(p.getProductionDate()));
-        System.out.println("Expiration Date: " + DateHelper.format(p.getExpirationDate()));
+        System.out.println("Name: " + product.getName());
+        System.out.println("Category: " + product.getCategory());
+        System.out.println("Unit: " + product.getUnit());
+        System.out.println("Price: " + formatPrice(product.getPrice()));
+        System.out.println("Quantity: " + product.getQuantity());
+        System.out.println("Production Date: " + DateHelper.format(product.getProductionDate()));
+        System.out.println("Expiration Date: " + DateHelper.format(product.getExpirationDate()));
     }
 
     public static void showInventoryMenu() {
@@ -96,13 +96,13 @@ public class ProductView {
         MenuView.showTitle("STOCK MOVEMENT HISTORY");
         System.out.printf(MOVEMENT_ROW, "Time", "Product", "Old", "New", "Source", "Order");
         MenuView.showLine(TABLE_WIDTH);
-        movements.forEach(m -> System.out.printf(MOVEMENT_ROW,
-                m.getTimestamp().format(MOVEMENT_TIME),
-                m.getProductId(),
-                m.getOldQuantity(),
-                m.getNewQuantity(),
-                m.getSource(),
-                m.getOrderId() == null ? "-" : m.getOrderId()));
+        movements.forEach(movement -> System.out.printf(MOVEMENT_ROW,
+                movement.getTimestamp().format(MOVEMENT_TIME),
+                movement.getProductId(),
+                movement.getOldQuantity(),
+                movement.getNewQuantity(),
+                movement.getSource(),
+                movement.getOrderId() == null ? "-" : movement.getOrderId()));
         MenuView.showLine(TABLE_WIDTH);
     }
 
@@ -138,14 +138,14 @@ public class ProductView {
     private static void printRows(List<FoodProduct> products) {
         System.out.printf(ROW_FORMAT, "ID", "Name", "Category", "Unit", "Price", "Stock", "Expiry");
         MenuView.showLine(TABLE_WIDTH);
-        products.forEach(p -> System.out.printf(ROW_FORMAT,
-                p.getProductId(),
-                p.getName(),
-                p.getCategory(),
-                p.getUnit(),
-                formatPrice(p.getPrice()),
-                p.getQuantity(),
-                DateHelper.format(p.getExpirationDate())));
+        products.forEach(product -> System.out.printf(ROW_FORMAT,
+                product.getProductId(),
+                product.getName(),
+                product.getCategory(),
+                product.getUnit(),
+                formatPrice(product.getPrice()),
+                product.getQuantity(),
+                DateHelper.format(product.getExpirationDate())));
         MenuView.showLine(TABLE_WIDTH);
     }
 

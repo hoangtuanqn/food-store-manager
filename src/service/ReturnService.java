@@ -35,15 +35,15 @@ public class ReturnService {
             this.quantity = quantity;
             this.restock = restock;
         }
-    
+
         public String getProductId() {
             return productId;
         }
-    
+
         public int getQuantity() {
             return quantity;
         }
-    
+
         public boolean isRestock() {
             return restock;
         }
@@ -105,7 +105,7 @@ public class ReturnService {
         returnRepository.add(returnOrder);
         details.stream()
                 .filter(ReturnDetail::isRestocked)
-                .forEach(d -> inventoryService.restockFromReturn(d.getProductId(), d.getQuantity(), orderId));
+                .forEach(detail -> inventoryService.restockFromReturn(detail.getProductId(), detail.getQuantity(), orderId));
         return returnOrder;
     }
 }

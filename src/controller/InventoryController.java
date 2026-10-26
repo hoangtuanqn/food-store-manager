@@ -18,12 +18,12 @@ public class InventoryController {
             ProductView.showInventoryMenu();
             choice = InputHelper.readIntRange("Enter your choice: ", 0, 6);
             if (choice != 0) {
-                handle(choice);
+                handleChoice(choice);
             }
         } while (choice != 0);
     }
 
-    public void handle(int choice) {
+    public void handleChoice(int choice) {
         switch (choice) {
             case 1:
                 viewLowStock();
@@ -70,7 +70,6 @@ public class InventoryController {
             ProductView.showError(e.getMessage());
         }
     }
-
 
     public void viewExpired() {
         try {

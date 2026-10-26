@@ -87,7 +87,7 @@ public class SalesController {
         while (true) {
             id = InputHelper.readString("Transaction ID: ");
 
-            if (salesService.checkIdExist(id)) {
+            if (salesService.existsById(id)) {
                 ConsoleView.showError(
                         "Failed to create transaction. Transaction ID already exists."
                 );
@@ -99,7 +99,7 @@ public class SalesController {
         while (true) {
             customerId = InputHelper.readId("Customer ID: ");
 
-            if (!customerService.checkIdExist(customerId)) {
+            if (!customerService.existsById(customerId)) {
                 ConsoleView.showError(
                         "Failed to create transaction. Customer ID does not exist."
                 );
@@ -231,7 +231,7 @@ public class SalesController {
         while (true) {
             String productId = InputHelper.readId("Product ID: ");
             try {
-                int chosen = lines.stream().filter(l -> l.getProductId().equals(productId)).mapToInt(ReturnService.Line::getQuantity).sum();
+                int chosen = lines.stream().filter(line -> line.getProductId().equals(productId)).mapToInt(ReturnService.Line::getQuantity).sum();
                 int returnable = returnService.getReturnableQuantity(order.getOrderId(), productId) - chosen;
                 if (returnable <= 0) {
                     ConsoleView.showError("Nothing left to return for this product.");

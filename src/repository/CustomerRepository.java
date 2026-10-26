@@ -25,7 +25,7 @@ public class CustomerRepository implements Repository<Customer, String> {
         this.customers = FileHelper.load(FileHelper.CUSTOMERS, new ArrayList<Customer>());
 //        seedData();
     }
-    
+
 //    private void seedData() {
 //        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
 //    }
@@ -81,7 +81,7 @@ public class CustomerRepository implements Repository<Customer, String> {
     private int indexOf(String id) {
         String normalizedId = IdHelper.normalize(id);
         return IntStream.range(0, customers.size())
-                .filter(i -> customers.get(i).getCustomerId().equals(normalizedId))
+                .filter(index -> customers.get(index).getCustomerId().equals(normalizedId))
                 .findFirst()
                 .orElse(-1);
     }

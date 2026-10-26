@@ -76,11 +76,11 @@ public class SalesView {
         System.out.println();
         System.out.printf(RETURN_ROW, "Product", "Qty", "Amount", "Restocked");
         MenuView.showLine();
-        returnOrder.getDetails().forEach(d -> System.out.printf(RETURN_ROW,
-                d.getProductName(),
-                d.getQuantity(),
-                money(d.getLineTotal()),
-                d.isRestocked() ? "Yes" : "No"));
+        returnOrder.getDetails().forEach(detail -> System.out.printf(RETURN_ROW,
+                detail.getProductName(),
+                detail.getQuantity(),
+                money(detail.getLineTotal()),
+                detail.isRestocked() ? "Yes" : "No"));
         MenuView.showLine();
         System.out.printf("%-30s%19s VND%n", "Refund Amount:", money(returnOrder.getRefundAmount()));
         MenuView.showLine();
@@ -118,11 +118,11 @@ public class SalesView {
 
         System.out.printf(BILL_ROW, "Product", "Qty", "Price", "Amount");
         MenuView.showLine();
-        order.getDetails().forEach(d -> System.out.printf(BILL_ROW,
-                d.getProductName(),
-                d.getQuantity(),
-                money(d.getUnitPrice()),
-                money(d.getLineTotal())));
+        order.getDetails().forEach(detail -> System.out.printf(BILL_ROW,
+                detail.getProductName(),
+                detail.getQuantity(),
+                money(detail.getUnitPrice()),
+                money(detail.getLineTotal())));
         MenuView.showLine();
         System.out.printf("%-30s%19s VND%n", "Subtotal:", money(order.getSubtotal()));
         System.out.printf("%-30s%19s VND%n", discountLabel(order), money(order.getDiscount()));
@@ -146,13 +146,13 @@ public class SalesView {
         MenuView.showTitle("TRANSACTION HISTORY");
         System.out.printf(HISTORY_ROW, "ID", "Customer", "Date", "Items", "Total (VND)", "Status");
         MenuView.showLine();
-        orders.forEach(o -> System.out.printf(HISTORY_ROW,
-                o.getOrderId(),
-                o.getCustomerName(),
-                o.getOrderDate().format(DateHelper.FORMATTER),
-                o.getTotalQuantity(),
-                money(o.getFinalAmount()),
-                o.getStatus()));
+        orders.forEach(order -> System.out.printf(HISTORY_ROW,
+                order.getOrderId(),
+                order.getCustomerName(),
+                order.getOrderDate().format(DateHelper.FORMATTER),
+                order.getTotalQuantity(),
+                money(order.getFinalAmount()),
+                order.getStatus()));
         MenuView.showLine();
     }
 }
