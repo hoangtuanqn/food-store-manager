@@ -21,7 +21,6 @@ public class CustomerView {
                     "Delete Customer",
                     "View All Customers",
                     "Search Customer",
-                    "Calculate Discount"
                 }
         );
     }
