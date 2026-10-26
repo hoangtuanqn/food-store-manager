@@ -4,6 +4,7 @@
  */
 package repository;
 
+import helper.FileHelper;
 import helper.IdHelper;
 import model.Customer;
 import model.MembershipType;
@@ -21,7 +22,7 @@ public class CustomerRepository implements Repository<Customer, String> {
     private final List<Customer> customers;
 
     public CustomerRepository() {
-        this.customers = new ArrayList<>();
+        this.customers = FileHelper.load(FileHelper.CUSTOMERS, new ArrayList<Customer>());
 //        seedData();
     }
     
@@ -29,9 +30,14 @@ public class CustomerRepository implements Repository<Customer, String> {
 //        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
 //    }
 
+    private void save() {
+        FileHelper.save(FileHelper.CUSTOMERS, customers);
+    }
+
     @Override
     public void add(Customer item) {
         customers.add(item);
+        save();
     }
 
     @Override
@@ -58,6 +64,7 @@ public class CustomerRepository implements Repository<Customer, String> {
         } else {
             customers.add(item);
         }
+        save();
     }
 
     @Override
@@ -67,6 +74,7 @@ public class CustomerRepository implements Repository<Customer, String> {
             return false;
         }
         customers.remove(index);
+        save();
         return true;
     }
 
