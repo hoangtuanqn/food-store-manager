@@ -11,16 +11,16 @@ import helper.IdHelper;
  *
  * @author MSI
  */
-public class Customer implements Serializable {
+public abstract class Customer implements Serializable {
 
     private final String customerId;
     private String fullName;
     private String phone;
     private String address;
-    private MembershipType membershipType;
+    private final MembershipType membershipType;
 
-    public Customer(String customerId, String fullName, String phone,
-                    String address, MembershipType membershipType) {
+    protected Customer(String customerId, String fullName, String phone,
+                       String address, MembershipType membershipType) {
 
         if (customerId == null || customerId.trim().isEmpty()) {
             throw new IllegalArgumentException("Customer ID must not be empty.");
@@ -47,6 +47,16 @@ public class Customer implements Serializable {
         this.phone = phone.trim();
         this.address = address.trim();
         this.membershipType = membershipType;
+    }
+
+    public static Customer create(String customerId, String fullName, String phone,
+                                  String address, MembershipType membershipType) {
+        if (membershipType == null) {
+            throw new IllegalArgumentException("Membership type must not be null.");
+        }
+        return membershipType == MembershipType.VIP
+                ? new VIPCustomer(customerId, fullName, phone, address)
+                : new RegularCustomer(customerId, fullName, phone, address);
     }
 
     public String getCustomerId() {
@@ -90,16 +100,7 @@ public class Customer implements Serializable {
         this.address = address.trim();
     }
 
-    public void setMembershipType(MembershipType membershipType) {
-        if (membershipType == null) {
-            throw new IllegalArgumentException("Membership type must not be null.");
-        }
-        this.membershipType = membershipType;
-    }
-
-    public double getDiscountRate() {
-        return membershipType == MembershipType.VIP ? 0.10 : 0;
-    }
+    public abstract double getDiscountRate();
 
     public double calculateDiscount(double subtotal) {
         if (subtotal < 0) {

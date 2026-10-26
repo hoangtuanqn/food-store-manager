@@ -8,6 +8,14 @@ package model;
  *
  * @author MSI
  */
-public class RegularCustomer {
-    
+public class RegularCustomer extends Customer {
+
+    public RegularCustomer(String customerId, String fullName, String phone, String address) {
+        super(customerId, fullName, phone, address, MembershipType.REGULAR);
+    }
+
+    @Override
+    public double getDiscountRate() {
+        return 0;
+    }
 }

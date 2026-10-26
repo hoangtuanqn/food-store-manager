@@ -66,15 +66,13 @@ public class CustomerService {
 
     public void updateCustomer(String id, String name, String phone,
                                String address, MembershipType type) {
-        Customer c = repository.findById(id)
+        Customer old = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Customer ID does not exist."));
 
         String validPhone = validatePhone(phone, id);
 
-        c.setFullName(name);
-        c.setPhone(validPhone);
-        c.setAddress(address);
-        c.setMembershipType(type);
+        repository.update(Customer.create(old.getCustomerId(), name, validPhone, address, type));
+        orderRepository.linkCustomers(repository);
     }
 
     public void deleteCustomer(String id) {
