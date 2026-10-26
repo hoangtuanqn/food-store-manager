@@ -4,16 +4,16 @@
  */
 package service;
 
+import repository.Repository;
 import model.FoodProduct;
-import repository.FoodProductRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class StockAlertService {
 
-    private final FoodProductRepository productRepository;
+    private final Repository<FoodProduct, String> productRepository;
 
-    public StockAlertService(FoodProductRepository productRepository) {
+    public StockAlertService(Repository<FoodProduct, String> productRepository) {
         this.productRepository = productRepository;
     }
 

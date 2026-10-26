@@ -14,9 +14,8 @@ import model.FoodProduct;
 import model.Order;
 import model.OrderDetail;
 import model.OrderStatus;
-import repository.CustomerRepository;
-import repository.FoodProductRepository;
 import repository.OrderRepository;
+import repository.Repository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +28,12 @@ import java.util.stream.Collectors;
 public class SalesService {
 
     private final OrderRepository orderRepository;
-    private final CustomerRepository customerRepository;
-    private final FoodProductRepository productRepository;
+    private final Repository<Customer, String> customerRepository;
+    private final Repository<FoodProduct, String> productRepository;
     private final InventoryService inventoryService;
 
-    public SalesService(OrderRepository orderRepository, CustomerRepository customerRepository,
-            FoodProductRepository productRepository, InventoryService inventoryService) {
+    public SalesService(OrderRepository orderRepository, Repository<Customer, String> customerRepository,
+            Repository<FoodProduct, String> productRepository, InventoryService inventoryService) {
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
         this.productRepository = productRepository;

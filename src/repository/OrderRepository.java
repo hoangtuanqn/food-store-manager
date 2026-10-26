@@ -6,6 +6,7 @@ package repository;
 
 import helper.FileHelper;
 import helper.IdHelper;
+import model.Customer;
 import model.Order;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class OrderRepository implements Repository<Order, String> {
         this.orders = FileHelper.load(FileHelper.ORDERS, new ArrayList<Order>());
     }
 
-    public void linkCustomers(CustomerRepository customerRepository) {
+    public void linkCustomers(Repository<Customer, String> customerRepository) {
         orders.forEach(order -> customerRepository.findById(order.getCustomerId()).ifPresent(order::setCustomer));
     }
 

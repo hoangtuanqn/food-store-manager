@@ -4,11 +4,11 @@
  */
 package service;
 
+import repository.Repository;
 import exception.BusinessException;
 import exception.DuplicateIdException;
 import exception.NotFoundException;
 import model.FoodProduct;
-import repository.FoodProductRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ import java.time.LocalDate;
  */
 public class ProductService {
 
-    private final FoodProductRepository repository;
+    private final Repository<FoodProduct, String> repository;
     private final SalesService salesService;
     private final InventoryService inventoryService;
 
-    public ProductService(FoodProductRepository repository, SalesService salesService, InventoryService inventoryService) {
+    public ProductService(Repository<FoodProduct, String> repository, SalesService salesService, InventoryService inventoryService) {
         this.repository = repository;
         this.salesService = salesService;
         this.inventoryService = inventoryService;

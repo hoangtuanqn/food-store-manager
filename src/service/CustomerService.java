@@ -10,8 +10,8 @@ import exception.EntityInUseException;
 import helper.PhoneHelper;
 import model.Customer;
 import model.MembershipType;
-import repository.CustomerRepository;
 import repository.OrderRepository;
+import repository.Repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
  */
 public class CustomerService {
 
-    private final CustomerRepository repository;
+    private final Repository<Customer, String> repository;
     private final OrderRepository orderRepository;
 
-    public CustomerService(CustomerRepository repository, OrderRepository orderRepository) {
+    public CustomerService(Repository<Customer, String> repository, OrderRepository orderRepository) {
         this.repository = repository;
         this.orderRepository = orderRepository;
     }

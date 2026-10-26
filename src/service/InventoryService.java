@@ -8,17 +8,17 @@ import exception.*;
 import model.FoodProduct;
 import model.MovementSource;
 import model.StockMovement;
-import repository.FoodProductRepository;
 import repository.StockMovementRepository;
+import repository.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class InventoryService {
 
-    private final FoodProductRepository productRepository;
+    private final Repository<FoodProduct, String> productRepository;
     private final StockMovementRepository movementRepository;
 
-    public InventoryService(FoodProductRepository productRepository, StockMovementRepository movementRepository) {
+    public InventoryService(Repository<FoodProduct, String> productRepository, StockMovementRepository movementRepository) {
         this.productRepository = productRepository;
         this.movementRepository = movementRepository;
     }
