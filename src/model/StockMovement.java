@@ -1,16 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package model;
 
+package model;
+import java.io.Serializable; 
 import java.time.LocalDateTime;
 
 /**
  *
  * @author ad
  */
-public class StockMovement {
+public class StockMovement implements Serializable{
 
     private final String productId;
     private final int oldQuantity;
