@@ -7,12 +7,13 @@ package model;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import helper.IdHelper;
+import java.io.Serializable;
 
 /**
  *
  * @author MSI
  */
-public class FoodProduct {
+public class FoodProduct implements Serializable {
 
     public static final int LOW_STOCK_THRESHOLD = 5;
     public static final int NEAR_EXPIRATION_DAYS = 7;
