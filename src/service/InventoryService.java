@@ -8,20 +8,17 @@ import exception.*;
 import model.FoodProduct;
 import model.MovementSource;
 import model.StockMovement;
-import repository.FoodProductRepository;
 import repository.StockMovementRepository;
+import repository.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class InventoryService {
 
-    public static final int LOW_STOCK_THRESHOLD = 5;
-    public static final int NEAR_EXPIRATION_DAYS = 7;
-    private final FoodProductRepository productRepository;
+    private final Repository<FoodProduct, String> productRepository;
     private final StockMovementRepository movementRepository;
 
-    public InventoryService(FoodProductRepository productRepository, StockMovementRepository movementRepository) {
+    public InventoryService(Repository<FoodProduct, String> productRepository, StockMovementRepository movementRepository) {
         this.productRepository = productRepository;
         this.movementRepository = movementRepository;
     }
@@ -79,32 +76,5 @@ public class InventoryService {
         if (oldQuantity != newQuantity) {
             movementRepository.add(new StockMovement(productId, oldQuantity, newQuantity, source, LocalDateTime.now(), orderId));
         }
-    }
-
-    public List<FoodProduct> getLowStockProducts() {
-        return productRepository.findAll().stream()
-                .filter(FoodProduct::isLowStock)
-                .collect(Collectors.toList());
-    }
-
-    public List<FoodProduct> getExpiredProducts() {
-        return productRepository.findAll().stream()
-                .filter(FoodProduct::isExpired)
-                .collect(Collectors.toList());
-
-    }
-
-    public List<FoodProduct> getNearExpiryProducts() {
-        return productRepository.findAll().stream()
-                .filter(FoodProduct::isNearExpiration)
-                .collect(Collectors.toList());
-
-    }
-
-    public List<FoodProduct> getSellableProducts() {
-        return productRepository.findAll().stream()
-                .filter(product -> !product.isExpired() && product.getQuantity() > 0)
-                .collect(Collectors.toList());
-
     }
 }

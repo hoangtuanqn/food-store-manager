@@ -4,25 +4,12 @@
  */
 package repository;
 
-import helper.FileHelper;
 import model.StockMovement;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author ad
- */
-public class StockMovementRepository {
+public interface StockMovementRepository {
 
-    private final List<StockMovement> movements = FileHelper.load(FileHelper.STOCK_MOVEMENTS, new ArrayList<StockMovement>());
+    void add(StockMovement movement);
 
-    public void add(StockMovement movement) {
-        movements.add(movement);
-        FileHelper.save(FileHelper.STOCK_MOVEMENTS, movements);
-    }
-
-    public List<StockMovement> findAll() {
-        return new ArrayList<>(movements);
-    }
+    List<StockMovement> findAll();
 }

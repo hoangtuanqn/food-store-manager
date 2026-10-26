@@ -3,13 +3,16 @@ package controller;
 
 import exception.BusinessException;
 import service.InventoryService;
+import service.StockAlertService;
 import helper.InputHelper;
 import view.ProductView;
 public class InventoryController {
     private final InventoryService inventoryService;
+    private final StockAlertService stockAlertService;
 
-    public InventoryController(InventoryService inventoryService) {
+    public InventoryController(InventoryService inventoryService, StockAlertService stockAlertService) {
         this.inventoryService = inventoryService;
+        this.stockAlertService = stockAlertService;
     }
 
     public void run() {
@@ -65,7 +68,7 @@ public class InventoryController {
 
     public void viewLowStock() {
         try {
-            ProductView.showLowStockProducts(inventoryService.getLowStockProducts());
+            ProductView.showLowStockProducts(stockAlertService.getLowStockProducts());
         } catch (BusinessException e) {
             ProductView.showError(e.getMessage());
         }
@@ -73,7 +76,7 @@ public class InventoryController {
 
     public void viewExpired() {
         try {
-            ProductView.showExpiredProducts(inventoryService.getExpiredProducts());
+            ProductView.showExpiredProducts(stockAlertService.getExpiredProducts());
         } catch (BusinessException e) {
             ProductView.showError(e.getMessage());
         }
@@ -81,7 +84,7 @@ public class InventoryController {
 
     public void viewNearExpiry() {
         try {
-            ProductView.showNearExpiryProducts(inventoryService.getNearExpiryProducts());
+            ProductView.showNearExpiryProducts(stockAlertService.getNearExpiryProducts());
         } catch (BusinessException e) {
             ProductView.showError(e.getMessage());
         }
@@ -89,7 +92,7 @@ public class InventoryController {
 
     public void viewSellable() {
         try {
-            ProductView.showSellableProducts(inventoryService.getSellableProducts());
+            ProductView.showSellableProducts(stockAlertService.getSellableProducts());
         } catch (BusinessException e) {
             ProductView.showError(e.getMessage());
         }

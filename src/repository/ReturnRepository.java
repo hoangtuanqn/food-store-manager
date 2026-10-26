@@ -4,44 +4,18 @@
  */
 package repository;
 
-import helper.FileHelper;
 import model.ReturnOrder;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-/**
- *
- * @author ad
- */
-public class ReturnRepository {
+public interface ReturnRepository {
 
-    private final List<ReturnOrder> returns = FileHelper.load(FileHelper.RETURNS, new ArrayList<ReturnOrder>());
+    String nextId();
 
-    public String nextId() {
-        return String.format("R%02d", returns.size() + 1);
-    }
+    void add(ReturnOrder returnOrder);
 
-    public void add(ReturnOrder returnOrder) {
-        returns.add(returnOrder);
-        FileHelper.save(FileHelper.RETURNS, returns);
-    }
+    List<ReturnOrder> findAll();
 
-    public List<ReturnOrder> findAll() {
-        return new ArrayList<>(returns);
-    }
+    List<ReturnOrder> findByOrderId(String orderId);
 
-    public List<ReturnOrder> findByOrderId(String orderId) {
-        return returns.stream()
-                .filter(returnOrder -> returnOrder.getOrderId().equals(orderId))
-                .collect(Collectors.toList());
-    }
-
-    public int countReturned(String orderId, String productId) {
-        return findByOrderId(orderId).stream()
-                .flatMap(returnOrder -> returnOrder.getDetails().stream())
-                .filter(detail -> detail.getProductId().equals(productId))
-                .mapToInt(detail -> detail.getQuantity())
-                .sum();
-    }
+    int countReturned(String orderId, String productId);
 }
