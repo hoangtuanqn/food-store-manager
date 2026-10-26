@@ -85,7 +85,7 @@ public class CustomerController {
 
         MembershipType membershipType = readMembershipType();
 
-        Customer customer = new Customer(
+        Customer customer = Customer.create(
                 id,
                 name,
                 phone,
