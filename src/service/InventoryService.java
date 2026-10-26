@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 
 public class InventoryService {
 
-    public static final int LOW_STOCK_THRESHOLD = 5;
-    public static final int NEAR_EXPIRATION_DAYS = 7;
     private final FoodProductRepository productRepository;
     private final StockMovementRepository movementRepository;
 
