@@ -4,13 +4,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  *
  * @author ad
  */
-public class StockMovement {
+public class StockMovement implements Serializable {
 
     private final String productId;
     private final int oldQuantity;
