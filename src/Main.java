@@ -12,7 +12,9 @@ import controller.ReturnController;
 import controller.SalesController;
 import repository.CustomerRepository;
 import repository.FoodProductRepository;
+import repository.FileOrderRepository;
 import repository.OrderRepository;
+import repository.FileReturnRepository;
 import repository.ReturnRepository;
 import repository.StockMovementRepository;
 import service.CustomerService;
@@ -32,7 +34,7 @@ public class Main {
     public static void main(String[] args) {
         FoodProductRepository productRepository = new FoodProductRepository();
         CustomerRepository customerRepository = new CustomerRepository();
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepository orderRepository = new FileOrderRepository();
         orderRepository.linkCustomers(customerRepository);
 
         StockMovementRepository movementRepository = new StockMovementRepository();
@@ -49,7 +51,7 @@ public class Main {
         CustomerService customerService = new CustomerService(customerRepository, orderRepository);
         CustomerController customerController = new CustomerController(customerService);
 
-        ReturnRepository returnRepository = new ReturnRepository();
+        ReturnRepository returnRepository = new FileReturnRepository();
         ReturnService returnService = new ReturnService(salesService, returnRepository, inventoryService);
         ReturnController returnController = new ReturnController(salesService, returnService);
         SalesController salesController = new SalesController(salesService, customerService, productService, returnController);
