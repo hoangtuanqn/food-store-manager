@@ -8,6 +8,7 @@ import controller.InventoryController;
 import controller.MainController;
 import controller.ProductController;
 import controller.ReportController;
+import controller.ReturnController;
 import controller.SalesController;
 import repository.CustomerRepository;
 import repository.FoodProductRepository;
@@ -50,7 +51,8 @@ public class Main {
 
         ReturnRepository returnRepository = new ReturnRepository();
         ReturnService returnService = new ReturnService(salesService, returnRepository, inventoryService);
-        SalesController salesController = new SalesController(salesService, customerService, productService, returnService);
+        ReturnController returnController = new ReturnController(salesService, returnService);
+        SalesController salesController = new SalesController(salesService, customerService, productService, returnController);
         ReportService reportService = new ReportService(salesService, returnRepository, stockAlertService);
         ReportController reportController = new ReportController(reportService);
         new MainController(productController, customerController, inventoryController, salesController, reportController).run();
