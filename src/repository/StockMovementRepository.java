@@ -27,7 +27,7 @@
         movements.add(movement);
             save();  
         }
-    public List<StockMovement> findAll() {
-        return new ArrayList<>(movements);
+    public List<StockMovement> findAll()
+    {  return new ArrayList<>(movements);
         }
     }
