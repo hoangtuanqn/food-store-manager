@@ -16,6 +16,7 @@ import repository.FileOrderRepository;
 import repository.OrderRepository;
 import repository.FileReturnRepository;
 import repository.ReturnRepository;
+import repository.FileStockMovementRepository;
 import repository.StockMovementRepository;
 import service.CustomerService;
 import service.InventoryService;
@@ -37,7 +38,7 @@ public class Main {
         OrderRepository orderRepository = new FileOrderRepository();
         orderRepository.linkCustomers(customerRepository);
 
-        StockMovementRepository movementRepository = new StockMovementRepository();
+        StockMovementRepository movementRepository = new FileStockMovementRepository();
 
         InventoryService inventoryService = new InventoryService(productRepository, movementRepository);
         StockAlertService stockAlertService = new StockAlertService(productRepository);
