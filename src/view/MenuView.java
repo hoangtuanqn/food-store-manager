@@ -44,7 +44,7 @@ public class MenuView {
     public static void showTitle(String title) {
         System.out.println("----------- " + title + " -----------");
     }
-    
+
     public static void showLine() {
         showLine(WIDTH);
     }

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CustomerView {
     private static final String ROW_FORMAT = "%-7s%-19s%-15s%-10s%n";
-    
+
     public static void showMenu() {
         MenuView.showSubMenu(
                 "CUSTOMER MANAGEMENT",

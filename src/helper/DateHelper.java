@@ -17,11 +17,11 @@ public class DateHelper {
 
     public static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
-    
+
     public static LocalDate parse(String text) {
         return LocalDate.parse(text.trim(), FORMATTER);
     }
- 
+
     public static String format(LocalDate date) {
         return date == null ? "" : date.format(FORMATTER);
     }

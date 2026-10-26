@@ -12,5 +12,5 @@ public class DuplicateIdException extends BusinessException {
     public DuplicateIdException(String message) {
         super(message);
     }
-    
+
 }

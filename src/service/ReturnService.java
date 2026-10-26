@@ -35,15 +35,15 @@ public class ReturnService {
             this.quantity = quantity;
             this.restock = restock;
         }
-    
+
         public String getProductId() {
             return productId;
         }
-    
+
         public int getQuantity() {
             return quantity;
         }
-    
+
         public boolean isRestock() {
             return restock;
         }

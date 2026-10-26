@@ -71,7 +71,6 @@ public class InventoryController {
         }
     }
 
-
     public void viewExpired() {
         try {
             ProductView.showExpiredProducts(inventoryService.getExpiredProducts());

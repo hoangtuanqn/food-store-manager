@@ -25,7 +25,7 @@ public class CustomerRepository implements Repository<Customer, String> {
         this.customers = FileHelper.load(FileHelper.CUSTOMERS, new ArrayList<Customer>());
 //        seedData();
     }
-    
+
 //    private void seedData() {
 //        customers.add(new Customer("C001", "Pham Hoang Tuan", "0812665001", "Quang Ngai, Viet Nam", MembershipType.REGULAR));
 //    }

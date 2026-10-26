@@ -92,7 +92,7 @@ public class CustomerController {
                 address,
                 membershipType
         );
-        
+
         boolean isConfirm = InputHelper.confirmAction("Add");
         if (!isConfirm) {
             return;
@@ -149,7 +149,7 @@ public class CustomerController {
         if (!isConfirm) {
             return;
         }
-        
+
         try {
             customerService.updateCustomer(id, name, phone, address, membershipType);
 
@@ -186,7 +186,7 @@ public class CustomerController {
         if (!isConfirm) {
             return;
         }
-        
+
         try {
             customerService.deleteCustomer(id);
 

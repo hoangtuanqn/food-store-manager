@@ -21,9 +21,9 @@ public class MainController {
     private final ReportController reportController;
 
     public MainController(
-            ProductController productController, 
-            CustomerController customerController, 
-            InventoryController inventoryController, 
+            ProductController productController,
+            CustomerController customerController,
+            InventoryController inventoryController,
             SalesController salesController,
             ReportController reportController) {
         this.productController = productController;
