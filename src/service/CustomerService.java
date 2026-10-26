@@ -32,7 +32,7 @@ public class CustomerService {
     public String validatePhone(String phone, String ownerId) {
         String normalized = PhoneHelper.normalize(phone);
         repository.findAll().stream()
-                .filter(c -> c.getPhone().equals(normalized) && !c.getCustomerId().equals(ownerId))
+                .filter(customer -> customer.getPhone().equals(normalized) && !customer.getCustomerId().equals(ownerId))
                 .findFirst()
                 .ifPresent(owner -> {
                     throw new DuplicatePhoneException("Phone number already belongs to customer " + owner.getCustomerId() + ".");

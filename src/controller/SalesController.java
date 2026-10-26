@@ -231,7 +231,7 @@ public class SalesController {
         while (true) {
             String productId = InputHelper.readId("Product ID: ");
             try {
-                int chosen = lines.stream().filter(l -> l.getProductId().equals(productId)).mapToInt(ReturnService.Line::getQuantity).sum();
+                int chosen = lines.stream().filter(line -> line.getProductId().equals(productId)).mapToInt(ReturnService.Line::getQuantity).sum();
                 int returnable = returnService.getReturnableQuantity(order.getOrderId(), productId) - chosen;
                 if (returnable <= 0) {
                     ConsoleView.showError("Nothing left to return for this product.");

@@ -61,15 +61,15 @@ public class ReportService {
         Map<String, String> names = new HashMap<>();
         getCompletedOrders(from, to).stream()
                 .flatMap(order -> order.getDetails().stream())
-                .forEach(d -> {
-                    quantities.merge(d.getProductId(), d.getQuantity(), Integer::sum);
-                    names.put(d.getProductId(), d.getProductName());
+                .forEach(detail -> {
+                    quantities.merge(detail.getProductId(), detail.getQuantity(), Integer::sum);
+                    names.put(detail.getProductId(), detail.getProductName());
                 });
         getReturns(from, to).stream()
                 .flatMap(returnOrder -> returnOrder.getDetails().stream())
-                .forEach(d -> {
-                    quantities.merge(d.getProductId(), -d.getQuantity(), Integer::sum);
-                    names.putIfAbsent(d.getProductId(), d.getProductName());
+                .forEach(detail -> {
+                    quantities.merge(detail.getProductId(), -detail.getQuantity(), Integer::sum);
+                    names.putIfAbsent(detail.getProductId(), detail.getProductName());
                 });
 
         return quantities.entrySet().stream()
@@ -121,7 +121,7 @@ public class ReportService {
         List<ReturnOrder> returns = getReturns(from, to);
 
         int productsSold = orders.stream().mapToInt(Order::getTotalQuantity).sum()
-                - returns.stream().flatMap(r -> r.getDetails().stream()).mapToInt(ReturnDetail::getQuantity).sum();
+                - returns.stream().flatMap(returnOrder -> returnOrder.getDetails().stream()).mapToInt(ReturnDetail::getQuantity).sum();
         double revenue = orders.stream().mapToDouble(Order::getFinalAmount).sum()
                 - returns.stream().mapToDouble(ReturnOrder::getRefundAmount).sum();
         return new SalesSummary(orders.size(), productsSold, revenue);

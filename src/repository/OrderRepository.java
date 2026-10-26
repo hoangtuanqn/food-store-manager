@@ -94,7 +94,7 @@ public class OrderRepository implements Repository<Order, String> {
 
     private int indexOf(String id) {
         return IntStream.range(0, orders.size())
-                .filter(i -> orders.get(i).getOrderId().equals(id))
+                .filter(index -> orders.get(index).getOrderId().equals(id))
                 .findFirst()
                 .orElse(-1);
     }

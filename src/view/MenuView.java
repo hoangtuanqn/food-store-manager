@@ -26,7 +26,7 @@ public class MenuView {
             "Inventory Management",
             "Reports"};
         IntStream.range(0, options.length)
-                .forEach(i -> System.out.println((i + 1) + ". " + options[i]));
+                .forEach(index -> System.out.println((index + 1) + ". " + options[index]));
         System.out.println("0. Exit");
         printLine('-');
     }
@@ -36,7 +36,7 @@ public class MenuView {
         printTitleCenter(title);
         printLine('=');
         IntStream.range(0, options.length)
-                .forEach(i -> System.out.println((i + 1) + ". " + options[i]));
+                .forEach(index -> System.out.println((index + 1) + ". " + options[index]));
         System.out.println("0. Back");
         printLine('-');
     }

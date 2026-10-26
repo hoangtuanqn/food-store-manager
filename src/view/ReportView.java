@@ -48,8 +48,8 @@ public class ReportView {
         System.out.println();
         System.out.printf(BEST_SELLING_ROW, "Product ID", "Product Name", "Quantity Sold");
         MenuView.showLine();
-        products.forEach(p -> System.out.printf(BEST_SELLING_ROW,
-                p.getProductId(), p.getProductName(), p.getQuantitySold()));
+        products.forEach(product -> System.out.printf(BEST_SELLING_ROW,
+                product.getProductId(), product.getProductName(), product.getQuantitySold()));
         MenuView.showLine();
     }
 
@@ -64,9 +64,9 @@ public class ReportView {
         System.out.println();
         System.out.printf(TOP_SPENDING_ROW, "Customer ID", "Customer Name", "Total Purchase");
         MenuView.showLine();
-        customers.forEach(c -> System.out.printf(TOP_SPENDING_ROW,
-                c.getCustomerId(), c.getCustomerName(),
-                String.format(Locale.US, "%,.0f", c.getTotalPurchase()) + " VND"));
+        customers.forEach(customer -> System.out.printf(TOP_SPENDING_ROW,
+                customer.getCustomerId(), customer.getCustomerName(),
+                String.format(Locale.US, "%,.0f", customer.getTotalPurchase()) + " VND"));
         MenuView.showLine();
     }
 
@@ -80,8 +80,8 @@ public class ReportView {
         System.out.println();
         System.out.printf(LOW_STOCK_ROW, "Product ID", "Product Name", "Category", "Stock");
         MenuView.showLine();
-        products.forEach(p -> System.out.printf(LOW_STOCK_ROW,
-                p.getProductId(), p.getName(), p.getCategory(), p.getQuantity()));
+        products.forEach(product -> System.out.printf(LOW_STOCK_ROW,
+                product.getProductId(), product.getName(), product.getCategory(), product.getQuantity()));
         MenuView.showLine();
     }
 
@@ -95,8 +95,8 @@ public class ReportView {
         System.out.println();
         System.out.printf(EXPIRED_ROW, "Product ID", "Product Name", "Expiration Date");
         MenuView.showLine();
-        products.forEach(p -> System.out.printf(EXPIRED_ROW,
-                p.getProductId(), p.getName(), DateHelper.format(p.getExpirationDate())));
+        products.forEach(product -> System.out.printf(EXPIRED_ROW,
+                product.getProductId(), product.getName(), DateHelper.format(product.getExpirationDate())));
         MenuView.showLine();
         System.out.println(products.size() + " expired products found.");
     }

@@ -103,7 +103,7 @@ public class InventoryService {
 
     public List<FoodProduct> getSellableProducts() {
         return productRepository.findAll().stream()
-                .filter(p -> !p.isExpired() && p.getQuantity() > 0)
+                .filter(product -> !product.isExpired() && product.getQuantity() > 0)
                 .collect(Collectors.toList());
 
     }
