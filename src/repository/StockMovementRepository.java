@@ -4,6 +4,7 @@
  */
 package repository;
 
+import helper.FileHelper;
 import model.StockMovement;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,11 @@ import java.util.List;
  */
 public class StockMovementRepository {
 
-    private final List<StockMovement> movements = new ArrayList<>();
+    private final List<StockMovement> movements = FileHelper.load(FileHelper.STOCK_MOVEMENTS, new ArrayList<StockMovement>());
 
     public void add(StockMovement movement) {
         movements.add(movement);
+        FileHelper.save(FileHelper.STOCK_MOVEMENTS, movements);
     }
 
     public List<StockMovement> findAll() {
