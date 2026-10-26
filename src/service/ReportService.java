@@ -31,20 +31,20 @@ public class ReportService {
 
     private final SalesService salesService;
     private final ReturnRepository returnRepository;
-    private final InventoryService inventoryService;
+    private final StockAlertService stockAlertService;
 
-    public ReportService(SalesService salesService, ReturnRepository returnRepository, InventoryService inventoryService) {
+    public ReportService(SalesService salesService, ReturnRepository returnRepository, StockAlertService stockAlertService) {
         this.salesService = salesService;
         this.returnRepository = returnRepository;
-        this.inventoryService = inventoryService;
+        this.stockAlertService = stockAlertService;
     }
 
     public List<FoodProduct> getLowStockProducts() {
-        return inventoryService.getLowStockProducts();
+        return stockAlertService.getLowStockProducts();
     }
 
     public List<FoodProduct> getExpiredProducts() {
-        return inventoryService.getExpiredProducts();
+        return stockAlertService.getExpiredProducts();
     }
 
     public SalesSummary getDailySummary(LocalDate day) {

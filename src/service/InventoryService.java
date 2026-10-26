@@ -12,7 +12,6 @@ import repository.FoodProductRepository;
 import repository.StockMovementRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class InventoryService {
 
@@ -77,32 +76,5 @@ public class InventoryService {
         if (oldQuantity != newQuantity) {
             movementRepository.add(new StockMovement(productId, oldQuantity, newQuantity, source, LocalDateTime.now(), orderId));
         }
-    }
-
-    public List<FoodProduct> getLowStockProducts() {
-        return productRepository.findAll().stream()
-                .filter(FoodProduct::isLowStock)
-                .collect(Collectors.toList());
-    }
-
-    public List<FoodProduct> getExpiredProducts() {
-        return productRepository.findAll().stream()
-                .filter(FoodProduct::isExpired)
-                .collect(Collectors.toList());
-
-    }
-
-    public List<FoodProduct> getNearExpiryProducts() {
-        return productRepository.findAll().stream()
-                .filter(FoodProduct::isNearExpiration)
-                .collect(Collectors.toList());
-
-    }
-
-    public List<FoodProduct> getSellableProducts() {
-        return productRepository.findAll().stream()
-                .filter(product -> !product.isExpired() && product.getQuantity() > 0)
-                .collect(Collectors.toList());
-
     }
 }

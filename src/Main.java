@@ -19,6 +19,7 @@ import service.InventoryService;
 import service.ProductService;
 import service.ReportService;
 import service.ReturnService;
+import service.StockAlertService;
 import service.SalesService;
 
 /**
@@ -36,7 +37,8 @@ public class Main {
         StockMovementRepository movementRepository = new StockMovementRepository();
 
         InventoryService inventoryService = new InventoryService(productRepository, movementRepository);
-        InventoryController inventoryController = new InventoryController(inventoryService);
+        StockAlertService stockAlertService = new StockAlertService(productRepository);
+        InventoryController inventoryController = new InventoryController(inventoryService, stockAlertService);
 
         SalesService salesService = new SalesService(orderRepository, customerRepository, productRepository, inventoryService);
 
@@ -49,7 +51,7 @@ public class Main {
         ReturnRepository returnRepository = new ReturnRepository();
         ReturnService returnService = new ReturnService(salesService, returnRepository, inventoryService);
         SalesController salesController = new SalesController(salesService, customerService, productService, returnService);
-        ReportService reportService = new ReportService(salesService, returnRepository, inventoryService);
+        ReportService reportService = new ReportService(salesService, returnRepository, stockAlertService);
         ReportController reportController = new ReportController(reportService);
         new MainController(productController, customerController, inventoryController, salesController, reportController).run();
     }
