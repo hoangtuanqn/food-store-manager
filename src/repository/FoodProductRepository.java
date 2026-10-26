@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-import helper.IdHelper;
 import helper.FileHelper;
-
+import helper.IdHelper;
 
 /**
  *
@@ -31,10 +30,10 @@ public class FoodProductRepository implements Repository<FoodProduct, String> {
 //        products.add(new FoodProduct("P001", "Banh mi", "Tinh bot", "Cai", 3000, 100, LocalDate.now(), LocalDate.parse("2027-01-10")));
 //    }
 
-    private void save (){
+    private void save() {
         FileHelper.save(FileHelper.PRODUCTS, products);
     }
-    
+
     @Override
     public void add(FoodProduct item) {
         products.add(item);
