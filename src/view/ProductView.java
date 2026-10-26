@@ -61,15 +61,15 @@ public class ProductView {
         printRows(products);
     }
 
-    public static void showInfo(FoodProduct p) {
+    public static void showInfo(FoodProduct product) {
         System.out.println("Current information:");
-        System.out.println("Name: " + p.getName());
-        System.out.println("Category: " + p.getCategory());
-        System.out.println("Unit: " + p.getUnit());
-        System.out.println("Price: " + formatPrice(p.getPrice()));
-        System.out.println("Quantity: " + p.getQuantity());
-        System.out.println("Production Date: " + DateHelper.format(p.getProductionDate()));
-        System.out.println("Expiration Date: " + DateHelper.format(p.getExpirationDate()));
+        System.out.println("Name: " + product.getName());
+        System.out.println("Category: " + product.getCategory());
+        System.out.println("Unit: " + product.getUnit());
+        System.out.println("Price: " + formatPrice(product.getPrice()));
+        System.out.println("Quantity: " + product.getQuantity());
+        System.out.println("Production Date: " + DateHelper.format(product.getProductionDate()));
+        System.out.println("Expiration Date: " + DateHelper.format(product.getExpirationDate()));
     }
 
     public static void showInventoryMenu() {

@@ -70,7 +70,7 @@ public class CustomerController {
         while (true) {
             id = InputHelper.readId("Customer ID: ");
 
-            if (customerService.checkIdExist(id)) {
+            if (customerService.existsById(id)) {
                 ConsoleView.showError(
                         "Customer ID already exists!"
                 );

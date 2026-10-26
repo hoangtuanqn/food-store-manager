@@ -87,7 +87,7 @@ public class SalesController {
         while (true) {
             id = InputHelper.readString("Transaction ID: ");
 
-            if (salesService.checkIdExist(id)) {
+            if (salesService.existsById(id)) {
                 ConsoleView.showError(
                         "Failed to create transaction. Transaction ID already exists."
                 );
@@ -99,7 +99,7 @@ public class SalesController {
         while (true) {
             customerId = InputHelper.readId("Customer ID: ");
 
-            if (!customerService.checkIdExist(customerId)) {
+            if (!customerService.existsById(customerId)) {
                 ConsoleView.showError(
                         "Failed to create transaction. Customer ID does not exist."
                 );

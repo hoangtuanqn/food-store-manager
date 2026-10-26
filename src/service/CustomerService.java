@@ -52,7 +52,7 @@ public class CustomerService {
         repository.add(customer);
     }
 
-    public boolean checkIdExist(String id) {
+    public boolean existsById(String id) {
         return repository.existsById(id);
     }
 
@@ -66,12 +66,12 @@ public class CustomerService {
 
     public void updateCustomer(String id, String name, String phone,
                                String address, MembershipType type) {
-        Customer old = repository.findById(id)
+        Customer existing = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Customer ID does not exist."));
 
         String validPhone = validatePhone(phone, id);
 
-        repository.update(Customer.create(old.getCustomerId(), name, validPhone, address, type));
+        repository.update(Customer.create(existing.getCustomerId(), name, validPhone, address, type));
         orderRepository.linkCustomers(repository);
     }
 

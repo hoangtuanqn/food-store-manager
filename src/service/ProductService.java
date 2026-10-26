@@ -38,7 +38,7 @@ public class ProductService {
         repository.add(product);
     }
 
-    public boolean checkIdExist(String id) {
+    public boolean existsById(String id) {
         return repository.existsById(id);
     }
 
@@ -94,15 +94,11 @@ public class ProductService {
     }
 
     public void deleteProduct(String id) {
-        Optional<FoodProduct> find = repository.findById(id);
-        if(find.isPresent() == false){
-            throw new NotFoundException("Product ID is not found.");
-        }
+        FoodProduct product = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product ID is not found."));
 
-        FoodProduct product = find.get();
-        if(salesService.isProductUsedInAnyOrder(product.getProductId()) ){
-            throw new BusinessException("Product " + product.getProductId() + 
-                    "cannot be deleted" );
+        if (salesService.isProductUsedInAnyOrder(product.getProductId())) {
+            throw new BusinessException("Product " + product.getProductId() + " cannot be deleted");
         }
         repository.deleteById(product.getProductId());
     }

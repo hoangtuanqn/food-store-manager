@@ -41,7 +41,7 @@ public class SalesService {
         this.inventoryService = inventoryService;
     }
 
-    public boolean checkIdExist(String id) {
+    public boolean existsById(String id) {
         return orderRepository.existsById(id);
     }
 

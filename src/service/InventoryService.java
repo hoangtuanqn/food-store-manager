@@ -27,43 +27,43 @@ public class InventoryService {
     }
 
     public void checkSellable(String productId, int quantity) {
-        FoodProduct p = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
+        FoodProduct product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
         if (quantity <= 0) {
             throw new InvalidQuantityException("Quantity must be greater than zero.");
         }
-        if (p.isExpired()) {
+        if (product.isExpired()) {
             throw new ExpiredProductException("This food product has expired.");
         }
-        if (p.getQuantity() < quantity) {
+        if (product.getQuantity() < quantity) {
             throw new InsufficientStockException("Insufficient stock.");
         }
     }
 
     public void deductInventory(String productId, int quantity, String orderId) {
-        FoodProduct p = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
-        int oldQuantity = p.getQuantity();
-        p.setQuantity(oldQuantity - quantity);
-        productRepository.update(p);
-        recordMovement(productId, oldQuantity, p.getQuantity(), MovementSource.SALE, orderId);
+        FoodProduct product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
+        int oldQuantity = product.getQuantity();
+        product.setQuantity(oldQuantity - quantity);
+        productRepository.update(product);
+        recordMovement(productId, oldQuantity, product.getQuantity(), MovementSource.SALE, orderId);
     }
 
     public void restockFromReturn(String productId, int quantity, String orderId) {
-        FoodProduct p = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
-        int oldQuantity = p.getQuantity();
-        p.setQuantity(oldQuantity + quantity);
-        productRepository.update(p);
-        recordMovement(productId, oldQuantity, p.getQuantity(), MovementSource.RETURN, orderId);
+        FoodProduct product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product not found: " + productId));
+        int oldQuantity = product.getQuantity();
+        product.setQuantity(oldQuantity + quantity);
+        productRepository.update(product);
+        recordMovement(productId, oldQuantity, product.getQuantity(), MovementSource.RETURN, orderId);
     }
 
     public void updateInventory(String productId, int newQuantity) {
         if (newQuantity < 0) {
             throw new InvalidQuantityException("Stock quantity cannot be negative");
         }
-        FoodProduct p = productRepository.findById(productId)
+        FoodProduct product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Product not found: " + productId));
-        int oldQuantity = p.getQuantity();
-        p.setQuantity(newQuantity);
-        productRepository.update(p);
+        int oldQuantity = product.getQuantity();
+        product.setQuantity(newQuantity);
+        productRepository.update(product);
         recordManualUpdate(productId, oldQuantity, newQuantity);
     }
 

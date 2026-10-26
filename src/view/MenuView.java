@@ -53,8 +53,8 @@ public class MenuView {
         System.out.println(repeat('-', width));
     }
 
-    private static void printLine(char c) {
-        System.out.println(repeat(c, WIDTH));
+    private static void printLine(char character) {
+        System.out.println(repeat(character, WIDTH));
     }
 
     private static void printTitleCenter(String title) {
@@ -62,9 +62,9 @@ public class MenuView {
         System.out.println(repeat(' ', padding) + title);
     }
 
-    private static String repeat(char c, int times) {
+    private static String repeat(char character, int times) {
         return IntStream.range(0, times)
-                .mapToObj(i -> String.valueOf(c))
+                .mapToObj(index -> String.valueOf(character))
                 .collect(Collectors.joining());
     }
 }
