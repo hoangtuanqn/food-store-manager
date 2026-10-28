@@ -81,7 +81,7 @@ public class SalesController {
 
         String id;
         while (true) {
-            id = InputHelper.readString("Transaction ID: ");
+            id = InputHelper.readId("Transaction ID: ");
 
             if (salesService.existsById(id)) {
                 ConsoleView.showError(
@@ -221,7 +221,7 @@ public class SalesController {
     }
 
     private Order findTransaction() {
-        String orderId = InputHelper.readString("Transaction ID: ");
+        String orderId = InputHelper.readId("Transaction ID: ");
         try {
             return salesService.getTransaction(orderId);
         } catch (BusinessException e) {

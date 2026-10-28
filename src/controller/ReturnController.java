@@ -79,7 +79,7 @@ public class ReturnController {
     }
 
     private Order findTransaction() {
-        String orderId = InputHelper.readString("Transaction ID: ");
+        String orderId = InputHelper.readId("Transaction ID: ");
         try {
             return salesService.getTransaction(orderId);
         } catch (BusinessException e) {

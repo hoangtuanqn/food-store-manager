@@ -4,6 +4,7 @@
  */
 package model;
 
+import helper.IdHelper;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -22,12 +23,12 @@ public class StockMovement implements Serializable {
 
     public StockMovement(String productId, int oldQuantity, int newQuantity,
             MovementSource source, LocalDateTime timestamp, String orderId) {
-        this.productId = productId;
+        this.productId = IdHelper.normalize(productId);
         this.oldQuantity = oldQuantity;
         this.newQuantity = newQuantity;
         this.source = source;
         this.timestamp = timestamp;
-        this.orderId = orderId;
+        this.orderId = IdHelper.normalize(orderId);
     }
 
     public String getProductId() {
