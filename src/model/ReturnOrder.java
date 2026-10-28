@@ -4,6 +4,7 @@
  */
 package model;
 
+import helper.IdHelper;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class ReturnOrder implements Serializable {
             throw new IllegalArgumentException("A return must contain at least one product.");
         }
         this.returnId = returnId;
-        this.orderId = orderId;
+        this.orderId = IdHelper.normalize(orderId);
         this.reason = reason.trim();
         this.returnDate = returnDate;
         this.discountRate = discountRate;

@@ -98,8 +98,9 @@ public class FileOrderRepository implements OrderRepository {
     }
 
     private int indexOf(String id) {
+        String normalizedId = IdHelper.normalize(id);
         return IntStream.range(0, orders.size())
-                .filter(index -> orders.get(index).getOrderId().equals(id))
+                .filter(index -> IdHelper.normalize(orders.get(index).getOrderId()).equals(normalizedId))
                 .findFirst()
                 .orElse(-1);
     }

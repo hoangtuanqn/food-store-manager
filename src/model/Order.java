@@ -4,6 +4,7 @@
  */
 package model;
 
+import helper.IdHelper;
 import java.io.Serializable;
 import exception.InvalidTransactionException;
 import exception.NotFoundException;
@@ -38,7 +39,7 @@ public class Order implements Serializable {
         if (orderDate == null) {
             throw new IllegalArgumentException("Order date is required.");
         }
-        this.orderId = orderId;
+        this.orderId = IdHelper.normalize(orderId);
         this.customer = customer;
         this.orderDate = orderDate;
         this.details = new ArrayList<>();
@@ -105,7 +106,7 @@ public class Order implements Serializable {
 
     public OrderDetail findDetail(String productId) {
         return details.stream()
-                .filter(detail -> detail.getProductId().equals(productId))
+                .filter(detail -> detail.getProductId().equals(IdHelper.normalize(productId)))
                 .findFirst()
                 .orElse(null);
     }
