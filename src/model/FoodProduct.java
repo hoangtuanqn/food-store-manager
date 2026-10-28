@@ -141,16 +141,27 @@ public class FoodProduct implements Serializable {
         return quantity;
     }
 
-    public static void requireDates(LocalDate production, LocalDate expiration) {
-        if (production == null || expiration == null) {
-            throw new IllegalArgumentException("Production date and expiration date are required.");
+    public static void requireProductionDate(LocalDate production) {
+        if (production == null) {
+            throw new IllegalArgumentException("Production date is required.");
         }
         if (production.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Production date cannot be in the future.");
         }
+    }
+
+    public static void requireExpirationDate(LocalDate production, LocalDate expiration) {
+        if (expiration == null) {
+            throw new IllegalArgumentException("Expiration date is required.");
+        }
         if (production.isAfter(expiration)) {
             throw new IllegalArgumentException("Production date cannot be after expiration date.");
         }
+    }
+
+    public static void requireDates(LocalDate production, LocalDate expiration) {
+        requireProductionDate(production);
+        requireExpirationDate(production, expiration);
     }
 
     @Override

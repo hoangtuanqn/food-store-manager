@@ -72,15 +72,25 @@ public class ProductController {
         double price = InputHelper.readPrice("Price: ");
         int quantity = InputHelper.readIntRange("Quantity: ", 0);
 
-        LocalDate production, expiration;
+        LocalDate production;
         while (true) {
             production = InputHelper.readDate("Production Date: ");
-            expiration = InputHelper.readDate("Expiration Date: ");
             try {
-                FoodProduct.requireDates(production, expiration);
+                FoodProduct.requireProductionDate(production);
                 break;
             } catch (IllegalArgumentException e) {
-                ConsoleView.showError(e.getMessage() + " Please enter both dates again.");
+                ConsoleView.showError(e.getMessage());
+            }
+        }
+
+        LocalDate expiration;
+        while (true) {
+            expiration = InputHelper.readDate("Expiration Date: ");
+            try {
+                FoodProduct.requireExpirationDate(production, expiration);
+                break;
+            } catch (IllegalArgumentException e) {
+                ConsoleView.showError(e.getMessage());
             }
         }
 
@@ -118,15 +128,25 @@ public class ProductController {
         double price = InputHelper.readPriceOrDefault("Price ", existingProduct.getPrice());
         int quantity = InputHelper.readIntRangeOrDefault("Quantity ", 0, Integer.MAX_VALUE, existingProduct.getQuantity());
 
-        LocalDate production, expiration;
+        LocalDate production;
         while (true) {
             production = InputHelper.readDateOrDefault("Production Date ", existingProduct.getProductionDate());
-            expiration = InputHelper.readDateOrDefault("Expiration Date ", existingProduct.getExpirationDate());
             try {
-                FoodProduct.requireDates(production, expiration);
+                FoodProduct.requireProductionDate(production);
                 break;
             } catch (IllegalArgumentException e) {
-                ConsoleView.showError(e.getMessage() + " Please enter both dates again.");
+                ConsoleView.showError(e.getMessage());
+            }
+        }
+
+        LocalDate expiration;
+        while (true) {
+            expiration = InputHelper.readDateOrDefault("Expiration Date ", existingProduct.getExpirationDate());
+            try {
+                FoodProduct.requireExpirationDate(production, expiration);
+                break;
+            } catch (IllegalArgumentException e) {
+                ConsoleView.showError(e.getMessage());
             }
         }
 
